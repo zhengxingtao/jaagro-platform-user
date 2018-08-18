@@ -13,6 +13,18 @@
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="department_manager_id" property="departmentManagerId" jdbcType="BIGINT" />
   </resultMap>
+  <resultMap id="DetailInfo" type="com.jaagro.user.api.dto.response.department.DepartmentReturnDto" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+    <result column="enabled" property="enabled" jdbcType="TINYINT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="department_manager_id" property="departmentManagerId" jdbcType="BIGINT" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, name, parent_id, create_time, create_user, modify_time, modify_user, enabled, 
     sort, department_manager_id
@@ -150,4 +162,28 @@
       department_manager_id = #{departmentManagerId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="getById" parameterType="java.lang.Long" resultMap="DetailInfo">
+    select
+    <include refid="Base_Column_List"/>
+    from department
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getByCriteriDto" resultMap="DetailInfo"
+          parameterType="com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto">
+    select
+    <include refid="Base_Column_List"/>
+    from department
+    where 1=1
+    <if test="endDate != null">
+      <![CDATA[and create_time <= #{endDate}]]>
+    </if>
+    <if test="startDate != null">
+      <![CDATA[and create_time >= #{startDate}]]>
+    </if>
+    <if test="keywords != null">
+      <![CDATA[and name like concat('%',#{keywords},'%')]]>
+    </if>
+    and enabled = 1
+    order by create_time desc
+  </select>
 </mapper>
