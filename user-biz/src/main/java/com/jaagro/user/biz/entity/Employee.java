@@ -50,7 +50,7 @@ public class Employee implements Serializable {
     /**
      * 账号状态(0;注销 1；正常)
      */
-    private Integer status;
+    private Boolean status;
 
     /**
      * 头像地址
