@@ -1,4 +1,4 @@
-package com.jaagro.user.api.dto.request.department;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,12 +6,12 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
-/**修改部门
+/**
  * @author liqiangping
  */
 @Data
 @Accessors(chain = true)
-public class UpdateDepartmentDto implements Serializable {
+public class DepartmentReturnDto implements Serializable {
     /**
      * 部门表主键(网点表 是否可以就叫部门表。。。)
      */
@@ -61,4 +61,5 @@ public class UpdateDepartmentDto implements Serializable {
      * 关联部门主管ID
      */
     private Long departmentManagerId;
+
 }
