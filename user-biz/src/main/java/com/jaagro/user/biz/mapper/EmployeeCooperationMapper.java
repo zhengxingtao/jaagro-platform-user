@@ -2,6 +2,9 @@ package com.jaagro.user.biz.mapper;
 
 import com.jaagro.user.biz.entity.EmployeeCooperation;
 
+/**
+ * @author tony
+ */
 public interface EmployeeCooperationMapper {
     /**
      *

@@ -1,6 +1,6 @@
 package com.jaagro.user.api.service;
 
-import com.jaagro.user.api.dto.response.UserDto;
+import com.jaagro.user.api.dto.response.UserInfo;
 
 /**
  * @author tony
@@ -13,7 +13,7 @@ public interface UserService {
      * @param username
      * @return
      */
-    UserDto getByName(String username, String userType);
+    UserInfo getByName(String username, String userType);
 
     /**
      * 通过phone获取user
@@ -21,7 +21,7 @@ public interface UserService {
      * @param userType
      * @return
      */
-    UserDto getByPhone(String phoneNumber, String userType);
+    UserInfo getByPhone(String phoneNumber, String userType);
 
     /**
      * 通过id获取user
@@ -29,5 +29,5 @@ public interface UserService {
      * @param userType
      * @return
      */
-    UserDto getById(Long id, String userType);
+    UserInfo getById(Long id, String userType);
 }
