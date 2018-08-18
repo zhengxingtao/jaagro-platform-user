@@ -1,4 +1,4 @@
-package com.jaagro.user.api.dto;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 

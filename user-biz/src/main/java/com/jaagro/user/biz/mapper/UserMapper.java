@@ -1,6 +1,6 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.api.dto.UserDto;
+import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.biz.entity.User;
 
 /**
@@ -55,19 +55,19 @@ public interface UserMapper {
      * @param username
      * @return
      */
-    UserDto getByUsername(String username);
+    UserInfo getByUsername(String username);
 
     /**
      * 通过phone获取user
      * @param phoneNumber
      * @return
      */
-    UserDto getByPhone(String phoneNumber);
+    UserInfo getByPhone(String phoneNumber);
 
     /**
      * 通过userId获取UserDto
      * @param id
      * @return
      */
-    UserDto getById(Long id);
+    UserInfo getById(Long id);
 }
