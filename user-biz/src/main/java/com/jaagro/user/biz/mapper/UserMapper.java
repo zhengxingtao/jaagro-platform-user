@@ -1,6 +1,6 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.api.dto.UserDto;
+import com.jaagro.user.api.dto.response.UserDto;
 import com.jaagro.user.biz.entity.User;
 
 /**

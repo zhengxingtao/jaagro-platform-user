@@ -26,18 +26,18 @@
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="getByUsername" resultType="com.jaagro.user.api.dto.UserDto">
+  <select id="getByUsername" resultType="com.jaagro.user.api.dto.response.UserDto">
     select
     <include refid="Base_Column_List"></include>
     from user where username = #{username}
   </select>
-  <select id="getByPhone" resultType="com.jaagro.user.api.dto.UserDto">
+  <select id="getByPhone" resultType="com.jaagro.user.api.dto.response.UserDto">
     select
     <include refid="Base_Column_List"></include>
     from user
     where phone_number = #{phoneNumber}
   </select>
-  <select id="getById" resultType="com.jaagro.user.api.dto.UserDto">
+  <select id="getById" resultType="com.jaagro.user.api.dto.response.UserDto">
     select
     <include refid="Base_Column_List"></include>
     from user where id = #{id}

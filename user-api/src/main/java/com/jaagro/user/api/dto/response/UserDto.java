@@ -1,4 +1,4 @@
-package com.jaagro.user.api.dto;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -27,15 +27,23 @@ public class UserDto implements Serializable {
 
     private String avatar;
 
-    private Integer customerId;
-
     private Date birthday;
 
     private String email;
 
-    private Integer userStatus;
+    private Integer status;
 
     private Date createTime;
 
     private Date modifyTime;
+
+    /**
+     * user类型
+     */
+    private String userType;
+
+    /**
+     * 关联id
+     */
+    private Long relevanceId;
 }

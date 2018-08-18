@@ -1,6 +1,6 @@
 package com.jaagro.user.biz.service.impl;
 
-import com.jaagro.user.api.dto.UserDto;
+import com.jaagro.user.api.dto.response.UserDto;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
