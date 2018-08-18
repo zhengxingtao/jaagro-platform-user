@@ -13,6 +13,7 @@ public interface EmployeeService {
     /**
      * employee单表新增
      * 注意调用 common中的密码加密工具: PasswordEncoder
+     *
      * @param dto
      * @return
      */
@@ -20,6 +21,7 @@ public interface EmployeeService {
 
     /**
      * 注意：不允许修改创建时间， 状态，密码、盐等字段，只允许修改基本信息
+     *
      * @param dto
      * @return
      */
@@ -27,6 +29,7 @@ public interface EmployeeService {
 
     /**
      * 注意新老密码的匹配，使用common工具可以解决
+     *
      * @param id
      * @param oldPassword
      * @param newPassword
@@ -36,7 +39,8 @@ public interface EmployeeService {
 
     /**
      * 重置密码
-     * @param phoneNumber employee表中的手机号码字段
+     *
+     * @param phoneNumber      employee表中的手机号码字段
      * @param verificationCode 短信验证码
      * @return
      */
@@ -44,7 +48,8 @@ public interface EmployeeService {
 
     /**
      * 注销员工
-     * @param id id
+     *
+     * @param id    id
      * @param notes 注销原因
      * @return
      */
@@ -52,9 +57,11 @@ public interface EmployeeService {
 
     /**
      * 设置员工需协作部门
+     *
      * @param id
      * @param deptId 需要协作的部门编号，新增到 employee_dept表中
      * @return
      */
     Map<String, Object> setDepartmentCooperation(Long id, Long[] deptId);
+
 }
