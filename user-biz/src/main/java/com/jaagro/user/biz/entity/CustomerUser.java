@@ -65,7 +65,7 @@ public class CustomerUser implements Serializable {
     /**
      * 系统状态  枚举类型:0 注销 ;1  正常
      */
-    private Integer userStatus;
+    private Boolean userStatus;
 
     /**
      * 创建时间
