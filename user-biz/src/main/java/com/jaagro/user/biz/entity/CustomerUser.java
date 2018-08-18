@@ -15,7 +15,7 @@ public class CustomerUser implements Serializable {
     /**
      * 用户ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 登录用户名(默认使用手机号码)
@@ -35,7 +35,7 @@ public class CustomerUser implements Serializable {
     /**
      * 显示名称
      */
-    private String username;
+    private String name;
 
     /**
      * 用户的头像(存储头像的路径)
@@ -45,7 +45,7 @@ public class CustomerUser implements Serializable {
     /**
      * 所属客户
      */
-    private Integer customerId;
+    private Long customerId;
 
     /**
      * 生日

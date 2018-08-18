@@ -10,10 +10,10 @@ public interface UserService {
     /**
      * 通过username获取user
      * @param userType
-     * @param username
+     * @param loginName
      * @return
      */
-    UserInfo getByName(String username, String userType);
+    UserInfo getByName(String loginName, String userType);
 
     /**
      * 通过phone获取user

@@ -30,6 +30,24 @@
     from employee
     where id = #{id,jdbcType=BIGINT}
   </select>
+    <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
+      select
+      <include refid="Base_Column_List" />
+      from employee
+      where login_name = #{loginName jdbcType=VARCHAR}
+    </select>
+  <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from employee
+    where phone_number = #{phoneNumber jdbcType=VARCHAR}
+  </select>
+  <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from employee
+    where id = #{id jdbcType=BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from employee
     where id = #{id,jdbcType=BIGINT}
