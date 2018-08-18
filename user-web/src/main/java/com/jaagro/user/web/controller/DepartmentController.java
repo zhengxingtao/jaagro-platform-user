@@ -1,6 +1,7 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.user.api.dto.request.department.CreateDepartmentDto;
+import com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.department.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
@@ -8,12 +9,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import utils.BaseResponse;
-import utils.ServiceResult;
+
+import java.util.Map;
 
 /**
  * @author Administrator
@@ -40,5 +39,30 @@ public class DepartmentController {
             return BaseResponse.queryDataEmpty();
         }
         return BaseResponse.service(departmentService.updateById(department));
+    }
+
+    @ApiOperation("查询单个部门")
+    @GetMapping("/customer/{id}")
+    public BaseResponse getById(@PathVariable Long id) {
+        if (this.departmentMapper.selectByPrimaryKey(id) == null) {
+            return BaseResponse.queryDataEmpty();
+        }
+        Map<String, Object> result = departmentService.getById(id);
+        return BaseResponse.service(result);
+    }
+
+    @ApiOperation("删除部门[逻辑]")
+    @DeleteMapping("/deleteById/{id}")
+    public BaseResponse deleteById(@PathVariable Long id) {
+        if (this.departmentMapper.selectByPrimaryKey(id) == null) {
+            return BaseResponse.errorInstance("查询不到相应数据");
+        }
+        return BaseResponse.service(this.departmentService.disableDepartment(id));
+    }
+
+    @ApiOperation("分页查询部门")
+    @PostMapping("/getByCriteria")
+    public BaseResponse listByCriteria(@RequestBody ListDepartmentCriteriaDto criteriaDto) {
+        return BaseResponse.service(this.departmentService.listByCriteria(criteriaDto));
     }
 }
