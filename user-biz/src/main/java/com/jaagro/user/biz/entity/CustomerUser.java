@@ -15,7 +15,7 @@ public class CustomerUser implements Serializable {
     /**
      * 用户ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 登录用户名(默认使用手机号码)
@@ -45,7 +45,7 @@ public class CustomerUser implements Serializable {
     /**
      * 所属客户
      */
-    private Integer customerId;
+    private Long customerId;
 
     /**
      * 生日
@@ -65,7 +65,7 @@ public class CustomerUser implements Serializable {
     /**
      * 系统状态  枚举类型:0 注销 ;1  正常
      */
-    private Integer userStatus;
+    private Boolean userStatus;
 
     /**
      * 创建时间

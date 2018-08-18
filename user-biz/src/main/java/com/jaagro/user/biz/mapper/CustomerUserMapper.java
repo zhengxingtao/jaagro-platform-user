@@ -7,7 +7,7 @@ public interface CustomerUserMapper {
      *
      * @mbggenerated 2018-08-18
      */
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     /**
      *
@@ -25,7 +25,7 @@ public interface CustomerUserMapper {
      *
      * @mbggenerated 2018-08-18
      */
-    CustomerUser selectByPrimaryKey(Integer id);
+    CustomerUser selectByPrimaryKey(Long id);
 
     /**
      *
