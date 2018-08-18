@@ -35,7 +35,7 @@ public class CustomerUser implements Serializable {
     /**
      * 显示名称
      */
-    private String username;
+    private String name;
 
     /**
      * 用户的头像(存储头像的路径)
