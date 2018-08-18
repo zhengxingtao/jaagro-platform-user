@@ -12,13 +12,13 @@
     <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
-    <result column="user_status" property="userStatus" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, login_name, password, salt, name, avatar, customer_id, birthday, email, phone_number, 
-    user_status, create_time, modify_time
+    status, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -52,12 +52,12 @@
     insert into customer_user (id, login_name, password, 
       salt, name, avatar, 
       customer_id, birthday, email, 
-      phone_number, user_status, create_time, 
+      phone_number, status, create_time,
       modify_time)
     values (#{id,jdbcType=BIGINT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{salt,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{customerId,jdbcType=BIGINT}, #{birthday,jdbcType=TIMESTAMP}, #{email,jdbcType=VARCHAR},
-      #{phoneNumber,jdbcType=VARCHAR}, #{userStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{phoneNumber,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.CustomerUser" >
@@ -93,8 +93,8 @@
       <if test="phoneNumber != null" >
         phone_number,
       </if>
-      <if test="userStatus != null" >
-        user_status,
+      <if test="status != null" >
+        status,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -134,8 +134,8 @@
       <if test="phoneNumber != null" >
         #{phoneNumber,jdbcType=VARCHAR},
       </if>
-      <if test="userStatus != null" >
-        #{userStatus,jdbcType=INTEGER},
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -175,8 +175,8 @@
       <if test="phoneNumber != null" >
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
       </if>
-      <if test="userStatus != null" >
-        user_status = #{userStatus,jdbcType=INTEGER},
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -198,7 +198,7 @@
       birthday = #{birthday,jdbcType=TIMESTAMP},
       email = #{email,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      user_status = #{userStatus,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

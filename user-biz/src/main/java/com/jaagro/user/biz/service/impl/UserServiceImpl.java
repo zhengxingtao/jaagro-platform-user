@@ -8,6 +8,7 @@ import com.jaagro.user.biz.mapper.DriverMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @author tony
@@ -34,28 +35,22 @@ public class UserServiceImpl implements UserService {
 
         if(UserType.CUSTOMER.equals(userTypeTrim)){
             UserInfo userInfo = customerUserMapper.getByULoginName(loginName);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("登录名为： " + loginName + " 的客户不存在");
+            if(!StringUtils.isEmpty(userInfo)) {
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
         if(UserType.EMPLOYEE.equals(userTypeTrim)){
             UserInfo userInfo = employeeMapper.getByLoginName(loginName);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("登录名为： " + loginName + " 的员工不存在");
+            if(!StringUtils.isEmpty(userInfo)) {
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
         if(UserType.DRIVER.equals(userTypeTrim)){
             UserInfo userInfo = driverMapper.getByLoginName(loginName);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("登录名为： " + loginName + " 的司机不存在");
+            if(!StringUtils.isEmpty(userInfo)) {
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
@@ -74,28 +69,22 @@ public class UserServiceImpl implements UserService {
 
         if(UserType.CUSTOMER.equals(userTypeTrim)){
             UserInfo userInfo = customerUserMapper.getByPhoneNumber(phoneNumber);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("手机号为： " + phoneNumber + " 的客户未注册");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
         if(UserType.EMPLOYEE.equals(userTypeTrim)){
             UserInfo userInfo = employeeMapper.getByPhoneNumber(phoneNumber);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("手机号为： " + phoneNumber + " 的员工不存在");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
         if(UserType.DRIVER.equals(userTypeTrim)){
             UserInfo userInfo = driverMapper.getByPhoneNumber(phoneNumber);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("手机号为： " + phoneNumber + " 的司机不存在");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
@@ -112,30 +101,24 @@ public class UserServiceImpl implements UserService {
     public UserInfo getById(Long id, String userType) {
         String userTypeTrim = userType.replaceAll(" ", "");
 
-        if(UserType.CUSTOMER.equals(userTypeTrim)){
+        if (UserType.CUSTOMER.equals(userTypeTrim)) {
             UserInfo userInfo = customerUserMapper.getUserInfoById(id);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("客户Id为： " + id + " 的客户未注册");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
-        if(UserType.EMPLOYEE.equals(userTypeTrim)){
+        if (UserType.EMPLOYEE.equals(userTypeTrim)) {
             UserInfo userInfo = employeeMapper.getUserInfoById(id);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("员工Id为： " + id + " 的员工不存在");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
-        if(UserType.DRIVER.equals(userTypeTrim)){
+        if (UserType.DRIVER.equals(userTypeTrim)) {
             UserInfo userInfo = driverMapper.getUserInfoById(id);
-            if(userInfo == null){
-                userInfo = new UserInfo()
-                        .setId(-9999L)
-                        .setUsername("司机Id为： " + id + " 的司机不存在");
+            if(!StringUtils.isEmpty(userInfo)){
+                userInfo.setUserType(userType);
             }
             return userInfo;
         }
