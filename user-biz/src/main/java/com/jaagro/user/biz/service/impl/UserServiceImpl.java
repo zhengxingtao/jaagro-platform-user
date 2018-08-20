@@ -2,6 +2,7 @@ package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.user.api.constant.UserType;
 import com.jaagro.user.api.dto.response.UserInfo;
+import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapper;
 import com.jaagro.user.biz.mapper.DriverMapper;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -34,6 +36,10 @@ public class UserServiceImpl implements UserService {
     private EmployeeMapper employeeMapper;
     @Autowired
     private DriverMapper driverMapper;
+    @Autowired
+    private UserClientService userClientService;
+    @Autowired
+    private HttpServletRequest request;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -92,5 +98,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    @Override
+    public UserInfo getCurrentUser(){
+        String token = request.getHeader("token");
+        System.out.println(token);
+        return userClientService.getUserByToken(token);
     }
 }

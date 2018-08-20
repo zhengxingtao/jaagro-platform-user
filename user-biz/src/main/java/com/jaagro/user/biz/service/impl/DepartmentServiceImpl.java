@@ -75,6 +75,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Override
     public Map<String, Object> getById(Long id) {
+
         if (departmentMapper.selectByPrimaryKey(id) == null) {
             return ServiceResult.error(ResponseStatusCode.ID_VALUE_ERROR.getCode(), "id: " + id + "不存在");
         }

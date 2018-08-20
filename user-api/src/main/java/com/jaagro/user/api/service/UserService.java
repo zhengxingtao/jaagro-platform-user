@@ -15,4 +15,10 @@ public interface UserService {
      * @return
      */
     UserInfo getUserInfo(Map<String, Object> map);
+
+    /**
+     * 获取当前user
+     * @return
+     */
+    UserInfo getCurrentUser();
 }
