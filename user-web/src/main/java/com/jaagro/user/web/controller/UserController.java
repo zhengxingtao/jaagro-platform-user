@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * @author tony
  */
@@ -16,16 +19,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getByUsername")
-    public UserInfo getByName(@RequestParam String username, @RequestParam("userType") String userType){
-        return userService.getByName(username, userType);
-    }
-    @GetMapping("/getByPhoneNumber")
-    public UserInfo getByPhone(@RequestParam String phoneNumber, @RequestParam("userType") String userType){
-        return userService.getByPhone(phoneNumber, userType);
-    }
-    @GetMapping("/getById")
-    public UserInfo getById(@RequestParam Long id, @RequestParam("userType") String userType){
-        return userService.getById(id, userType);
+    @GetMapping("/getUserInfo")
+    public UserInfo getUserInfo(@RequestParam Object key, @RequestParam("userType") String userType, @RequestParam("loginType") String loginType){
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("loginType", loginType);
+        map.put("key", key);
+        map.put("userType", userType);
+
+        return userService.getUserInfo(map);
     }
 }
