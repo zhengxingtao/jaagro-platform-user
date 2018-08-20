@@ -3,6 +3,8 @@ package com.jaagro.user.web.controller;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.service.EmployeeService;
+import com.jaagro.user.biz.entity.Department;
+import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import io.swagger.annotations.Api;
@@ -13,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import utils.BaseResponse;
+import utils.PasswordEncoder;
+
+import java.util.List;
 
 /**
  * @author baiyiran
@@ -75,7 +80,21 @@ public class EmployeeController {
 
     @ApiOperation("修改员工")
     @PutMapping("/employee")
-    public BaseResponse updateById(@RequestBody UpdateEmpDto updateEmpDto) {
+    public BaseResponse updateById(@PathVariable String oldPassword, @PathVariable String newPassword, @PathVariable Long id) {
+        Employee employee = this.employeeMapper.selectByPrimaryKey(id);
+        if (employee == null) {
+            return BaseResponse.errorInstance("此员工不存在:id:" + id);
+        }
+        if (!PasswordEncoder.encodePassword(newPassword).get("password").equals(PasswordEncoder.encodePassword(oldPassword).get("password"))) {
+            return BaseResponse.errorInstance("新旧密码不正确");
+        }
+        this.employeeService.updatePassword(id, oldPassword, newPassword);
+        return BaseResponse.successInstance("员工修改成功");
+    }
+
+    @ApiOperation("修改员工密码")
+    @PutMapping("/employeePwd")
+    public BaseResponse employeePwd(@RequestBody UpdateEmpDto updateEmpDto) {
         if (StringUtils.isEmpty(updateEmpDto.getLoginName())) {
             return BaseResponse.errorInstance("登录账号[loginName]不能为空");
         }
@@ -94,6 +113,25 @@ public class EmployeeController {
         }
         this.employeeService.updateEmployee(updateEmpDto);
         return BaseResponse.successInstance("员工修改成功");
+    }
+
+    @ApiOperation("创建员工需协作部门")
+    @PostMapping("/employeePwd")
+    public BaseResponse employeePwd(@PathVariable Long[] departmentIds, @PathVariable Long id) {
+        if (this.employeeMapper.selectByPrimaryKey(id) == null) {
+            return BaseResponse.errorInstance("员工[id:" + id + "]不存在");
+        }
+        if (departmentIds.length > 0) {
+            for (Long did : departmentIds) {
+                if (this.departmentMapper.selectByPrimaryKey(did) == null) {
+                    return BaseResponse.errorInstance("部门[id:" + did + "]不存在");
+                }
+            }
+        } else {
+            return BaseResponse.errorInstance("部门ids不能为空");
+        }
+        this.employeeService.setDepartmentCooperation(id, departmentIds);
+        return BaseResponse.successInstance("员工协作部门创建成功");
     }
 
 
