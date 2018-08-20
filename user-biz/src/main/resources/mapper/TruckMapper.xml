@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jaagro.user.biz.mapper.TruckMapper" >
+  <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Truck" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="team_name" property="teamName" jdbcType="VARCHAR" />
+    <result column="legal_name" property="legalName" jdbcType="VARCHAR" />
+    <result column="card" property="card" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+    <result column="truck_type" property="truckType" jdbcType="INTEGER" />
+    <result column="payment_account_id" property="paymentAccountId" jdbcType="VARCHAR" />
+    <result column="deposit_bank" property="depositBank" jdbcType="VARCHAR" />
+    <result column="account_person" property="accountPerson" jdbcType="VARCHAR" />
+    <result column="credit_code" property="creditCode" jdbcType="VARCHAR" />
+    <result column="invoice_title" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="tax_number" property="taxNumber" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, team_name, legal_name, card, city, address, create_time, modify_time, create_user, 
+    modify_user, truck_type, payment_account_id, deposit_bank, account_person, credit_code, 
+    invoice_title, tax_number, notes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from truck
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from truck
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Truck" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into truck (id, team_name, legal_name, 
+      card, city, address, 
+      create_time, modify_time, create_user, 
+      modify_user, truck_type, payment_account_id, 
+      deposit_bank, account_person, credit_code, 
+      invoice_title, tax_number, notes
+      )
+    values (#{id,jdbcType=BIGINT}, #{teamName,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, 
+      #{card,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, 
+      #{modifyUser,jdbcType=BIGINT}, #{truckType,jdbcType=INTEGER}, #{paymentAccountId,jdbcType=VARCHAR}, 
+      #{depositBank,jdbcType=VARCHAR}, #{accountPerson,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{taxNumber,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Truck" >
+    insert into truck
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="teamName != null" >
+        team_name,
+      </if>
+      <if test="legalName != null" >
+        legal_name,
+      </if>
+      <if test="card != null" >
+        card,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="modifyUser != null" >
+        modify_user,
+      </if>
+      <if test="truckType != null" >
+        truck_type,
+      </if>
+      <if test="paymentAccountId != null" >
+        payment_account_id,
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank,
+      </if>
+      <if test="accountPerson != null" >
+        account_person,
+      </if>
+      <if test="creditCode != null" >
+        credit_code,
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title,
+      </if>
+      <if test="taxNumber != null" >
+        tax_number,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="teamName != null" >
+        #{teamName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null" >
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="modifyUser != null" >
+        #{modifyUser,jdbcType=BIGINT},
+      </if>
+      <if test="truckType != null" >
+        #{truckType,jdbcType=INTEGER},
+      </if>
+      <if test="paymentAccountId != null" >
+        #{paymentAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPerson != null" >
+        #{accountPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null" >
+        #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNumber != null" >
+        #{taxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Truck" >
+    update truck
+    <set >
+      <if test="teamName != null" >
+        team_name = #{teamName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null" >
+        legal_name = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="card != null" >
+        card = #{card,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="modifyUser != null" >
+        modify_user = #{modifyUser,jdbcType=BIGINT},
+      </if>
+      <if test="truckType != null" >
+        truck_type = #{truckType,jdbcType=INTEGER},
+      </if>
+      <if test="paymentAccountId != null" >
+        payment_account_id = #{paymentAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null" >
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPerson != null" >
+        account_person = #{accountPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCode != null" >
+        credit_code = #{creditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNumber != null" >
+        tax_number = #{taxNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Truck" >
+    update truck
+    set team_name = #{teamName,jdbcType=VARCHAR},
+      legal_name = #{legalName,jdbcType=VARCHAR},
+      card = #{card,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=BIGINT},
+      modify_user = #{modifyUser,jdbcType=BIGINT},
+      truck_type = #{truckType,jdbcType=INTEGER},
+      payment_account_id = #{paymentAccountId,jdbcType=VARCHAR},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      account_person = #{accountPerson,jdbcType=VARCHAR},
+      credit_code = #{creditCode,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      tax_number = #{taxNumber,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

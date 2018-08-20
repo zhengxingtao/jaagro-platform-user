@@ -16,11 +16,11 @@ import java.util.List;
 
 /**
  * 描述：
- * @author Administrator
+ * @author liqiangping
  * @since 1.9.10
  * @version 1.9.10
- * @作者：niexiaohui
- * @创建时间：2016年11月22日
+ * @作者：liqiangping
+ * @创建时间：2018年8月20日
  * @修改记录：
  */
 public class StartUp {
@@ -30,7 +30,6 @@ public class StartUp {
             List<String> warnings = new ArrayList<String>();
             boolean overwrite = true;
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-//            InputStream resourceAsStream = StartUp.class.getClassLoader().getResourceAsStream("/generatorConfig.xml");
             InputStream is = classloader.getResourceAsStream("mybatis/generatorConfig.xml");
             ConfigurationParser cp = new ConfigurationParser(warnings);
             Configuration config = cp.parseConfiguration(is);

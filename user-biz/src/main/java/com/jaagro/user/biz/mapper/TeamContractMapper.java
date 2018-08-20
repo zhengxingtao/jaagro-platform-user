@@ -1,8 +1,8 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.biz.entity.Driver;
+import com.jaagro.user.biz.entity.TeamContract;
 
-public interface DriverMapper {
+public interface TeamContractMapper {
     /**
      *
      * @mbggenerated 2018-08-20
@@ -13,29 +13,29 @@ public interface DriverMapper {
      *
      * @mbggenerated 2018-08-20
      */
-    int insert(Driver record);
+    int insert(TeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-20
      */
-    int insertSelective(Driver record);
+    int insertSelective(TeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-20
      */
-    Driver selectByPrimaryKey(Long id);
+    TeamContract selectByPrimaryKey(Long id);
 
     /**
      *
      * @mbggenerated 2018-08-20
      */
-    int updateByPrimaryKeySelective(Driver record);
+    int updateByPrimaryKeySelective(TeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-20
      */
-    int updateByPrimaryKey(Driver record);
+    int updateByPrimaryKey(TeamContract record);
 }
