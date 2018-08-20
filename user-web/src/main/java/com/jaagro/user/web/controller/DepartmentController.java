@@ -1,8 +1,8 @@
 package com.jaagro.user.web.controller;
 
-import com.jaagro.user.api.dto.request.department.CreateDepartmentDto;
-import com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto;
-import com.jaagro.user.api.dto.request.department.UpdateDepartmentDto;
+import com.jaagro.user.api.dto.request.CreateDepartmentDto;
+import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
+import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import io.swagger.annotations.Api;

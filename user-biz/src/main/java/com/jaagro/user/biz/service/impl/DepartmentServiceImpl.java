@@ -2,10 +2,10 @@ package com.jaagro.user.biz.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jaagro.user.api.dto.request.department.CreateDepartmentDto;
-import com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto;
-import com.jaagro.user.api.dto.request.department.UpdateDepartmentDto;
-import com.jaagro.user.api.dto.response.department.DepartmentReturnDto;
+import com.jaagro.user.api.dto.request.CreateDepartmentDto;
+import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
+import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
+import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;

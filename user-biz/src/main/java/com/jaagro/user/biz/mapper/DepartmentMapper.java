@@ -1,7 +1,7 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto;
-import com.jaagro.user.api.dto.response.department.DepartmentReturnDto;
+import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
+import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.biz.entity.Department;
 
 import java.util.List;

@@ -13,7 +13,7 @@
     <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="department_manager_id" property="departmentManagerId" jdbcType="BIGINT" />
   </resultMap>
-  <resultMap id="DetailInfo" type="com.jaagro.user.api.dto.response.department.DepartmentReturnDto" >
+  <resultMap id="DetailInfo" type="com.jaagro.user.api.dto.response.DepartmentReturnDto" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
@@ -169,7 +169,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="getByCriteriDto" resultMap="DetailInfo"
-          parameterType="com.jaagro.user.api.dto.request.department.ListDepartmentCriteriaDto">
+          parameterType="com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto">
     select
     <include refid="Base_Column_List"/>
     from department
