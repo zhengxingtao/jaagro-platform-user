@@ -36,7 +36,7 @@ public class DepartmentController {
     @PutMapping("/department")
     public BaseResponse updateDepartment(@RequestBody UpdateDepartmentDto department){
         if(departmentMapper.selectByPrimaryKey(department.getId()) == null){
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门");
         }
         return BaseResponse.service(departmentService.updateById(department));
     }
@@ -45,7 +45,7 @@ public class DepartmentController {
     @GetMapping("/customer/{id}")
     public BaseResponse getById(@PathVariable Long id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门ID");
         }
         Map<String, Object> result = departmentService.getById(id);
         return BaseResponse.service(result);
