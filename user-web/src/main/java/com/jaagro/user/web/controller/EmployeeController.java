@@ -3,21 +3,17 @@ package com.jaagro.user.web.controller;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.service.EmployeeService;
-import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import utils.BaseResponse;
 import utils.PasswordEncoder;
-
-import java.util.List;
 
 /**
  * @author baiyiran
@@ -116,8 +112,8 @@ public class EmployeeController {
     }
 
     @ApiOperation("创建员工需协作部门")
-    @PostMapping("/employeePwd")
-    public BaseResponse employeePwd(@PathVariable Long[] departmentIds, @PathVariable Long id) {
+    @PostMapping("/employeeDepartment")
+    public BaseResponse employeeDepartment(@PathVariable Long[] departmentIds, @PathVariable Long id) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("员工[id:" + id + "]不存在");
         }
@@ -133,6 +129,5 @@ public class EmployeeController {
         this.employeeService.setDepartmentCooperation(id, departmentIds);
         return BaseResponse.successInstance("员工协作部门创建成功");
     }
-
 
 }
