@@ -6,15 +6,27 @@ import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapper;
 import com.jaagro.user.biz.mapper.DriverMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
+import java.util.Map;
 
 /**
  * @author tony
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final String KEY = "key";
+    private static final String LOGIN_TYPE = "loginType";
+
+    private static final String LOGIN_NAME = "loginName";
+    private static final String PHONE_NUMBER = "phoneNumber";
+    private static final String ID = "id";
+
+    private static final String USER_TYPE = "userType";
 
     @Autowired
     private CustomerUserMapper customerUserMapper;
@@ -23,105 +35,62 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private DriverMapper driverMapper;
 
-    /**
-     * 通过username获取user
-     *
-     * @param loginName
-     * @return
-     */
-    @Override
-    public UserInfo getByName(String loginName, String userType) {
-        String userTypeTrim = userType.replaceAll(" ", "");
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    @Override
+    public UserInfo getUserInfo(Map<String, Object> map){
+        String userTypeTrim = map.get(USER_TYPE).toString().replaceAll(" ", "");
+        String loginType = (String) map.get(LOGIN_TYPE);
+        UserInfo userInfo = null;
         if(UserType.CUSTOMER.equals(userTypeTrim)){
-            UserInfo userInfo = customerUserMapper.getByULoginName(loginName);
-            if(!StringUtils.isEmpty(userInfo)) {
-                userInfo.setUserType(userType);
+            if(LOGIN_NAME.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = customerUserMapper.getByULoginName(key);
             }
-            return userInfo;
+            if(PHONE_NUMBER.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = customerUserMapper.getByPhoneNumber(key);
+            }
+            if(ID.equals(loginType)){
+                Long key = Long.valueOf(map.get(KEY).toString());
+                userInfo = customerUserMapper.getUserInfoById(key);
+            }
         }
         if(UserType.EMPLOYEE.equals(userTypeTrim)){
-            UserInfo userInfo = employeeMapper.getByLoginName(loginName);
-            if(!StringUtils.isEmpty(userInfo)) {
-                userInfo.setUserType(userType);
+            if(LOGIN_NAME.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = employeeMapper.getByLoginName(key);
             }
-            return userInfo;
+            if(PHONE_NUMBER.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = employeeMapper.getByPhoneNumber(key);
+            }
+            if(ID.equals(loginType)){
+                Long key = Long.valueOf(map.get(KEY).toString());
+                userInfo = employeeMapper.getUserInfoById(key);
+            }
         }
         if(UserType.DRIVER.equals(userTypeTrim)){
-            UserInfo userInfo = driverMapper.getByLoginName(loginName);
-            if(!StringUtils.isEmpty(userInfo)) {
-                userInfo.setUserType(userType);
+            if(LOGIN_NAME.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = driverMapper.getByLoginName(key);
             }
-            return userInfo;
+            if(PHONE_NUMBER.equals(loginType)){
+                String key = (String) map.get(KEY);
+                userInfo = driverMapper.getByPhoneNumber(key);
+            }
+            if(ID.equals(loginType)){
+                Long key = Long.valueOf(map.get(KEY).toString());
+                userInfo = driverMapper.getUserInfoById(key);
+            }
         }
-        return null;
-    }
 
-    /**
-     * 通过phone获取user
-     *
-     * @param phoneNumber
-     * @return
-     */
-    @Override
-    public UserInfo getByPhone(String phoneNumber, String userType) {
-        String userTypeTrim = userType.replaceAll(" ", "");
+        if(userInfo != null){
+            userInfo.setUserType(userTypeTrim);
+            log.debug(String.valueOf(userInfo));
+            return userInfo;
+        }
 
-        if(UserType.CUSTOMER.equals(userTypeTrim)){
-            UserInfo userInfo = customerUserMapper.getByPhoneNumber(phoneNumber);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
-        if(UserType.EMPLOYEE.equals(userTypeTrim)){
-            UserInfo userInfo = employeeMapper.getByPhoneNumber(phoneNumber);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
-        if(UserType.DRIVER.equals(userTypeTrim)){
-            UserInfo userInfo = driverMapper.getByPhoneNumber(phoneNumber);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
-        return null;
-    }
-
-    /**
-     * 通过id获取user
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public UserInfo getById(Long id, String userType) {
-        String userTypeTrim = userType.replaceAll(" ", "");
-
-        if (UserType.CUSTOMER.equals(userTypeTrim)) {
-            UserInfo userInfo = customerUserMapper.getUserInfoById(id);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
-        if (UserType.EMPLOYEE.equals(userTypeTrim)) {
-            UserInfo userInfo = employeeMapper.getUserInfoById(id);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
-        if (UserType.DRIVER.equals(userTypeTrim)) {
-            UserInfo userInfo = driverMapper.getUserInfoById(id);
-            if(!StringUtils.isEmpty(userInfo)){
-                userInfo.setUserType(userType);
-            }
-            return userInfo;
-        }
         return null;
     }
 }
