@@ -178,7 +178,7 @@
       <![CDATA[and create_time <= #{endDate}]]>
     </if>
     <if test="startDate != null">
-      <![CDATA[and create_time >= #{startDate}]]>
+      <![CDATA[and create_time <= #{startDate}]]>
     </if>
     <if test="keywords != null">
       <![CDATA[and name like concat('%',#{keywords},'%')]]>
