@@ -9,7 +9,7 @@
     <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
     <result column="gender" property="gender" jdbcType="TINYINT" />
@@ -43,7 +43,7 @@
       notes, department_id)
     values (#{id,jdbcType=BIGINT}, #{employeeName,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{avatar,jdbcType=VARCHAR},
       #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyUser,jdbcType=BIGINT}, 
       #{notes,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT})
@@ -126,7 +126,7 @@
         #{email,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
@@ -179,7 +179,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+        status = #{status,jdbcType=TINYINT},
       </if>
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
       avatar = #{avatar,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       gender = #{gender,jdbcType=TINYINT},
