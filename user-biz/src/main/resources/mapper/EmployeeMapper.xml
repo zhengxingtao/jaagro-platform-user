@@ -52,7 +52,8 @@
     delete from employee
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
     insert into employee (id, employee_name, login_name, 
       password, phone_number, salt, 
       email, status, avatar, 
@@ -66,7 +67,8 @@
       #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyUser,jdbcType=BIGINT}, 
       #{notes,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
+            keyProperty="id" keyColumn="id">
         insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -257,6 +259,29 @@
         (login_name = #{loginName} or phone_number = #{phoneNumber})
         <if test="id != null">
             and id != #{id}
+        </if>
+        and status = 1
+    </select>
+    <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListEmpCriteriaDto"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where 1=1
+        <if test="employeeName != null">
+            and employee_name = #{employeeName}
+        </if>
+        <if test="phoneNumber != null">
+            and phone_number = #{phoneNumber}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        <if test="gender != null">
+            and gender = #{gender}
+        </if>
+        <if test="departmentId != null">
+            and department_id = #{departmentId}
         </if>
         and status = 1
     </select>

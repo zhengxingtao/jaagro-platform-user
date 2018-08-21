@@ -1,7 +1,10 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.user.api.dto.request.CreateEmpDto;
+import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
+import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
@@ -13,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import utils.BaseResponse;
-import utils.PasswordEncoder;
 
 /**
  * @author baiyiran
@@ -29,10 +31,15 @@ public class EmployeeController {
     @Autowired
     private DepartmentMapper departmentMapper;
 
-
+    /**
+     * 新增员工
+     *
+     * @param createEmpDto
+     * @return
+     */
     @ApiOperation("新增员工")
     @PostMapping("/employee")
-    public BaseResponse insert(@RequestBody CreateEmpDto createEmpDto) {
+    public BaseResponse employee(@RequestBody CreateEmpDto createEmpDto) {
         if (StringUtils.isEmpty(createEmpDto.getEmployeeName())) {
             return BaseResponse.errorInstance("员工姓名[employeeName]不能为空");
         }
@@ -64,6 +71,13 @@ public class EmployeeController {
         return BaseResponse.successInstance("员工创建成功");
     }
 
+    /**
+     * 删除
+     *
+     * @param id
+     * @param notes
+     * @return
+     */
     @ApiOperation("删除员工[逻辑]")
     @DeleteMapping("deleteEmpById/{id}")
     public BaseResponse deleteById(@PathVariable Long id, @PathVariable String notes) {
@@ -74,23 +88,15 @@ public class EmployeeController {
         return BaseResponse.successInstance("删除员工成功");
     }
 
-    @ApiOperation("修改员工")
+    /**
+     * 修改员工基本信息
+     *
+     * @param updateEmpDto
+     * @return
+     */
+    @ApiOperation("修改基本信息")
     @PutMapping("/employee")
-    public BaseResponse updateById(@PathVariable String oldPassword, @PathVariable String newPassword, @PathVariable Long id) {
-        Employee employee = this.employeeMapper.selectByPrimaryKey(id);
-        if (employee == null) {
-            return BaseResponse.errorInstance("此员工不存在:id:" + id);
-        }
-        if (!PasswordEncoder.encodePassword(newPassword).get("password").equals(PasswordEncoder.encodePassword(oldPassword).get("password"))) {
-            return BaseResponse.errorInstance("新旧密码不正确");
-        }
-        this.employeeService.updatePassword(id, oldPassword, newPassword);
-        return BaseResponse.successInstance("员工修改成功");
-    }
-
-    @ApiOperation("修改员工密码")
-    @PutMapping("/employeePwd")
-    public BaseResponse employeePwd(@RequestBody UpdateEmpDto updateEmpDto) {
+    public BaseResponse employee(@RequestBody UpdateEmpDto updateEmpDto) {
         if (StringUtils.isEmpty(updateEmpDto.getLoginName())) {
             return BaseResponse.errorInstance("登录账号[loginName]不能为空");
         }
@@ -111,9 +117,58 @@ public class EmployeeController {
         return BaseResponse.successInstance("员工修改成功");
     }
 
+    /**
+     * 修改员工密码
+     *
+     * @param oldPassword
+     * @param newPassword
+     * @param id
+     * @return
+     */
+    @ApiOperation("修改密码")
+    @PostMapping("/updateEmpPassword")
+    public BaseResponse updateEmpPassword(@RequestParam(value = "oldPassword") String oldPassword,
+                                          @RequestParam(value = "newPassword") String newPassword,
+                                          @RequestParam(value = "id") Long id) {
+        Employee employee = this.employeeMapper.selectByPrimaryKey(id);
+        if (employee == null) {
+            return BaseResponse.errorInstance("此员工不存在:id:" + id);
+        }
+        try {
+            this.employeeService.updatePassword(id, oldPassword, newPassword);
+        } catch (RuntimeException e) {
+            return BaseResponse.errorInstance(e.getMessage());
+        }
+        return BaseResponse.successInstance("员工修改成功");
+    }
+
+    @ApiOperation("重置密码")
+    @PostMapping("/resetPassword")
+    public BaseResponse resetPassword(@RequestParam(value = "phoneNumber") String phoneNumber,
+                                      @RequestParam(value = "verificationCode") String verificationCode,
+                                      @RequestParam(value = "newPassword") String newPassword) {
+        UserInfo userInfo = this.employeeMapper.getByPhoneNumber(phoneNumber);
+        if (userInfo == null) {
+            return BaseResponse.errorInstance("此员工不存在:phoneNumber:" + phoneNumber);
+        }
+        try {
+            this.employeeService.resetPassword(phoneNumber, verificationCode, newPassword);
+        } catch (RuntimeException e) {
+            return BaseResponse.errorInstance(e.getMessage());
+        }
+        return BaseResponse.successInstance("重置密码成功");
+    }
+
+    /**
+     * 创建员工需协作部门
+     *
+     * @param departmentIds
+     * @param id
+     * @return
+     */
     @ApiOperation("创建员工需协作部门")
-    @PostMapping("/employeeDepartment")
-    public BaseResponse employeeDepartment(@PathVariable Long[] departmentIds, @PathVariable Long id) {
+    @PostMapping("/createEmpDepartment")
+    public BaseResponse createEmpDepartment(@RequestParam(value = "departmentIds") Long[] departmentIds, @RequestParam(value = "id") Long id) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("员工[id:" + id + "]不存在");
         }
@@ -128,6 +183,18 @@ public class EmployeeController {
         }
         this.employeeService.setDepartmentCooperation(id, departmentIds);
         return BaseResponse.successInstance("员工协作部门创建成功");
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("分页查询员工")
+    @PostMapping("/listEmpByCriteria")
+    public BaseResponse listEmpByCriteria(@RequestBody ListEmpCriteriaDto criteriaDto) {
+        return BaseResponse.service(this.employeeService.listByCriteria(criteriaDto));
     }
 
 }

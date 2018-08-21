@@ -24,7 +24,7 @@
     delete from employee_cooperation
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" >
+  <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
     insert into employee_cooperation (id, employee_id, dept_id, 
       create_time, create_user, modify_time, 
       modify_user, enabled)
@@ -32,7 +32,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{modifyUser,jdbcType=BIGINT}, #{enabled,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" >
+  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into employee_cooperation
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

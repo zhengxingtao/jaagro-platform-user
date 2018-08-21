@@ -1,6 +1,7 @@
 package com.jaagro.user.api.service;
 
 import com.jaagro.user.api.dto.request.CreateEmpDto;
+import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 
 import java.util.Map;
@@ -42,9 +43,10 @@ public interface EmployeeService {
      *
      * @param phoneNumber      employee表中的手机号码字段
      * @param verificationCode 短信验证码
+     * @param newPassword      新密码
      * @return
      */
-    Map<String, Object> resetPassword(String phoneNumber, String verificationCode);
+    Map<String, Object> resetPassword(String phoneNumber, String verificationCode, String newPassword);
 
     /**
      * 注销员工
@@ -64,4 +66,11 @@ public interface EmployeeService {
      */
     Map<String, Object> setDepartmentCooperation(Long id, Long[] deptId);
 
+    /**
+     * 分页查询
+     *
+     * @param criteriaDto
+     * @return
+     */
+    Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto);
 }
