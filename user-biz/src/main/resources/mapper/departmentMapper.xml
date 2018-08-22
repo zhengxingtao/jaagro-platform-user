@@ -192,7 +192,7 @@
       <![CDATA[and create_time <= #{startDate}]]>
     </if>
     <if test="keywords != null">
-      <![CDATA[and name like concat('%',#{keywords},'%')]]>
+      <![CDATA[and department_name like concat('%',#{keywords},'%')]]>
     </if>
     and enabled = 1
     order by create_time desc
