@@ -15,7 +15,7 @@ public interface EmployeeRoleService {
      *
      * @return
      */
-    Map<String, Object> createEmp(Long[] roleIds, Long employeeId);
+    Map<String, Object> createEmp(Integer[] roleIds, Integer employeeId);
 
     /**
      * 修改员工角色

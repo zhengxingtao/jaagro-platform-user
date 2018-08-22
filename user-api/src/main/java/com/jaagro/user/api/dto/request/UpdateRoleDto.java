@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author baiyiran
@@ -14,7 +15,7 @@ public class UpdateRoleDto implements Serializable {
     /**
      * 角色表主键
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 角色名(管理员)

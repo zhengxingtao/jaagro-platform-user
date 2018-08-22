@@ -36,7 +36,7 @@ public interface EmployeeService {
      * @param newPassword
      * @return
      */
-    Map<String, Object> updatePassword(Long id, String oldPassword, String newPassword);
+    Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword);
 
     /**
      * 重置密码
@@ -55,7 +55,7 @@ public interface EmployeeService {
      * @param notes 注销原因
      * @return
      */
-    Map<String, Object> disableEmployee(Long id, String notes);
+    Map<String, Object> disableEmployee(Integer id, String notes);
 
     /**
      * 设置员工需协作部门
@@ -64,7 +64,7 @@ public interface EmployeeService {
      * @param deptId 需要协作的部门编号，新增到 employee_dept表中
      * @return
      */
-    Map<String, Object> setDepartmentCooperation(Long id, Long[] deptId);
+    Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId);
 
     /**
      * 分页查询

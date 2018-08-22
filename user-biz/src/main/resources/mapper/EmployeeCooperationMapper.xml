@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.EmployeeCooperationMapper" >
-  <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.EmployeeCooperation" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="employee_id" property="employeeId" jdbcType="BIGINT" />
-    <result column="dept_id" property="deptId" jdbcType="BIGINT" />
+<mapper namespace="com.jaagro.crm.biz.mapper.EmployeeCooperationMapper" >
+  <resultMap id="BaseResultMap" type="com.jaagro.crm.biz.entity.EmployeeCooperation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+    <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
     <result column="enabled" property="enabled" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, employee_id, dept_id, create_time, create_user, modify_time, modify_user, enabled
+    id, employee_id, dept_id, create_time, create_user_id, modify_time, modify_user_id,
+    enabled
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
     from employee_cooperation
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from employee_cooperation
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
-    insert into employee_cooperation (id, employee_id, dept_id, 
-      create_time, create_user, modify_time, 
-      modify_user, enabled)
-    values (#{id,jdbcType=BIGINT}, #{employeeId,jdbcType=BIGINT}, #{deptId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifyUser,jdbcType=BIGINT}, #{enabled,jdbcType=TINYINT})
+  <insert id="insert" parameterType="com.jaagro.crm.biz.entity.EmployeeCooperation" >
+    insert into employee_cooperation (id, employee_id, dept_id,
+      create_time, create_user_id, modify_time,
+      modify_user_id, enabled)
+    values (#{id,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{modifyUserId,jdbcType=INTEGER}, #{enabled,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+  <insert id="insertSelective" parameterType="com.jaagro.crm.biz.entity.EmployeeCooperation" >
     insert into employee_cooperation
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -47,14 +48,14 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="createUser != null" >
-        create_user,
+      <if test="createUserId != null" >
+        create_user_id,
       </if>
       <if test="modifyTime != null" >
         modify_time,
       </if>
-      <if test="modifyUser != null" >
-        modify_user,
+      <if test="modifyUserId != null" >
+        modify_user_id,
       </if>
       <if test="enabled != null" >
         enabled,
@@ -62,67 +63,67 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="employeeId != null" >
-        #{employeeId,jdbcType=BIGINT},
+        #{employeeId,jdbcType=INTEGER},
       </if>
       <if test="deptId != null" >
-        #{deptId,jdbcType=BIGINT},
+        #{deptId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null" >
-        #{createUser,jdbcType=BIGINT},
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null" >
         #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="modifyUser != null" >
-        #{modifyUser,jdbcType=BIGINT},
+      <if test="modifyUserId != null" >
+        #{modifyUserId,jdbcType=INTEGER},
       </if>
       <if test="enabled != null" >
         #{enabled,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.crm.biz.entity.EmployeeCooperation" >
     update employee_cooperation
     <set >
       <if test="employeeId != null" >
-        employee_id = #{employeeId,jdbcType=BIGINT},
+        employee_id = #{employeeId,jdbcType=INTEGER},
       </if>
       <if test="deptId != null" >
-        dept_id = #{deptId,jdbcType=BIGINT},
+        dept_id = #{deptId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null" >
-        create_user = #{createUser,jdbcType=BIGINT},
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
       <if test="modifyTime != null" >
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="modifyUser != null" >
-        modify_user = #{modifyUser,jdbcType=BIGINT},
+      <if test="modifyUserId != null" >
+        modify_user_id = #{modifyUserId,jdbcType=INTEGER},
       </if>
       <if test="enabled != null" >
         enabled = #{enabled,jdbcType=TINYINT},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.EmployeeCooperation" >
+  <update id="updateByPrimaryKey" parameterType="com.jaagro.crm.biz.entity.EmployeeCooperation" >
     update employee_cooperation
-    set employee_id = #{employeeId,jdbcType=BIGINT},
-      dept_id = #{deptId,jdbcType=BIGINT},
+    set employee_id = #{employeeId,jdbcType=INTEGER},
+      dept_id = #{deptId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      modify_user = #{modifyUser,jdbcType=BIGINT},
+      modify_user_id = #{modifyUserId,jdbcType=INTEGER},
       enabled = #{enabled,jdbcType=TINYINT}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -15,7 +15,17 @@ public class CustomerUser implements Serializable {
     /**
      * 用户ID
      */
-    private Long id;
+    private Integer id;
+
+    /**
+     * 所属客户(关联客户表)
+     */
+    private Integer relevanceId;
+
+    /**
+     * 客户类型(1-项目客户 2 客户装卸货地)
+     */
+    private Integer customerType;
 
     /**
      * 登录用户名(默认使用手机号码)
@@ -43,14 +53,9 @@ public class CustomerUser implements Serializable {
     private String avatar;
 
     /**
-     * 所属客户
-     */
-    private Long customerId;
-
-    /**
      * 生日
      */
-    private Date birthday;
+    private String birthday;
 
     /**
      * 邮箱
@@ -68,6 +73,16 @@ public class CustomerUser implements Serializable {
     private Boolean userStatus;
 
     /**
+     * 创建人
+     */
+    private Integer createUserId;
+
+    /**
+     * 修改人
+     */
+    private Integer modifyUserId;
+
+    /**
      * 创建时间
      */
     private Date createTime;
@@ -76,5 +91,10 @@ public class CustomerUser implements Serializable {
      * 修改时间
      */
     private Date modifyTime;
+
+    /**
+     * 是否可用 0 不可用  1 可用
+     */
+    private Boolean enabled;
 
 }

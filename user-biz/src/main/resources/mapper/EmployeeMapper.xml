@@ -2,72 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapper">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Employee">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+        <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
         <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
-        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="salt" property="salt" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
-        <result column="status" property="status" jdbcType="TINYINT"/>
         <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
-        <result column="birthday" property="birthday" jdbcType="TIMESTAMP"/>
-        <result column="gender" property="gender" jdbcType="TINYINT"/>
+        <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
-        <result column="create_user" property="createUser" jdbcType="BIGINT"/>
-        <result column="modify_user" property="modifyUser" jdbcType="BIGINT"/>
-        <result column="notes" property="notes" jdbcType="VARCHAR"/>
-        <result column="department_id" property="departmentId" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, employee_name, login_name, password, phone_number, salt, email, status, avatar, 
-    birthday, gender, create_time, modify_time, create_user, modify_user, notes, department_id
+    id, employee_name, department_id, login_name, password, phone, salt, email, avatar,
+    birthday, notes, gender, enabled, create_time, modify_time, create_user_id, modify_user_id
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from employee
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
     </select>
-    <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where login_name = #{loginName,jdbcType=VARCHAR}
-    </select>
-    <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where phone_number = #{phoneNumber,jdbcType=VARCHAR}
-    </select>
-    <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where id = #{id,jdbcType=BIGINT}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from employee
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
+    <insert id="insert" parameterType="com.jaagro.crm.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-    insert into employee (id, employee_name, login_name, 
-      password, phone_number, salt, 
-      email, status, avatar, 
-      birthday, gender, create_time, 
-      modify_time, create_user, modify_user, 
-      notes, department_id)
-    values (#{id,jdbcType=BIGINT}, #{employeeName,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyUser,jdbcType=BIGINT}, 
-      #{notes,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT})
+    insert into employee (id, employee_name, department_id,
+      login_name, password, phone,
+      salt, email, avatar,
+      birthday, notes, gender,
+      enabled, create_time, modify_time,
+      create_user_id, modify_user_id)
+    values (#{id,jdbcType=INTEGER}, #{employeeName,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
+      #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
+      #{birthday,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
+      #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
+    <insert id="insertSelective" parameterType="com.jaagro.crm.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
         insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -77,14 +59,17 @@
             <if test="employeeName != null">
                 employee_name,
             </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
             <if test="loginName != null">
                 login_name,
             </if>
             <if test="password != null">
                 password,
             </if>
-            <if test="phoneNumber != null">
-                phone_number,
+            <if test="phone != null">
+                phone,
             </if>
             <if test="salt != null">
                 salt,
@@ -92,17 +77,20 @@
             <if test="email != null">
                 email,
             </if>
-            <if test="status != null">
-                status,
-            </if>
             <if test="avatar != null">
                 avatar,
             </if>
             <if test="birthday != null">
                 birthday,
             </if>
+            <if test="notes != null">
+                notes,
+            </if>
             <if test="gender != null">
                 gender,
+            </if>
+            <if test="enabled != null">
+                enabled,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -110,25 +98,22 @@
             <if test="modifyTime != null">
                 modify_time,
             </if>
-            <if test="createUser != null">
-                create_user,
+            <if test="createUserId != null">
+                create_user_id,
             </if>
-            <if test="modifyUser != null">
-                modify_user,
-            </if>
-            <if test="notes != null">
-                notes,
-            </if>
-            <if test="departmentId != null">
-                department_id,
+            <if test="modifyUserId != null">
+                modify_user_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{id,jdbcType=BIGINT},
+                #{id,jdbcType=INTEGER},
             </if>
             <if test="employeeName != null">
                 #{employeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
             </if>
             <if test="loginName != null">
                 #{loginName,jdbcType=VARCHAR},
@@ -136,8 +121,8 @@
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
-            <if test="phoneNumber != null">
-                #{phoneNumber,jdbcType=VARCHAR},
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
             </if>
             <if test="salt != null">
                 #{salt,jdbcType=VARCHAR},
@@ -145,17 +130,20 @@
             <if test="email != null">
                 #{email,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                #{status,jdbcType=INTEGER},
-            </if>
             <if test="avatar != null">
                 #{avatar,jdbcType=VARCHAR},
             </if>
             <if test="birthday != null">
-                #{birthday,jdbcType=TIMESTAMP},
+                #{birthday,jdbcType=VARCHAR},
+            </if>
+            <if test="notes != null">
+                #{notes,jdbcType=VARCHAR},
             </if>
             <if test="gender != null">
-                #{gender,jdbcType=TINYINT},
+                #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=TINYINT},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -163,25 +151,22 @@
             <if test="modifyTime != null">
                 #{modifyTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUser != null">
-                #{createUser,jdbcType=BIGINT},
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
             </if>
-            <if test="modifyUser != null">
-                #{modifyUser,jdbcType=BIGINT},
-            </if>
-            <if test="notes != null">
-                #{notes,jdbcType=VARCHAR},
-            </if>
-            <if test="departmentId != null">
-                #{departmentId,jdbcType=BIGINT},
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Employee">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.crm.biz.entity.Employee">
         update employee
         <set>
             <if test="employeeName != null">
                 employee_name = #{employeeName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
             </if>
             <if test="loginName != null">
                 login_name = #{loginName,jdbcType=VARCHAR},
@@ -189,8 +174,8 @@
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="phoneNumber != null">
-                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
             </if>
             <if test="salt != null">
                 salt = #{salt,jdbcType=VARCHAR},
@@ -198,17 +183,20 @@
             <if test="email != null">
                 email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                status = #{status,jdbcType=INTEGER},
-            </if>
             <if test="avatar != null">
                 avatar = #{avatar,jdbcType=VARCHAR},
             </if>
             <if test="birthday != null">
-                birthday = #{birthday,jdbcType=TIMESTAMP},
+                birthday = #{birthday,jdbcType=VARCHAR},
+            </if>
+            <if test="notes != null">
+                notes = #{notes,jdbcType=VARCHAR},
             </if>
             <if test="gender != null">
-                gender = #{gender,jdbcType=TINYINT},
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=TINYINT},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -216,40 +204,34 @@
             <if test="modifyTime != null">
                 modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUser != null">
-                create_user = #{createUser,jdbcType=BIGINT},
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
             </if>
-            <if test="modifyUser != null">
-                modify_user = #{modifyUser,jdbcType=BIGINT},
-            </if>
-            <if test="notes != null">
-                notes = #{notes,jdbcType=VARCHAR},
-            </if>
-            <if test="departmentId != null">
-                department_id = #{departmentId,jdbcType=BIGINT},
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=INTEGER},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Employee">
+    <update id="updateByPrimaryKey" parameterType="com.jaagro.crm.biz.entity.Employee">
     update employee
     set employee_name = #{employeeName,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
       avatar = #{avatar,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
-      gender = #{gender,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=BIGINT},
-      modify_user = #{modifyUser,jdbcType=BIGINT},
-      notes = #{notes,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      modify_user_id = #{modifyUserId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="getByUpdateDto" parameterType="com.jaagro.user.api.dto.request.UpdateEmpDto" resultMap="BaseResultMap">
         select
@@ -284,5 +266,23 @@
             and department_id = #{departmentId}
         </if>
         and status = 1
+    </select>
+    <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where login_name = #{loginName,jdbcType=VARCHAR}
+    </select>
+    <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR}
+    </select>
+    <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where id = #{id,jdbcType=INTEGER}
     </select>
 </mapper>

@@ -2,35 +2,47 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.RoleMapper">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Role">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="notes" property="notes" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="create_user" property="createUser" jdbcType="BIGINT"/>
+        <result column="create_user" property="createUser" jdbcType="INTEGER"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
-        <result column="modify_user" property="modifyUser" jdbcType="BIGINT"/>
+        <result column="modify_user" property="modifyUser" jdbcType="INTEGER"/>
         <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+    </resultMap>
+    <resultMap id="ReturnMap" type="com.jaagro.user.api.dto.response.ReturnRoleDto">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user" property="createUser" jdbcType="INTEGER"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_user" property="modifyUser" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+        <collection property="permissionDtoList" column="id"
+                select="com.jaagro.user.biz.mapper.RolePermissionMapper.listByRoleId"/>
     </resultMap>
     <sql id="Base_Column_List">
     id, name, notes, create_time, create_user, modify_time, modify_user, enabled
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from role
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.jaagro.user.biz.entity.Role">
     insert into role (id, name, notes, 
       create_time, create_user, modify_time, 
       modify_user, enabled)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifyUser,jdbcType=BIGINT}, #{enabled,jdbcType=TINYINT})
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUser,jdbcType=INTEGER}, #{enabled,jdbcType=TINYINT})
   </insert>
     <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Role">
         insert into role
@@ -62,7 +74,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
-                #{id,jdbcType=BIGINT},
+                #{id,jdbcType=INTEGER},
             </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
@@ -74,13 +86,13 @@
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="createUser != null">
-                #{createUser,jdbcType=BIGINT},
+                #{createUser,jdbcType=INTEGER},
             </if>
             <if test="modifyTime != null">
                 #{modifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyUser != null">
-                #{modifyUser,jdbcType=BIGINT},
+                #{modifyUser,jdbcType=INTEGER},
             </if>
             <if test="enabled != null">
                 #{enabled,jdbcType=TINYINT},
@@ -100,34 +112,48 @@
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="createUser != null">
-                create_user = #{createUser,jdbcType=BIGINT},
+                create_user = #{createUser,jdbcType=INTEGER},
             </if>
             <if test="modifyTime != null">
                 modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
             <if test="modifyUser != null">
-                modify_user = #{modifyUser,jdbcType=BIGINT},
+                modify_user = #{modifyUser,jdbcType=INTEGER},
             </if>
             <if test="enabled != null">
                 enabled = #{enabled,jdbcType=TINYINT},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Role">
     update role
     set name = #{name,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=BIGINT},
+      create_user = #{createUser,jdbcType=INTEGER},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      modify_user = #{modifyUser,jdbcType=BIGINT},
+      modify_user = #{modifyUser,jdbcType=INTEGER},
       enabled = #{enabled,jdbcType=TINYINT}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="listAll" resultMap="BaseResultMap">
+        SELECT * FROM role r
+        left join role_permission rp on r.id = rp.role_id
+        left join permission p on p.id = rp.permission_id
+    </select>
+    <select id="getByName" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from role
+        where name = #{name,jdbcType=VARCHAR}
+        and enabled = 1
+    </select>
+    <select id="getById" resultMap="ReturnMap" parameterType="java.lang.Integer">
+        SELECT
+        *
+        FROM
+        role r
+        where r.id = #{id,jdbcType=INTEGER}
     </select>
 </mapper>

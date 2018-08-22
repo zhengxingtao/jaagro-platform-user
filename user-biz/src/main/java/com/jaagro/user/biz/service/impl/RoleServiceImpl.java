@@ -10,7 +10,6 @@ import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Role;
 import com.jaagro.user.biz.mapper.RoleMapper;
 import com.jaagro.user.biz.mapper.RolePermissionMapper;
-import lombok.experimental.Accessors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
         role
                 .setEnabled(true)
                 .setCreateTime(new Date())
-                .setCreateUser(this.userService.getCurrentUser().getId());
+                .setCreateUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.insert(role);
         return ServiceResult.toResult("创建成功");
     }
@@ -63,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
         BeanUtils.copyProperties(dto, role);
         role
                 .setModifyTime(new Date())
-                .setModifyUser(this.userService.getCurrentUser().getId());
+                .setModifyUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.updateByPrimaryKeySelective(role);
         return ServiceResult.toResult("修改成功");
     }
@@ -75,7 +74,7 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public Map<String, Object> deleteById(Long id) {
+    public Map<String, Object> deleteById(Integer id) {
         //删除角色表
         Role role = this.roleMapper.selectByPrimaryKey(id);
         role.setEnabled(false);
@@ -92,8 +91,8 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public Map<String, Object> getById(Long id) {
-        return ServiceResult.toResult(this.roleMapper.selectByPrimaryKey(id));
+    public Map<String, Object> getById(Integer id) {
+        return ServiceResult.toResult(this.roleMapper.getById(id));
     }
 
     /**

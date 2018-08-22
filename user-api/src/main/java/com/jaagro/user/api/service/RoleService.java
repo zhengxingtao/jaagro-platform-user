@@ -31,7 +31,7 @@ public interface RoleService {
      * @param id
      * @return
      */
-    Map<String, Object> deleteById(Long id);
+    Map<String, Object> deleteById(Integer id);
 
     /**
      * 查询单个
@@ -39,7 +39,7 @@ public interface RoleService {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Long id);
+    Map<String, Object> getById(Integer id);
 
     /**
      * 分页查询角色

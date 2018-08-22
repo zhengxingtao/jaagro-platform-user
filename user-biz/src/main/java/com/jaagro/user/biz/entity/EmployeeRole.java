@@ -15,17 +15,17 @@ public class EmployeeRole implements Serializable {
     /**
      * 员工角色表ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 员工id
      */
-    private Long employeeId;
+    private Integer employeeId;
 
     /**
      * 角色id
      */
-    private Long roleId;
+    private Integer roleId;
 
     /**
      * 创建日期
@@ -40,12 +40,12 @@ public class EmployeeRole implements Serializable {
     /**
      * 创建人(关联用户ID)
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改人(关联用户ID)
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 是否可用(0 不可用 1 可用)

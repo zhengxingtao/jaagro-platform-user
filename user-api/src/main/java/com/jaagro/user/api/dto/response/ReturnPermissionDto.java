@@ -5,28 +5,27 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class ReturnRoleDto implements Serializable {
+public class ReturnPermissionDto implements Serializable {
     /**
-     * 角色表主键
+     * 权限表
      */
-    private Integer id;
+    private Long id;
 
     /**
-     * 角色名(管理员)
+     * 权限编号
      */
-    private String name;
+    private String accessNumber;
 
     /**
-     * 描述
+     * 权限说明
      */
-    private String notes;
+    private String accessIllustrate;
 
     /**
      * 创建时间
@@ -36,7 +35,7 @@ public class ReturnRoleDto implements Serializable {
     /**
      * 创建人
      */
-    private Integer createUserId;
+    private Long createUser;
 
     /**
      * 修改时间
@@ -46,16 +45,10 @@ public class ReturnRoleDto implements Serializable {
     /**
      * 修改人
      */
-    private Integer modifyUserId;
+    private Long modifyUser;
 
     /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
-
-    /**
-     * 权限说明列表
-     */
-    private List<ReturnPermissionDto> permissionDtoList;
-
 }

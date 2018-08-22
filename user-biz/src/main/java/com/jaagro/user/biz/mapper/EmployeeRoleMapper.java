@@ -8,7 +8,7 @@ public interface EmployeeRoleMapper {
     /**
      * @mbggenerated 2018-08-18
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      * @mbggenerated 2018-08-18
@@ -23,7 +23,7 @@ public interface EmployeeRoleMapper {
     /**
      * @mbggenerated 2018-08-18
      */
-    EmployeeRole selectByPrimaryKey(Long id);
+    EmployeeRole selectByPrimaryKey(Integer id);
 
     /**
      * @mbggenerated 2018-08-18
@@ -41,7 +41,7 @@ public interface EmployeeRoleMapper {
      * @param roleId
      * @return
      */
-    List<EmployeeRole> listByRoleId(Long roleId);
+    List<EmployeeRole> listByRoleId(Integer roleId);
 
     /**
      * 根据员工id删除
@@ -49,5 +49,5 @@ public interface EmployeeRoleMapper {
      * @param employeeId
      * @return
      */
-    int deleteByEmpId(Long employeeId);
+    int deleteByEmpId(Integer employeeId);
 }

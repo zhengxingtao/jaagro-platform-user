@@ -33,7 +33,7 @@ public interface RolePermissionService {
      * @param id
      * @return
      */
-    Map<String, Object> deleteById(Long id);
+    Map<String, Object> deleteById(Integer id);
 
     /**
      * 根据角色删除权限[逻辑]
@@ -41,7 +41,7 @@ public interface RolePermissionService {
      * @param roleId
      * @return
      */
-    Map<String, Object> deleteByRoleId(Long roleId);
+    Map<String, Object> deleteByRoleId(Integer roleId);
 
     /**
      * 查询单个权限
@@ -49,7 +49,7 @@ public interface RolePermissionService {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Long id);
+    Map<String, Object> getById(Integer id);
 
     /**
      * 根据角色查询权限
@@ -57,7 +57,7 @@ public interface RolePermissionService {
      * @param id
      * @return
      */
-    Map<String, Object> getByRoleId(Long roleId);
+    Map<String, Object> getByRoleId(Integer roleId);
 
 
     /**

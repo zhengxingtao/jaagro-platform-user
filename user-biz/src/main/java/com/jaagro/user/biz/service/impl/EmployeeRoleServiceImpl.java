@@ -42,8 +42,8 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
      * @return
      */
     @Override
-    public Map<String, Object> createEmp(Long[] roleIds, Long employeeId) {
-        for (Long rid : roleIds) {
+    public Map<String, Object> createEmp(Integer[] roleIds, Integer employeeId) {
+        for (Integer rid : roleIds) {
             Role role = this.roleMapper.selectByPrimaryKey(rid);
             if (role == null) {
                 throw new RuntimeException("角色[" + rid + "]不存在");
@@ -52,7 +52,7 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
             EmployeeRole employeeRole = new EmployeeRole();
             employeeRole
                     .setCreateTime(new Date())
-                    .setCreateUser(this.userService.getCurrentUser().getId())
+                    .setCreateUserId(this.userService.getCurrentUser().getId())
                     .setEmployeeId(employeeId)
                     .setRoleId(rid)
                     .setEnabled(true);
@@ -82,10 +82,10 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
                 throw new RuntimeException("角色[" + dto.getRoleId() + "]不存在");
             }
             employeeRole
-                    .setCreateUser(userService.getCurrentUser().getId())
+                    .setCreateUserId(userService.getCurrentUser().getId())
                     .setCreateTime(new Date())
                     .setModifyTime(new Date())
-                    .setModifyUser(userService.getCurrentUser().getId());
+                    .setModifyUserId(userService.getCurrentUser().getId());
             this.employeeRoleMapper.insert(employeeRole);
         }
         return ServiceResult.error("修改失败");

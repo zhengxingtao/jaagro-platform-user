@@ -12,13 +12,20 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 public class CreatePermissionDto implements Serializable {
+
     /**
      * 权限编号
      */
-    private String accessNumber;
+    private String permissionNumber;
+
+    /**
+     * 权限名称
+     */
+    private String permissionName;
 
     /**
      * 权限说明
      */
-    private String accessIllustrate;
+    private String notes;
+
 }

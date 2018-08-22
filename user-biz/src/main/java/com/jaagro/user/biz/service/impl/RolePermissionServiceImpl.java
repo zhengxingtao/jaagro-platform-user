@@ -43,7 +43,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
      * @return
      */
     @Override
-    public Map<String, Object> deleteById(Long id) {
+    public Map<String, Object> deleteById(Integer id) {
         return null;
     }
 
@@ -54,7 +54,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
      * @return
      */
     @Override
-    public Map<String, Object> deleteByRoleId(Long roleId) {
+    public Map<String, Object> deleteByRoleId(Integer roleId) {
         return null;
     }
 
@@ -65,7 +65,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
      * @return
      */
     @Override
-    public Map<String, Object> getById(Long id) {
+    public Map<String, Object> getById(Integer id) {
         return null;
     }
 
@@ -76,7 +76,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
      * @return
      */
     @Override
-    public Map<String, Object> getByRoleId(Long roleId) {
+    public Map<String, Object> getByRoleId(Integer roleId) {
         return null;
     }
 

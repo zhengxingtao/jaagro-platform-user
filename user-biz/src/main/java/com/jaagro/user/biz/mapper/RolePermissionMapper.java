@@ -1,37 +1,44 @@
 package com.jaagro.user.biz.mapper;
 
+import com.jaagro.user.api.dto.response.ReturnPermissionDto;
 import com.jaagro.user.biz.entity.RolePermission;
 
 import java.util.List;
 
 public interface RolePermissionMapper {
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int insert(RolePermission record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int insertSelective(RolePermission record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
-    RolePermission selectByPrimaryKey(Long id);
+    RolePermission selectByPrimaryKey(Integer id);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(RolePermission record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(RolePermission record);
 
@@ -41,7 +48,7 @@ public interface RolePermissionMapper {
      * @param roleId
      * @return
      */
-    List<RolePermission> listByRoleId(Long roleId);
+    List<ReturnPermissionDto> listByRoleId(Integer roleId);
 
     /**
      * 根据角色删除
@@ -49,6 +56,6 @@ public interface RolePermissionMapper {
      * @param roleId
      * @return
      */
-    int deleteByRoleId(Long roleId);
+    int deleteByRoleId(Integer roleId);
 
 }

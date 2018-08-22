@@ -15,16 +15,16 @@ public class UpdateEmpRoleDto implements Serializable {
     /**
      * 员工角色表ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 员工id
      */
-    private Long employeeId;
+    private Integer employeeId;
 
     /**
      * 角色id
      */
-    private Long roleId;
+    private Integer roleId;
 
 }

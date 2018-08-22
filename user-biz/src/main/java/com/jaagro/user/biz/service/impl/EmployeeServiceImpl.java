@@ -60,11 +60,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Map<String, String> stringMap = PasswordEncoder.encodePassword(dto.getPassword());
         if (stringMap.size() > 0) {
             employee
-                    .setStatus(true)
+                    .setEnabled(true)
                     .setSalt(stringMap.get("salt"))
                     .setPassword(stringMap.get("password"))
                     .setCreateTime(new Date())
-                    .setCreateUser(userService.getCurrentUser().getId());
+                    .setCreateUserId(userService.getCurrentUser().getId());
 
             this.employeeMapper.insert(employee);
             return ServiceResult.toResult("员工创建成功");
@@ -84,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         BeanUtils.copyProperties(dto, employee);
         employee
-                .setModifyUser(userService.getCurrentUser().getId())
+                .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
         return ServiceResult.toResult("员工修改成功");
@@ -99,14 +99,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> updatePassword(Long id, String oldPassword, String newPassword) {
+    public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
         if (!PasswordEncoder.encodePassword(this.employeeMapper.selectByPrimaryKey(id).getPassword()).get("password").equals(PasswordEncoder.encodePassword(oldPassword).get("password"))) {
             throw new RuntimeException("原密码不正确");
         }
         Employee employee = new Employee();
         employee
                 .setId(id)
-                .setModifyUser(userService.getCurrentUser().getId())
+                .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date())
                 .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
                 .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"));
@@ -140,7 +140,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"))
                 .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
                 .setModifyTime(new Date())
-                .setModifyUser(this.userService.getCurrentUser().getId());
+                .setModifyUserId(this.userService.getCurrentUser().getId());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
         return ServiceResult.toResult("重置密码成功");
     }
@@ -153,13 +153,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> disableEmployee(Long id, String notes) {
+    public Map<String, Object> disableEmployee(Integer id, String notes) {
         Employee employee = new Employee();
         employee
                 .setId(id)
                 .setNotes(notes)
-                .setStatus(false)
-                .setModifyUser(userService.getCurrentUser().getId())
+                .setEnabled(false)
+                .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
         return ServiceResult.toResult("注销员工成功");
@@ -173,11 +173,11 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> setDepartmentCooperation(Long id, Long[] deptId) {
-        for (Long did : deptId) {
+    public Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId) {
+        for (Integer did : deptId) {
             EmployeeCooperation cooperation = new EmployeeCooperation();
             cooperation
-                    .setCreateUser(userService.getCurrentUser().getId())
+                    .setCreateUserId(userService.getCurrentUser().getId())
                     .setCreateTime(new Date())
                     .setDeptId(did)
                     .setEmployeeId(id)
