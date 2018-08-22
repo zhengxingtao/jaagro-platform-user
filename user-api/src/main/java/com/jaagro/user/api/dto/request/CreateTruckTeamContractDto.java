@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.request;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,21 +11,21 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class TeamContract implements Serializable {
+public class CreateTruckTeamContractDto implements Serializable {
     /**
      * 主键车队合同表ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 关联车队表ID
      */
-    private Long truckId;
+    private Integer truckTeamId;
 
     /**
      * 关联部门ID
      */
-    private Long departmentId;
+    private Integer departmentId;
 
     /**
      * 合同状态(1-正常 2-终止)
@@ -43,9 +43,9 @@ public class TeamContract implements Serializable {
     private Date endDate;
 
     /**
-     * 合同类型(1,运输合同;2,养殖合同;3,加盟合同;4,其他合同)
+     * 签约日期
      */
-    private Integer type;
+    private Date contractDate;
 
     /**
      * 合同主题
@@ -85,11 +85,10 @@ public class TeamContract implements Serializable {
     /**
      * 创建人(关联用户ID)
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改人(关联用户ID)
      */
-    private Long modifyUser;
-
+    private Integer modifyUserId;
 }

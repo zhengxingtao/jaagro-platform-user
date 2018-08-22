@@ -15,7 +15,7 @@ public class VerifyLog implements Serializable {
     /**
      * 司机车辆车队审核表主键id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 验证状态(1-司机车辆车队信息 2-资质证照 3-合同)
@@ -52,6 +52,6 @@ public class VerifyLog implements Serializable {
     /**
      * 关联司机车辆车队资质证照(类型,状态)
      */
-    private Long referencesId;
+    private Integer referencesId;
 
 }

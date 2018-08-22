@@ -43,7 +43,7 @@ public class DepartmentController {
 
     @ApiOperation("查询单个部门")
     @GetMapping("/customer/{id}")
-    public BaseResponse getById(@PathVariable Long id) {
+    public BaseResponse getById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到部门ID");
         }
@@ -53,7 +53,7 @@ public class DepartmentController {
 
     @ApiOperation("删除部门[逻辑]")
     @DeleteMapping("/deleteById/{id}")
-    public BaseResponse deleteById(@PathVariable Long id) {
+    public BaseResponse deleteById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");
         }

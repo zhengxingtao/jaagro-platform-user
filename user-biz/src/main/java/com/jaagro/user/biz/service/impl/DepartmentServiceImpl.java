@@ -45,9 +45,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             return ServiceResult.toResult("父级ID不能和部门ID相等");
         }
         department
-                .setCreateTime(new Date())
                 .setEnabled(true)
-                .setCreateUser(1L);
+                .setCreateUserId(1);
         departmentMapper.insert(department);
         return ServiceResult.toResult("部门创建成功");
     }
@@ -66,7 +65,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         BeanUtils.copyProperties(dto, department);
         department
                 .setModifyTime(new Date())
-                .setModifyUser(1L);
+                .setModifyUserId(1);
         departmentMapper.updateByPrimaryKeySelective(department);
         return ServiceResult.toResult("修改部门成功");
     }
@@ -78,9 +77,11 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public Map<String, Object> getById(Long id) {
+    public Map<String, Object> getById(Integer id) {
         return ServiceResult.toResult(departmentMapper.getById(id));
     }
+
+
 
     /**
      * 逻辑删除部门
@@ -90,7 +91,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Map<String, Object> disableDepartment(Long id) {
+    public Map<String, Object> disableDepartment(Integer id) {
         //创建部门Dto返回的对象
         DepartmentReturnDto departmentDto = departmentMapper.getById(id);
         //创建部门对象

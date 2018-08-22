@@ -1,17 +1,18 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.request;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author liqiangping
  */
 @Data
 @Accessors(chain = true)
-public class Driver implements Serializable {
+public class CreateDriverDto implements Serializable {
     /**
      * 主键司机ID
      */
@@ -122,4 +123,8 @@ public class Driver implements Serializable {
      */
     private String county;
 
+    /**
+     * 查询合同表
+     */
+    private List<CreateTruckTeamContractDto> teamContracts;
 }

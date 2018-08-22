@@ -4,8 +4,8 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author liqiangping
@@ -14,89 +14,79 @@ import java.util.List;
 @Accessors(chain = true)
 public class CreateTruckDto implements Serializable {
     /**
-     * 主键车队表ID
+     * 主键车辆表ID
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 车队名称
+     * 关联车队表ID
      */
-    private String teamName;
+    private Integer truckTeamId;
 
     /**
-     * 法人姓名
+     * 车牌号码
      */
-    private String legalName;
+    private String truckNumber;
 
     /**
-     * 身份证号
+     * 车辆品牌
      */
-    private String card;
+    private String vehicleBrand;
 
     /**
-     * 所属城市
+     * 关联车辆类型ID
+     */
+    private Integer truckTypeId;
+
+    /**
+     * 最大载重
+     */
+    private BigDecimal capacity;
+
+    /**
+     * 装载数量
+     */
+    private Integer maximumLoad;
+
+    /**
+     * 车辆自重
+     */
+    private BigDecimal truckWeight;
+
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
      */
     private String city;
 
     /**
-     * 详细地址
+     * 区县
      */
-    private String address;
+    private String county;
 
     /**
-     * 创建日期
+     * 购买日期
      */
-    private Date createTime;
+    private Date buyTime;
 
     /**
-     * 修改日期
+     * 保险到期时间
      */
-    private Date modifyTime;
+    private Date expiryDate;
 
     /**
-     * 创建人(关联用户ID)
+     * 年检到期时间
      */
-    private Long createUser;
+    private Date expiryAnnual;
 
     /**
-     * 修改人(关联用户ID)
+     * 营运证号
      */
-    private Long modifyUser;
-
-    /**
-     * 车队类型(1 个体 2 自有 3 车队)
-     */
-    private Integer truckType;
-
-    /**
-     * 付款账号
-     */
-    private String paymentAccountId;
-
-    /**
-     * 开户银行
-     */
-    private String depositBank;
-
-    /**
-     * 开户人
-     */
-    private String accountPerson;
-
-    /**
-     * 统一社会信用码
-     */
-    private String creditCode;
-
-    /**
-     * 开票抬头
-     */
-    private String invoiceTitle;
-
-    /**
-     * 税务编号
-     */
-    private String taxNumber;
+    private String businessPermit;
 
     /**
      * 备注信息
@@ -104,12 +94,27 @@ public class CreateTruckDto implements Serializable {
     private String notes;
 
     /**
-     * 车队合同表
+     * 车辆状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
      */
-    private List<CreateTeamContractDto> teamContracts;
+    private Integer truckStatus;
 
     /**
-     * 车队联系人
+     * 修改日期
      */
-    private List<CreateTruckContractDto> truckContracts;
+    private Date modifyTime;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改人(关联用户ID)
+     */
+    private Integer modifyUserId;
+
+    /**
+     * 创建人(关联用户ID)
+     */
+    private Integer createUserId;
 }

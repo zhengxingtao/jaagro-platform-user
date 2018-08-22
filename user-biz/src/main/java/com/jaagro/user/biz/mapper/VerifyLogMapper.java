@@ -5,37 +5,37 @@ import com.jaagro.user.biz.entity.VerifyLog;
 public interface VerifyLogMapper {
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
     int insert(VerifyLog record);
 
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
     int insertSelective(VerifyLog record);
 
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
-    VerifyLog selectByPrimaryKey(Long id);
+    VerifyLog selectByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(VerifyLog record);
 
     /**
      *
-     * @mbggenerated 2018-08-20
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(VerifyLog record);
 }

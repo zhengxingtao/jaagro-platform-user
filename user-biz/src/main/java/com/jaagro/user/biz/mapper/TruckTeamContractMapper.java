@@ -1,8 +1,8 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.biz.entity.Truck;
+import com.jaagro.user.biz.entity.TruckTeamContract;
 
-public interface TruckMapper {
+public interface TruckTeamContractMapper {
     /**
      *
      * @mbggenerated 2018-08-22
@@ -13,30 +13,29 @@ public interface TruckMapper {
      *
      * @mbggenerated 2018-08-22
      */
-    int insert(Truck record);
+    int insert(TruckTeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-22
      */
-    int insertSelective(Truck record);
+    int insertSelective(TruckTeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-22
      */
-    Truck selectByPrimaryKey(Integer id);
+    TruckTeamContract selectByPrimaryKey(Integer id);
 
     /**
      *
      * @mbggenerated 2018-08-22
      */
-    int updateByPrimaryKeySelective(Truck record);
+    int updateByPrimaryKeySelective(TruckTeamContract record);
 
     /**
      *
      * @mbggenerated 2018-08-22
      */
-    int updateByPrimaryKey(Truck record);
-
+    int updateByPrimaryKey(TruckTeamContract record);
 }

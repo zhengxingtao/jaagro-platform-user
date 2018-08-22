@@ -28,14 +28,14 @@ public interface DepartmentService {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Long id);
+    Map<String, Object> getById(Integer id);
     /**
      * 逻辑删除部门
      *
      * @param id
      * @return
      */
-    Map<String, Object> disableDepartment(Long id);
+    Map<String, Object> disableDepartment(Integer id);
     /**
      * 分页获取list，注意criteria查询条件
      *

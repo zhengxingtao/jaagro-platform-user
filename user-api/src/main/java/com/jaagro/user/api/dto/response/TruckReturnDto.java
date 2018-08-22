@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,13 +6,14 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author liqiangping
  */
 @Data
 @Accessors(chain = true)
-public class Truck implements Serializable {
+public class TruckReturnDto implements Serializable {
     /**
      * 主键车辆表ID
      */
@@ -118,4 +119,8 @@ public class Truck implements Serializable {
      */
     private Integer createUserId;
 
+    /**
+     * 查询车队信息
+     */
+    private List<TruckTeamReturnDto> listTrucks;
 }

@@ -8,7 +8,7 @@ public interface EmployeeMapper {
     /**
      * @mbggenerated 2018-08-18
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      * @mbggenerated 2018-08-18
@@ -23,7 +23,7 @@ public interface EmployeeMapper {
     /**
      * @mbggenerated 2018-08-18
      */
-    Employee selectByPrimaryKey(Long id);
+    Employee selectByPrimaryKey(Integer id);
 
     /**
      * @mbggenerated 2018-08-18
@@ -57,7 +57,7 @@ public interface EmployeeMapper {
      * @param id
      * @return
      */
-    UserInfo getUserInfoById(Long id);
+    UserInfo getUserInfoById(Integer id);
 
     /**
      * 判断用户名手机号是否已存在
