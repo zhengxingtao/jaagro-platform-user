@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = customerUserMapper.getByPhoneNumber(key);
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
+                Integer key = (Integer) map.get(KEY);
                 userInfo = customerUserMapper.getUserInfoById(key);
             }
         }
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = employeeMapper.getByPhoneNumber(key);
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
+                Integer key = (Integer) map.get(KEY);
                 userInfo = employeeMapper.getUserInfoById(key);
             }
         }
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = driverMapper.getByPhoneNumber(key);
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
+                Integer key = (Integer) map.get(KEY);
                 userInfo = driverMapper.getUserInfoById(key);
             }
         }

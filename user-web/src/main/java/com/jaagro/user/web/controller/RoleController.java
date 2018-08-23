@@ -73,7 +73,7 @@ public class RoleController {
      */
     @ApiOperation("查询单个角色[含角色权限]")
     @GetMapping("/role/{id}")
-    public BaseResponse getRoleById(@PathVariable Long id) {
+    public BaseResponse getRoleById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到对应信息");
         }
@@ -89,7 +89,7 @@ public class RoleController {
      */
     @ApiOperation("删除角色[逻辑]")
     @DeleteMapping("/deleteRoleById/{id}")
-    public BaseResponse deleteRoleById(@PathVariable Long id) {
+    public BaseResponse deleteRoleById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");
         }
@@ -154,7 +154,7 @@ public class RoleController {
      */
     @ApiOperation("查询单个角色")
     @GetMapping("/rolePermission/{id}")
-    public BaseResponse getRolePemsById(@PathVariable Long id) {
+    public BaseResponse getRolePemsById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到对应信息");
         }
@@ -170,7 +170,7 @@ public class RoleController {
      */
     @ApiOperation("删除部门[逻辑]")
     @DeleteMapping("/deleteRolePermissionById/{id}")
-    public BaseResponse deleteRolePermissionById(@PathVariable Long id) {
+    public BaseResponse deleteRolePermissionById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");
         }

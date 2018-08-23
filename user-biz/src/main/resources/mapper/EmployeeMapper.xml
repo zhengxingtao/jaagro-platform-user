@@ -34,7 +34,7 @@
     delete from employee
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.crm.biz.entity.Employee" useGeneratedKeys="true"
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
     insert into employee (id, employee_name, department_id,
       login_name, password, phone,
@@ -49,7 +49,7 @@
       #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.crm.biz.entity.Employee" useGeneratedKeys="true"
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
         insert into employee
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -159,7 +159,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.crm.biz.entity.Employee">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Employee">
         update employee
         <set>
             <if test="employeeName != null">
@@ -213,7 +213,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jaagro.crm.biz.entity.Employee">
+    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Employee">
     update employee
     set employee_name = #{employeeName,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=INTEGER},

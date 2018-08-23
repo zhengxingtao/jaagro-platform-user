@@ -1,4 +1,4 @@
-package com.jaagro.user.api.dto.request;
+package com.jaagro.user.biz.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,33 +7,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author liqiangping
+ * @author tony
  */
 @Data
 @Accessors(chain = true)
-public class CreateTruckTeamContractsDto implements Serializable {
+public class BusinessSupport implements Serializable {
     /**
-     * 主键车队表联系人ID
+     * 业务支持ID
      */
     private Integer id;
 
     /**
-     * 联系人姓名
+     * 1-帮网点下单 2…
      */
-    private String contract;
+    private Integer supportType;
 
     /**
-     * 联系电话
+     * 员工ID
      */
-    private String phone;
+    private Integer employeeId;
 
     /**
-     * 职位
+     * 部门ID
      */
-    private String position;
+    private Integer departmentId;
 
     /**
-     * 状态(0-停用 1- 可用)
+     * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
 
@@ -56,5 +56,4 @@ public class CreateTruckTeamContractsDto implements Serializable {
      * 修改人
      */
     private Integer modifyUserId;
-
 }

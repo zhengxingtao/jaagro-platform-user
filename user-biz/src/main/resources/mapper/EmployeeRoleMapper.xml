@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.EmployeeRoleMapper">
-    <resultMap id="BaseResultMap" type="com.jaagro.crm.biz.entity.EmployeeRole">
+    <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.EmployeeRole">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
         <result column="role_id" property="roleId" jdbcType="INTEGER"/>
@@ -25,7 +25,7 @@
     delete from employee_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.crm.biz.entity.EmployeeRole">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
     insert into employee_role (id, employee_id, role_id,
       create_time, modify_time, create_user_id,
       modify_user_id, enabled)
@@ -33,7 +33,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER},
       #{modifyUserId,jdbcType=INTEGER}, #{enabled,jdbcType=BIT})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.crm.biz.entity.EmployeeRole">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
         insert into employee_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -88,7 +88,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.crm.biz.entity.EmployeeRole">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
         update employee_role
         <set>
             <if test="employeeId != null">
@@ -115,7 +115,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jaagro.crm.biz.entity.EmployeeRole">
+    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
     update employee_role
     set employee_id = #{employeeId,jdbcType=INTEGER},
       role_id = #{roleId,jdbcType=INTEGER},

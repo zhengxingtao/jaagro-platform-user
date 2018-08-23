@@ -15,7 +15,7 @@ public class CreateDepartmentDto implements Serializable {
     /**
      * 部门表主键
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 部门名称

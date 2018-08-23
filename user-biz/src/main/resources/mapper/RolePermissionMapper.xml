@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.RolePermissionMapper">
-    <resultMap id="BaseResultMap" type="com.jaagro.crm.biz.entity.RolePermission">
+    <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.RolePermission">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="role_id" property="roleId" jdbcType="INTEGER"/>
         <result column="permission_id" property="permissionId" jdbcType="INTEGER"/>
@@ -34,7 +34,7 @@
     delete from role_permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.crm.biz.entity.RolePermission">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.RolePermission">
     insert into role_permission (id, role_id, permission_id,
       enabled, create_time, create_user_id,
       modify_time, modify_user_id)
@@ -42,7 +42,7 @@
       #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER},
       #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.crm.biz.entity.RolePermission">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.RolePermission">
         insert into role_permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -97,7 +97,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.crm.biz.entity.RolePermission">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.RolePermission">
         update role_permission
         <set>
             <if test="roleId != null">
@@ -124,7 +124,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jaagro.crm.biz.entity.RolePermission">
+    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.RolePermission">
     update role_permission
     set role_id = #{roleId,jdbcType=INTEGER},
       permission_id = #{permissionId,jdbcType=INTEGER},

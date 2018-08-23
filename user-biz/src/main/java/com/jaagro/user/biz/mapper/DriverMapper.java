@@ -58,5 +58,5 @@ public interface DriverMapper {
      * @param id
      * @return
      */
-    UserInfo getUserInfoById(Long id);
+    UserInfo getUserInfoById(Integer id);
 }

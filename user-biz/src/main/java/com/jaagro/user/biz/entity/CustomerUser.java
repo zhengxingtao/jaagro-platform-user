@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author liqiangping
+ * @author tony
  */
 @Data
 @Accessors(chain = true)
@@ -96,5 +96,4 @@ public class CustomerUser implements Serializable {
      * 是否可用 0 不可用  1 可用
      */
     private Boolean enabled;
-
 }

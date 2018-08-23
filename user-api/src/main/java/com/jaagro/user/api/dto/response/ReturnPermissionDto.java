@@ -15,7 +15,7 @@ public class ReturnPermissionDto implements Serializable {
     /**
      * 权限表
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 权限编号

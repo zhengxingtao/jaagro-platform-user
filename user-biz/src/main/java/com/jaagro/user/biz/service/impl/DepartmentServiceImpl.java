@@ -74,7 +74,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public Map<String, Object> getById(Long id) {
+    public Map<String, Object> getById(Integer id) {
 
         if (departmentMapper.selectByPrimaryKey(id) == null) {
             return ServiceResult.error(ResponseStatusCode.ID_VALUE_ERROR.getCode(), "id: " + id + "不存在");
@@ -90,7 +90,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Map<String, Object> disableDepartment(Long id) {
+    public Map<String, Object> disableDepartment(Integer id) {
         //创建部门Dto返回的对象
         DepartmentReturnDto departmentDto = departmentMapper.getById(id);
         //创建部门对象

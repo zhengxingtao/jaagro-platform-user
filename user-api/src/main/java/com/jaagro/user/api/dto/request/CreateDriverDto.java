@@ -122,9 +122,4 @@ public class CreateDriverDto implements Serializable {
      * 所属区县
      */
     private String county;
-
-    /**
-     * 查询合同表
-     */
-    private List<CreateTruckTeamContractDto> teamContracts;
 }

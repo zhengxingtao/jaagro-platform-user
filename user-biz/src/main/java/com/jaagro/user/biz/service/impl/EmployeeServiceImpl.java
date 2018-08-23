@@ -2,6 +2,7 @@ package com.jaagro.user.biz.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jaagro.user.api.config.FeignHystrixConcurrencyStrategy;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
@@ -9,11 +10,13 @@ import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.api.service.VerificationCodeClientService;
+import com.jaagro.user.biz.entity.BusinessSupport;
 import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.entity.EmployeeCooperation;
+import com.jaagro.user.biz.mapper.BusinessSupportMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
-import com.jaagro.user.biz.mapper.EmployeeCooperationMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeMapper employeeMapper;
     @Autowired
-    private EmployeeCooperationMapper cooperationMapper;
+    private BusinessSupportMapper businessSupportMapper;
     @Autowired
     private UserService userService;
     @Autowired
     private VerificationCodeClientService codeClientService;
+
+    private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     /**
      * 新增
@@ -175,14 +180,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId) {
         for (Integer did : deptId) {
-            EmployeeCooperation cooperation = new EmployeeCooperation();
-            cooperation
+            BusinessSupport businessSupport = new BusinessSupport();
+            businessSupport
                     .setCreateUserId(userService.getCurrentUser().getId())
+                    .setSupportType(1)
                     .setCreateTime(new Date())
-                    .setDeptId(did)
+                    .setDepartmentId(did)
                     .setEmployeeId(id)
                     .setEnabled(true);
-            cooperationMapper.insert(cooperation);
+            businessSupportMapper.insert(businessSupport);
         }
         return ServiceResult.toResult("员工协作部门创建成功");
     }

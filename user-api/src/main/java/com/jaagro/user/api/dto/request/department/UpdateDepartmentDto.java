@@ -15,7 +15,7 @@ public class UpdateDepartmentDto implements Serializable {
     /**
      * 部门表主键(网点表 是否可以就叫部门表。。。)
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 部门名称
