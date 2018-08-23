@@ -2,7 +2,6 @@ package com.jaagro.user.web.controller;
 
 import com.jaagro.user.api.dto.request.CreateTruckTeamDto;
 import com.jaagro.user.api.service.TruckTeamService;
-import com.jaagro.user.biz.mapper.TruckMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
