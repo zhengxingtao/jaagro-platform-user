@@ -15,17 +15,17 @@ public class EmployeeCooperation implements Serializable {
     /**
      * 主键员工部门ID
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 关联员工ID(references employee)
      */
-    private Long employeeId;
+    private Integer employeeId;
 
     /**
      * 关联部门ID(references deptment)
      */
-    private Long deptId;
+    private Integer deptId;
 
     /**
      * 创建时间
@@ -35,7 +35,7 @@ public class EmployeeCooperation implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,11 +45,10 @@ public class EmployeeCooperation implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
-
 }

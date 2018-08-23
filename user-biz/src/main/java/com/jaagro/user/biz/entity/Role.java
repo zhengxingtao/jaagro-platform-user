@@ -15,7 +15,7 @@ public class Role implements Serializable {
     /**
      * 角色表主键
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 角色名(管理员)
@@ -35,7 +35,7 @@ public class Role implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,7 +45,7 @@ public class Role implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 是否可用(0 不可用 1 可用)

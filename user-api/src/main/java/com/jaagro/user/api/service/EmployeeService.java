@@ -1,6 +1,7 @@
 package com.jaagro.user.api.service;
 
 import com.jaagro.user.api.dto.request.CreateEmpDto;
+import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 
 import java.util.Map;
@@ -35,16 +36,17 @@ public interface EmployeeService {
      * @param newPassword
      * @return
      */
-    Map<String, Object> updatePassword(Long id, String oldPassword, String newPassword);
+    Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword);
 
     /**
      * 重置密码
      *
      * @param phoneNumber      employee表中的手机号码字段
      * @param verificationCode 短信验证码
+     * @param newPassword      新密码
      * @return
      */
-    Map<String, Object> resetPassword(String phoneNumber, String verificationCode);
+    Map<String, Object> resetPassword(String phoneNumber, String verificationCode, String newPassword);
 
     /**
      * 注销员工
@@ -53,7 +55,7 @@ public interface EmployeeService {
      * @param notes 注销原因
      * @return
      */
-    Map<String, Object> disableEmployee(Long id, String notes);
+    Map<String, Object> disableEmployee(Integer id, String notes);
 
     /**
      * 设置员工需协作部门
@@ -62,6 +64,13 @@ public interface EmployeeService {
      * @param deptId 需要协作的部门编号，新增到 employee_dept表中
      * @return
      */
-    Map<String, Object> setDepartmentCooperation(Long id, Long[] deptId);
+    Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId);
 
+    /**
+     * 分页查询
+     *
+     * @param criteriaDto
+     * @return
+     */
+    Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto);
 }

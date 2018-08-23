@@ -2,73 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.DriverMapper" >
   <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Driver" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="vehicle_id" property="vehicleId" jdbcType="BIGINT" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="truck_team_id" property="truckTeamId" jdbcType="INTEGER" />
+    <result column="truck_id" property="truckId" jdbcType="INTEGER" />
     <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
+    <result column="driving_license" property="drivingLicense" jdbcType="INTEGER" />
+    <result column="maindriver" property="maindriver" jdbcType="BIT" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="expiry_driving_license" property="expiryDrivingLicense" jdbcType="VARCHAR" />
+    <result column="driver_status" property="driverStatus" jdbcType="INTEGER" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="create_user" property="createUser" jdbcType="BIGINT" />
-    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="county" property="county" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, vehicle_id, driver_name, login_name, password, phone_number, salt, status, birthday, 
-    create_time, modify_time, create_user, modify_user, notes, city, province, county, 
-    address
+    id, truck_team_id, truck_id, driver_name, identity_card, driving_license, maindriver, 
+    login_name, password, phone_number, salt, expiry_driving_license, driver_status, 
+    birthday, create_time, modify_time, create_user_id, modify_user_id, notes, city, 
+    province, county
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from driver
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-    <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
-      select
-      <include refid="Base_Column_List" />
-      from driver
-      where login_name = #{loginName,jdbcType=VARCHAR}
-    </select>
-  <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
-    select
-    <include refid="Base_Column_List" />
-    from driver
-    where phone_number = #{phoneNubmer,jdbcType=VARCHAR}
-  </select>
-  <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
-    select
-    <include refid="Base_Column_List" />
-    from driver
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from driver
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Driver" >
-    insert into driver (id, vehicle_id, driver_name, 
-      login_name, password, phone_number, 
-      salt, status, birthday, 
-      create_time, modify_time, create_user, 
-      modify_user, notes, city, 
-      province, county, address
-      )
-    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{driverName,jdbcType=VARCHAR}, 
-      #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
-      #{salt,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=BIGINT}, 
-      #{modifyUser,jdbcType=BIGINT}, #{notes,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Driver" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into driver (id, truck_team_id, truck_id, 
+      driver_name, identity_card, driving_license, 
+      maindriver, login_name, password, 
+      phone_number, salt, expiry_driving_license, 
+      driver_status, birthday, create_time, 
+      modify_time, create_user_id, modify_user_id, 
+      notes, city, province, 
+      county)
+    values (#{id,jdbcType=INTEGER}, #{truckTeamId,jdbcType=INTEGER}, #{truckId,jdbcType=INTEGER}, 
+      #{driverName,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR}, #{drivingLicense,jdbcType=INTEGER}, 
+      #{maindriver,jdbcType=BIT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{phoneNumber,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{expiryDrivingLicense,jdbcType=VARCHAR}, 
+      #{driverStatus,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER}, 
+      #{notes,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{county,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Driver" >
     insert into driver
@@ -76,11 +65,23 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="vehicleId != null" >
-        vehicle_id,
+      <if test="truckTeamId != null" >
+        truck_team_id,
+      </if>
+      <if test="truckId != null" >
+        truck_id,
       </if>
       <if test="driverName != null" >
         driver_name,
+      </if>
+      <if test="identityCard != null" >
+        identity_card,
+      </if>
+      <if test="drivingLicense != null" >
+        driving_license,
+      </if>
+      <if test="maindriver != null" >
+        maindriver,
       </if>
       <if test="loginName != null" >
         login_name,
@@ -94,8 +95,11 @@
       <if test="salt != null" >
         salt,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="expiryDrivingLicense != null" >
+        expiry_driving_license,
+      </if>
+      <if test="driverStatus != null" >
+        driver_status,
       </if>
       <if test="birthday != null" >
         birthday,
@@ -106,11 +110,11 @@
       <if test="modifyTime != null" >
         modify_time,
       </if>
-      <if test="createUser != null" >
-        create_user,
+      <if test="createUserId != null" >
+        create_user_id,
       </if>
-      <if test="modifyUser != null" >
-        modify_user,
+      <if test="modifyUserId != null" >
+        modify_user_id,
       </if>
       <if test="notes != null" >
         notes,
@@ -124,19 +128,28 @@
       <if test="county != null" >
         county,
       </if>
-      <if test="address != null" >
-        address,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="vehicleId != null" >
-        #{vehicleId,jdbcType=BIGINT},
+      <if test="truckTeamId != null" >
+        #{truckTeamId,jdbcType=INTEGER},
+      </if>
+      <if test="truckId != null" >
+        #{truckId,jdbcType=INTEGER},
       </if>
       <if test="driverName != null" >
         #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicense != null" >
+        #{drivingLicense,jdbcType=INTEGER},
+      </if>
+      <if test="maindriver != null" >
+        #{maindriver,jdbcType=BIT},
       </if>
       <if test="loginName != null" >
         #{loginName,jdbcType=VARCHAR},
@@ -150,11 +163,14 @@
       <if test="salt != null" >
         #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
+      <if test="expiryDrivingLicense != null" >
+        #{expiryDrivingLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="driverStatus != null" >
+        #{driverStatus,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
-        #{birthday,jdbcType=TIMESTAMP},
+        #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -162,11 +178,11 @@
       <if test="modifyTime != null" >
         #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null" >
-        #{createUser,jdbcType=BIGINT},
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
       </if>
-      <if test="modifyUser != null" >
-        #{modifyUser,jdbcType=BIGINT},
+      <if test="modifyUserId != null" >
+        #{modifyUserId,jdbcType=INTEGER},
       </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
@@ -180,19 +196,28 @@
       <if test="county != null" >
         #{county,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Driver" >
     update driver
     <set >
-      <if test="vehicleId != null" >
-        vehicle_id = #{vehicleId,jdbcType=BIGINT},
+      <if test="truckTeamId != null" >
+        truck_team_id = #{truckTeamId,jdbcType=INTEGER},
+      </if>
+      <if test="truckId != null" >
+        truck_id = #{truckId,jdbcType=INTEGER},
       </if>
       <if test="driverName != null" >
         driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicense != null" >
+        driving_license = #{drivingLicense,jdbcType=INTEGER},
+      </if>
+      <if test="maindriver != null" >
+        maindriver = #{maindriver,jdbcType=BIT},
       </if>
       <if test="loginName != null" >
         login_name = #{loginName,jdbcType=VARCHAR},
@@ -206,11 +231,14 @@
       <if test="salt != null" >
         salt = #{salt,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
+      <if test="expiryDrivingLicense != null" >
+        expiry_driving_license = #{expiryDrivingLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="driverStatus != null" >
+        driver_status = #{driverStatus,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
-        birthday = #{birthday,jdbcType=TIMESTAMP},
+        birthday = #{birthday,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -218,11 +246,11 @@
       <if test="modifyTime != null" >
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createUser != null" >
-        create_user = #{createUser,jdbcType=BIGINT},
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
-      <if test="modifyUser != null" >
-        modify_user = #{modifyUser,jdbcType=BIGINT},
+      <if test="modifyUserId != null" >
+        modify_user_id = #{modifyUserId,jdbcType=INTEGER},
       </if>
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
@@ -236,31 +264,50 @@
       <if test="county != null" >
         county = #{county,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=VARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Driver" >
     update driver
-    set vehicle_id = #{vehicleId,jdbcType=BIGINT},
+    set truck_team_id = #{truckTeamId,jdbcType=INTEGER},
+      truck_id = #{truckId,jdbcType=INTEGER},
       driver_name = #{driverName,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      driving_license = #{drivingLicense,jdbcType=INTEGER},
+      maindriver = #{maindriver,jdbcType=BIT},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
+      expiry_driving_license = #{expiryDrivingLicense,jdbcType=VARCHAR},
+      driver_status = #{driverStatus,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=BIGINT},
-      modify_user = #{modifyUser,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      modify_user_id = #{modifyUserId,jdbcType=INTEGER},
       notes = #{notes,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
-      county = #{county,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+      county = #{county,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from driver
+    where login_name = #{loginName,jdbcType=VARCHAR}
+  </select>
+  <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from driver
+    where phone_number = #{phoneNubmer,jdbcType=VARCHAR}
+  </select>
+  <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from driver
+    where id = #{id,jdbcType=BIGINT}
+  </select>
 </mapper>
