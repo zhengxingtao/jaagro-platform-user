@@ -25,19 +25,19 @@
     email, phone_number, user_status, create_user_id, modify_user_id, create_time, modify_time, 
     enabled
   </sql>
-  <select id="getByULoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getByULoginName" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from customer_user
     where login_name = #{loginName,jdbcType=VARCHAR}
   </select>
-  <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from customer_user
     where phone_number = #{phoneNumber,jdbcType=VARCHAR}
   </select>
-  <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from customer_user

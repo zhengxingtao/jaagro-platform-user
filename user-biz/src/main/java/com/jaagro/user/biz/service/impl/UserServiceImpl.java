@@ -1,7 +1,7 @@
 package com.jaagro.user.biz.service.impl;
 
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
-import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapper;

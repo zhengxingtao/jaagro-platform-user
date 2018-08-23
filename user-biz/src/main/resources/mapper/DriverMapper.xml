@@ -292,19 +292,19 @@
       county = #{county,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getByLoginName" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from driver
     where login_name = #{loginName,jdbcType=VARCHAR}
   </select>
-  <select id="getByPhoneNumber" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from driver
     where phone_number = #{phoneNubmer,jdbcType=VARCHAR}
   </select>
-  <select id="getUserInfoById" resultType="com.jaagro.user.api.dto.response.UserInfo">
+  <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
     from driver

@@ -25,11 +25,6 @@
             <artifactId>user-api</artifactId>
             <version>${api.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.jaagro</groupId>
-            <artifactId>platform-common</artifactId>
-            <version>1.0.1</version>
-        </dependency>
         <!-- 整合redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

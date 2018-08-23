@@ -1,6 +1,6 @@
 package com.jaagro.user.biz.mapper;
 
-import com.jaagro.user.api.dto.response.UserInfo;
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.biz.entity.CustomerUser;
 
 public interface CustomerUserMapper {

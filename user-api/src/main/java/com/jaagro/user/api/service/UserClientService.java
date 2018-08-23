@@ -1,6 +1,6 @@
 package com.jaagro.user.api.service;
 
-import com.jaagro.user.api.dto.response.UserInfo;
+import com.jaagro.constant.UserInfo;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

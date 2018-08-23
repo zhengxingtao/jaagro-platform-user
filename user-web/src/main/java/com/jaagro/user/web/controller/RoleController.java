@@ -6,13 +6,13 @@ import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
 import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import utils.BaseResponse;
 
 import java.util.Map;
 

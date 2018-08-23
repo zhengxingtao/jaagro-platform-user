@@ -9,13 +9,12 @@ import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
-import com.jaagro.user.biz.mapper.UserMapper;
+import com.jaagro.utils.ResponseStatusCode;
+import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import utils.ResponseStatusCode;
-import utils.ServiceResult;
 
 import java.util.Date;
 import java.util.List;
@@ -26,9 +25,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentMapper departmentMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     /**
      * 创建部门

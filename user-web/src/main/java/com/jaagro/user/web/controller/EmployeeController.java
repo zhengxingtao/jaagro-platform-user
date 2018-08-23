@@ -1,7 +1,7 @@
 package com.jaagro.user.web.controller;
 
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.*;
-import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
@@ -9,13 +9,13 @@ import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
 import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import utils.BaseResponse;
 
 import java.util.List;
 

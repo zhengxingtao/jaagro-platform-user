@@ -8,12 +8,10 @@ import com.jaagro.user.biz.entity.Role;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
 import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import utils.BaseResponse;
-import utils.ServiceResult;
 
 import java.util.Date;
 import java.util.List;

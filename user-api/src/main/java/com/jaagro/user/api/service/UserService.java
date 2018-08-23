@@ -1,6 +1,7 @@
 package com.jaagro.user.api.service;
 
-import com.jaagro.user.api.dto.response.UserInfo;
+
+import com.jaagro.constant.UserInfo;
 
 import java.util.Map;
 

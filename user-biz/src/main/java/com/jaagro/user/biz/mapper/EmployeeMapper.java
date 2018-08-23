@@ -1,8 +1,8 @@
 package com.jaagro.user.biz.mapper;
 
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
-import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.biz.entity.Employee;
 
 import java.util.List;
