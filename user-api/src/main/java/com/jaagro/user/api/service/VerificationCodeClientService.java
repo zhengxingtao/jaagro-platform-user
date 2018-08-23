@@ -17,6 +17,6 @@ public interface VerificationCodeClientService {
      * @return
      */
     @PostMapping("/existMessage")
-    boolean existMessage(@RequestParam String phoneNumber,
-                         @RequestParam String verificationCode);
+    boolean existMessage(@RequestParam("phoneNumber") String phoneNumber,
+                         @RequestParam("verificationCode") String verificationCode);
 }
