@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.request;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author liqiangping
+ * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class Role implements Serializable {
+public class UpdateRoleDto implements Serializable {
     /**
      * 角色表主键
      */
@@ -28,28 +28,7 @@ public class Role implements Serializable {
     private String notes;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 创建人
-     */
-    private Integer createUserId;
-
-    /**
-     * 修改时间
-     */
-    private Date modifyTime;
-
-    /**
-     * 修改人
-     */
-    private Integer modifyUserId;
-
-    /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
-
 }

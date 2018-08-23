@@ -3,15 +3,12 @@ package com.jaagro.user.api.dto.request;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * @author liqiangping
+ * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class ListDepartmentCriteriaDto implements Serializable {
+public class ListEmpCriteriaDto {
 
     /**
      * 起始页
@@ -25,18 +22,29 @@ public class ListDepartmentCriteriaDto implements Serializable {
     private Integer pageSize;
 
     /**
-     * 关键字
+     * 员工姓名
      */
-    private String keywords;
+    private String employeeName;
 
     /**
-     * 开始日期
+     * 电话
      */
-    private Date startDate;
+    private String phoneNumber;
 
     /**
-     * 结束日期
+     * 邮箱
      */
-    private Date endDate;
+    private String email;
+
+    /**
+     * 性别
+     */
+    private Boolean gender;
+
+    /**
+     * 部门id
+     */
+    private Long departmentId;
+
 
 }

@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,25 +7,25 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author liqiangping
+ * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class Role implements Serializable {
+public class ReturnPermissionDto implements Serializable {
     /**
-     * 角色表主键
+     * 权限表
      */
-    private Integer id;
+    private Long id;
 
     /**
-     * 角色名(管理员)
+     * 权限编号
      */
-    private String name;
+    private String accessNumber;
 
     /**
-     * 描述
+     * 权限说明
      */
-    private String notes;
+    private String accessIllustrate;
 
     /**
      * 创建时间
@@ -35,7 +35,7 @@ public class Role implements Serializable {
     /**
      * 创建人
      */
-    private Integer createUserId;
+    private Long createUser;
 
     /**
      * 修改时间
@@ -45,11 +45,10 @@ public class Role implements Serializable {
     /**
      * 修改人
      */
-    private Integer modifyUserId;
+    private Long modifyUser;
 
     /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
-
 }

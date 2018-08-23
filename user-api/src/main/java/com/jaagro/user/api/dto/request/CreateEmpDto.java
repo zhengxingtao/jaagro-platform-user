@@ -18,6 +18,11 @@ public class CreateEmpDto implements Serializable {
     private String employeeName;
 
     /**
+     * 所属部门ID
+     */
+    private Integer departmentId;
+
+    /**
      * 登录账号
      */
     private String loginName;
@@ -30,7 +35,7 @@ public class CreateEmpDto implements Serializable {
     /**
      * 手机号码
      */
-    private String phoneNumber;
+    private String phone;
 
     /**
      * 邮箱
@@ -45,12 +50,7 @@ public class CreateEmpDto implements Serializable {
     /**
      * 生日
      */
-    private Date birthday;
-
-    /**
-     * 性别
-     */
-    private Boolean gender;
+    private String birthday;
 
     /**
      * 备注
@@ -58,8 +58,8 @@ public class CreateEmpDto implements Serializable {
     private String notes;
 
     /**
-     * 关联部门ID(references department)
+     * 性别
      */
-    private Long departmentId;
+    private Integer gender;
 
 }

@@ -1,17 +1,18 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @author liqiangping
+ * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class Role implements Serializable {
+public class ReturnRoleDto implements Serializable {
     /**
      * 角色表主键
      */
@@ -51,5 +52,10 @@ public class Role implements Serializable {
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
+
+    /**
+     * 权限说明列表
+     */
+    private List<ReturnPermissionDto> permissionDtoList;
 
 }

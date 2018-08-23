@@ -15,12 +15,17 @@ public class ReturnEmpDto implements Serializable {
     /**
      * 员工表自增
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 员工姓名
      */
     private String employeeName;
+
+    /**
+     * 所属部门ID
+     */
+    private Integer departmentId;
 
     /**
      * 登录账号
@@ -35,7 +40,7 @@ public class ReturnEmpDto implements Serializable {
     /**
      * 手机号码
      */
-    private String phoneNumber;
+    private String phone;
 
     /**
      * 密码加盐
@@ -48,11 +53,6 @@ public class ReturnEmpDto implements Serializable {
     private String email;
 
     /**
-     * 账号状态(0;注销 1；正常)
-     */
-    private Boolean status;
-
-    /**
      * 头像地址
      */
     private String avatar;
@@ -60,12 +60,22 @@ public class ReturnEmpDto implements Serializable {
     /**
      * 生日
      */
-    private Date birthday;
+    private String birthday;
+
+    /**
+     * 备注
+     */
+    private String notes;
 
     /**
      * 性别
      */
-    private Boolean gender;
+    private Integer gender;
+
+    /**
+     * 账号状态(2;注销 1；正常)
+     */
+    private Boolean enabled;
 
     /**
      * 创建日期
@@ -80,20 +90,10 @@ public class ReturnEmpDto implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改人
      */
-    private Long modifyUser;
-
-    /**
-     * 备注
-     */
-    private String notes;
-
-    /**
-     * 关联部门ID(references department)
-     */
-    private Long departmentId;
+    private Integer modifyUserId;
 }

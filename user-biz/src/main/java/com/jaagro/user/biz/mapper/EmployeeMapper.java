@@ -1,37 +1,46 @@
 package com.jaagro.user.biz.mapper;
 
+import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.dto.response.UserInfo;
 import com.jaagro.user.biz.entity.Employee;
 
+import java.util.List;
+
 public interface EmployeeMapper {
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int insert(Employee record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int insertSelective(Employee record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     Employee selectByPrimaryKey(Integer id);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(Employee record);
 
     /**
-     * @mbggenerated 2018-08-18
+     *
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(Employee record);
 
@@ -67,5 +76,11 @@ public interface EmployeeMapper {
      */
     Employee getByUpdateDto(UpdateEmpDto empDto);
 
-
+    /**
+     * 分页查询
+     *
+     * @param criteriaDto
+     * @return
+     */
+    List<Employee> listByCriteria(ListEmpCriteriaDto criteriaDto);
 }

@@ -13,29 +13,19 @@ import java.util.Date;
 @Accessors(chain = true)
 public class CreateDepartmentDto implements Serializable {
     /**
-     * 部门表主键(网点表)
+     * 部门表主键
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 部门名称
      */
-    private String departmentName;
-
-    /**
-     * 0-不是，1-是网点
-     */
-    private Boolean netpoint;
+    private String name;
 
     /**
      * 上级部门id
      */
-    private Integer parentId;
-
-    /**
-     * 部门主管ID
-     */
-    private Integer leaderEmployeeId;
+    private Long parentId;
 
     /**
      * 创建时间
@@ -45,7 +35,7 @@ public class CreateDepartmentDto implements Serializable {
     /**
      * 创建人
      */
-    private Integer createUserId;
+    private Long createUser;
 
     /**
      * 修改时间
@@ -55,7 +45,7 @@ public class CreateDepartmentDto implements Serializable {
     /**
      * 修改人
      */
-    private Integer modifyUserId;
+    private Long modifyUser;
 
     /**
      * 是否可用(0 不可用 1 可用)
@@ -63,8 +53,13 @@ public class CreateDepartmentDto implements Serializable {
     private Boolean enabled;
 
     /**
-     * 排序(越小越靠前)
+     * 排序
      */
     private Integer sort;
+
+    /**
+     * 关联部门主管ID
+     */
+    private Long departmentManagerId;
 
 }
