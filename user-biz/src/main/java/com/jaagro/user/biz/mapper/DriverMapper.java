@@ -6,40 +6,39 @@ import com.jaagro.user.biz.entity.Driver;
 public interface DriverMapper {
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int insert(Driver record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int insertSelective(Driver record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
-    Driver selectByPrimaryKey(Long id);
+    Driver selectByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(Driver record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(Driver record);
-
     /**
      * 通过登录名获取司机
      * @param loginName

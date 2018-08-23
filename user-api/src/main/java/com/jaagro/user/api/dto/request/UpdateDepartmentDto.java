@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.request;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,12 +6,12 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
+/**修改部门
  * @author liqiangping
  */
 @Data
 @Accessors(chain = true)
-public class Department implements Serializable {
+public class UpdateDepartmentDto implements Serializable {
     /**
      * 部门表主键(网点表)
      */
@@ -66,5 +66,4 @@ public class Department implements Serializable {
      * 排序(越小越靠前)
      */
     private Integer sort;
-
 }

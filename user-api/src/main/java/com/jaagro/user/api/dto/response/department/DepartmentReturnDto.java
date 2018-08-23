@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.response.department;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,31 +11,21 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class Department implements Serializable {
+public class DepartmentReturnDto implements Serializable {
     /**
-     * 部门表主键(网点表)
+     * 部门表主键(网点表 是否可以就叫部门表。。。)
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 部门名称
      */
-    private String departmentName;
-
-    /**
-     * 0-不是，1-是网点
-     */
-    private Boolean netpoint;
+    private String name;
 
     /**
      * 上级部门id
      */
-    private Integer parentId;
-
-    /**
-     * 部门主管ID
-     */
-    private Integer leaderEmployeeId;
+    private Long parentId;
 
     /**
      * 创建时间
@@ -45,7 +35,7 @@ public class Department implements Serializable {
     /**
      * 创建人
      */
-    private Integer createUserId;
+    private Long createUser;
 
     /**
      * 修改时间
@@ -55,7 +45,7 @@ public class Department implements Serializable {
     /**
      * 修改人
      */
-    private Integer modifyUserId;
+    private Long modifyUser;
 
     /**
      * 是否可用(0 不可用 1 可用)
@@ -63,8 +53,13 @@ public class Department implements Serializable {
     private Boolean enabled;
 
     /**
-     * 排序(越小越靠前)
+     * 排序
      */
     private Integer sort;
+
+    /**
+     * 关联部门主管ID
+     */
+    private Long departmentManagerId;
 
 }

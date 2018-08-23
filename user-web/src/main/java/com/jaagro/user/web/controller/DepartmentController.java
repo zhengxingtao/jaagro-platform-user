@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @author Administrator
- */
+        */
 @RestController
 @Api(value = "department", description = "部门管理", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DepartmentController {
@@ -36,16 +36,16 @@ public class DepartmentController {
     @PutMapping("/department")
     public BaseResponse updateDepartment(@RequestBody UpdateDepartmentDto department){
         if(departmentMapper.selectByPrimaryKey(department.getId()) == null){
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门");
         }
         return BaseResponse.service(departmentService.updateById(department));
     }
 
     @ApiOperation("查询单个部门")
     @GetMapping("/customer/{id}")
-    public BaseResponse getById(@PathVariable Long id) {
+    public BaseResponse getById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门ID");
         }
         Map<String, Object> result = departmentService.getById(id);
         return BaseResponse.service(result);
@@ -53,7 +53,7 @@ public class DepartmentController {
 
     @ApiOperation("删除部门[逻辑]")
     @DeleteMapping("/deleteById/{id}")
-    public BaseResponse deleteById(@PathVariable Long id) {
+    public BaseResponse deleteById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");
         }
