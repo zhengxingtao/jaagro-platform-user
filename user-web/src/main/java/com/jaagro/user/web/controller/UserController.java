@@ -19,8 +19,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 提供给feign调用
+     * @param key
+     * @param userType
+     * @param loginType
+     * @return
+     */
     @GetMapping("/getUserInfo")
-    public UserInfo getUserInfo(@RequestParam Object key, @RequestParam("userType") String userType, @RequestParam("loginType") String loginType){
+    public UserInfo getUserInfo(@RequestParam("key") Object key, @RequestParam("userType") String userType, @RequestParam("loginType") String loginType){
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("loginType", loginType);
         map.put("key", key);
