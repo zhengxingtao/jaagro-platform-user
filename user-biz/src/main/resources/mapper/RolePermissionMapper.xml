@@ -135,11 +135,15 @@
       modify_user_id = #{modifyUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <update id="deleteByRoleId" parameterType="java.lang.Integer">
+    <update id="disableByRoleId" parameterType="java.lang.Integer">
     update role_permission
     set enabled = 0
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        delete from role_permission
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
     <select id="listByRoleId" resultMap="ReturnMap" parameterType="java.lang.Integer">
         SELECT
         p.id,

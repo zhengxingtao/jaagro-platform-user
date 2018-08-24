@@ -27,6 +27,6 @@ public class CreateRoleDto implements Serializable {
     /**
      * 角色权限
      */
-    List<CreateRolePermissionDto> permissionDtos;
+    Integer[] permissionDtos;
 
 }

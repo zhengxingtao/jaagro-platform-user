@@ -31,4 +31,9 @@ public class UpdateRoleDto implements Serializable {
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
+
+    /**
+     * 角色权限
+     */
+    private Integer[] rolePermissions;
 }

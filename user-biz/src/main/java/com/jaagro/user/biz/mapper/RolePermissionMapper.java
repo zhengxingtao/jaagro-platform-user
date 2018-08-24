@@ -7,37 +7,31 @@ import java.util.List;
 
 public interface RolePermissionMapper {
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int insert(RolePermission record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int insertSelective(RolePermission record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     RolePermission selectByPrimaryKey(Integer id);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(RolePermission record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(RolePermission record);
@@ -51,11 +45,18 @@ public interface RolePermissionMapper {
     List<ReturnPermissionDto> listByRoleId(Integer roleId);
 
     /**
+     * 根据角色逻辑删除
+     *
+     * @param roleId
+     * @return
+     */
+    int disableByRoleId(Integer roleId);
+
+    /**
      * 根据角色删除
      *
      * @param roleId
      * @return
      */
     int deleteByRoleId(Integer roleId);
-
 }

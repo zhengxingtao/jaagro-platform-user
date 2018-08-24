@@ -193,8 +193,6 @@ public class EmployeeController {
         return BaseResponse.successInstance("员工协作部门创建成功");
     }
 
-    //---------------------------员工角色-------------------------
-
     /**
      * 分页查询
      *
@@ -206,6 +204,8 @@ public class EmployeeController {
     public BaseResponse listEmpByCriteria(@RequestBody ListEmpCriteriaDto criteriaDto) {
         return BaseResponse.service(this.employeeService.listByCriteria(criteriaDto));
     }
+
+    //---------------------------员工角色-------------------------
 
     /**
      * 新增员工角色
@@ -249,5 +249,6 @@ public class EmployeeController {
         }
         return BaseResponse.errorInstance("传入参数有误");
     }
+
 
 }
