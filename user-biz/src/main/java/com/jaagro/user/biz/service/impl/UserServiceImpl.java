@@ -49,45 +49,37 @@ public class UserServiceImpl implements UserService {
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
         if(UserType.CUSTOMER.equals(userTypeTrim)){
+
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = customerUserMapper.getByULoginName(key);
+                userInfo = customerUserMapper.getByULoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = customerUserMapper.getByPhoneNumber(key);
+                userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Integer key = (Integer) map.get(KEY);
-                userInfo = customerUserMapper.getUserInfoById(key);
+                userInfo = customerUserMapper.getUserInfoById(parseKey(map));
             }
         }
         if(UserType.EMPLOYEE.equals(userTypeTrim)){
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = employeeMapper.getByLoginName(key);
+                userInfo = employeeMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = employeeMapper.getByPhoneNumber(key);
+                userInfo = employeeMapper.getByPhoneNumber(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Integer key = (Integer) map.get(KEY);
-                userInfo = employeeMapper.getUserInfoById(key);
+                userInfo = employeeMapper.getUserInfoById(parseKey(map));
             }
         }
         if(UserType.DRIVER.equals(userTypeTrim)){
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = driverMapper.getByLoginName(key);
+                userInfo = driverMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = driverMapper.getByPhoneNumber(key);
+                userInfo = driverMapper.getByPhoneNumber(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Integer key = (Integer) map.get(KEY);
-                userInfo = driverMapper.getUserInfoById(key);
+                userInfo = driverMapper.getUserInfoById(parseKey(map));
             }
         }
 
@@ -100,10 +92,17 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    private <T> T parseKey(Map<String, Object> map){
+        if(ID.equals(map.get(LOGIN_TYPE).toString())) {
+             return (T) new Integer(map.get(KEY).toString());
+        }else {
+            return (T) map.get(KEY).toString();
+        }
+    }
+
     @Override
     public UserInfo getCurrentUser(){
         String token = request.getHeader("token");
-        System.out.println(token);
         return userClientService.getUserByToken(token);
     }
 }
