@@ -285,4 +285,10 @@
         from employee
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="getById" resultMap="Re">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where id = #{id,jdbcType=INTEGER}
+    </select>
 </mapper>

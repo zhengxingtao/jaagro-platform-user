@@ -150,6 +150,14 @@ public class EmployeeController {
         return BaseResponse.successInstance("员工修改成功");
     }
 
+    /**
+     * 重置密码
+     *
+     * @param phoneNumber
+     * @param verificationCode
+     * @param newPassword
+     * @return
+     */
     @ApiOperation("重置密码")
     @PostMapping("/resetPassword")
     public BaseResponse resetPassword(@RequestParam(value = "phoneNumber") String phoneNumber,
@@ -191,6 +199,21 @@ public class EmployeeController {
         }
         this.employeeService.setDepartmentCooperation(id, departmentIds);
         return BaseResponse.successInstance("员工协作部门创建成功");
+    }
+
+    /**
+     * 单个查询
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("查询单个员工")
+    @PostMapping("/getEmpById/{id}")
+    public BaseResponse getEmp(@PathVariable Integer id) {
+        if (this.employeeMapper.selectByPrimaryKey(id) == null) {
+            return BaseResponse.errorInstance("员工不存在");
+        }
+        return BaseResponse.service(this.employeeMapper.getById(id));
     }
 
     /**
