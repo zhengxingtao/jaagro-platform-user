@@ -3,11 +3,13 @@ package com.jaagro.user.biz.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
+import com.jaagro.user.api.dto.request.CreateRolePermissionDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Role;
+import com.jaagro.user.biz.entity.RolePermission;
 import com.jaagro.user.biz.mapper.RoleMapper;
 import com.jaagro.user.biz.mapper.RolePermissionMapper;
 import com.jaagro.utils.ServiceResult;
@@ -31,6 +33,8 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
     @Autowired
     private RolePermissionMapper permissionMapper;
+    @Autowired
+    private RolePermissionMapper rolePermissionMapper;
 
     /**
      * 新增
@@ -40,6 +44,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public Map<String, Object> createRole(CreateRoleDto dto) {
+        //新增角色
         Role role = new Role();
         BeanUtils.copyProperties(dto, role);
         role
@@ -47,7 +52,19 @@ public class RoleServiceImpl implements RoleService {
                 .setCreateTime(new Date())
                 .setCreateUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.insert(role);
-        return ServiceResult.toResult("创建成功");
+        Integer[] permissionDtos = dto.getPermissionDtos();
+        //新增角色权限
+        for (int i = 0; i < permissionDtos.length; i++) {
+            RolePermission rolePermission = new RolePermission();
+            rolePermission
+                    .setRoleId(role.getId())
+                    .setPermissionId(permissionDtos[i])
+                    .setCreateTime(new Date())
+                    .setCreateUserId(this.userService.getCurrentUser().getId())
+                    .setEnabled(true);
+            this.rolePermissionMapper.insert(rolePermission);
+        }
+        return ServiceResult.toResult(this.getById(role.getId()));
     }
 
     /**
@@ -64,7 +81,21 @@ public class RoleServiceImpl implements RoleService {
                 .setModifyTime(new Date())
                 .setModifyUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.updateByPrimaryKeySelective(role);
-        return ServiceResult.toResult("修改成功");
+
+        if (dto.getRolePermissions().length > 0) {
+            this.rolePermissionMapper.deleteByRoleId(dto.getId());
+        }
+        for (int i = 0; i < dto.getRolePermissions().length; i++) {
+            RolePermission rolePermission = new RolePermission();
+            rolePermission
+                    .setRoleId(role.getId())
+                    .setPermissionId(dto.getRolePermissions()[i])
+                    .setCreateTime(new Date())
+                    .setCreateUserId(this.userService.getCurrentUser().getId())
+                    .setEnabled(true);
+            this.rolePermissionMapper.insert(rolePermission);
+        }
+        return ServiceResult.toResult(this.getById(role.getId()));
     }
 
     /**

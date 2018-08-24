@@ -40,7 +40,7 @@ public class RolePermission implements Serializable {
     /**
      * 创建人
      */
-    private Long createUserId;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -50,5 +50,5 @@ public class RolePermission implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUserId;
+    private Integer modifyUserId;
 }

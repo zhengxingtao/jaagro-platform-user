@@ -6,6 +6,7 @@ import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.biz.entity.Employee;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeMapper {
     /**
@@ -83,4 +84,11 @@ public interface EmployeeMapper {
      * @return
      */
     List<Employee> listByCriteria(ListEmpCriteriaDto criteriaDto);
+
+    /**
+     * 根据id查询单个
+     * @param id
+     * @return
+     */
+    Map<String, Object> getById(Integer id);
 }

@@ -73,4 +73,5 @@ public interface EmployeeService {
      * @return
      */
     Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto);
+
 }
