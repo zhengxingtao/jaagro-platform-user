@@ -26,7 +26,8 @@
     delete from permission
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Permission">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Permission" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
     insert into permission (id, permission_number, permission_name,
       notes, enabled, create_time,
       create_user_id, modify_time, modify_user_id
@@ -36,7 +37,8 @@
       #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Permission">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Permission" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
         insert into permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

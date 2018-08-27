@@ -41,7 +41,8 @@
     delete from department
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department">
+  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true" keyProperty="id"
+          keyColumn="id">
     insert into department (id, department_name, netpoint,
       parent_id, leader_employee_id, create_time,
       create_user_id, modify_time, modify_user_id,
@@ -51,7 +52,8 @@
       #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER},
       #{enabled,jdbcType=BIT}, #{sort,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department">
+  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true" keyProperty="id"
+          keyColumn="id">
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -2,7 +2,6 @@ package com.jaagro.user.web.controller;
 
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
-import com.jaagro.user.api.dto.request.ListRolePsDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
@@ -48,7 +47,6 @@ public class RoleController {
         } else {
             return BaseResponse.successInstance("角色权限需设置");
         }
-
     }
 
     /**
@@ -63,10 +61,29 @@ public class RoleController {
         if (StringUtils.isEmpty(dto.getId())) {
             return BaseResponse.errorInstance("角色id不能为空");
         }
-        if (roleMapper.getByName(dto.getName()) != null) {
+        if (roleMapper.getByName(dto) != null) {
             return BaseResponse.errorInstance("角色名称已存在");
         }
-        return BaseResponse.service(roleService.updateRole(dto));
+        try {
+            return BaseResponse.service(roleService.updateRole(dto));
+        } catch (Exception e) {
+            return BaseResponse.errorInstance(e.getMessage());
+        }
+    }
+
+    /**
+     * 查询单个角色
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("查询单个角色")
+    @GetMapping("/role/{id}")
+    public BaseResponse getRoleById(@PathVariable Integer id) {
+        if (this.roleMapper.selectByPrimaryKey(id) == null) {
+            return BaseResponse.errorInstance("查询不到对应信息");
+        }
+        return BaseResponse.successInstance(roleMapper.selectByPrimaryKey(id));
     }
 
     /**
@@ -76,13 +93,12 @@ public class RoleController {
      * @return
      */
     @ApiOperation("查询单个角色[含角色权限]")
-    @GetMapping("/role/{id}")
-    public BaseResponse getRoleById(@PathVariable Integer id) {
+    @GetMapping("/roleDetail/{id}")
+    public BaseResponse getRoleDetailById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到对应信息");
         }
-        Map<String, Object> result = roleService.getById(id);
-        return BaseResponse.service(result);
+        return BaseResponse.service(roleService.getRoleDetailById(id));
     }
 
     /**
@@ -116,4 +132,15 @@ public class RoleController {
         return BaseResponse.service(this.roleService.listRole(criteriaDto));
     }
 
+    /**
+     * 分页查询角色权限列表
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("分页查询角色权限")
+    @PostMapping("/listRolePermByCriteria")
+    public BaseResponse listRolePermByCriteria(@RequestBody ListRoleCriteriaDto criteriaDto) {
+        return BaseResponse.service(this.roleService.listRole(criteriaDto));
+    }
 }

@@ -238,11 +238,11 @@
         <include refid="Base_Column_List"/>
         from employee
         where
-        (login_name = #{loginName} or phone_number = #{phoneNumber})
+        (login_name = #{loginName} or phone = #{phone})
         <if test="id != null">
             and id != #{id}
         </if>
-        and status = 1
+        and enabled = 1
     </select>
     <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListEmpCriteriaDto"
             resultMap="BaseResultMap">
@@ -250,22 +250,18 @@
         <include refid="Base_Column_List"/>
         from employee
         where 1=1
-        <if test="employeeName != null">
-            and employee_name = #{employeeName}
-        </if>
-        <if test="phoneNumber != null">
-            and phone_number = #{phoneNumber}
-        </if>
-        <if test="email != null">
-            and email = #{email}
-        </if>
-        <if test="gender != null">
-            and gender = #{gender}
+        <if test="keywords != null">
+            <![CDATA[and (employee_name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
         </if>
         <if test="departmentId != null">
             and department_id = #{departmentId}
         </if>
-        and status = 1
+        <if test="enabled != null">
+            and enabled = #{enabled}
+        </if>
+        <if test="enabled == null">
+            and enabled = 1
+        </if>
     </select>
     <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
         select
@@ -273,11 +269,11 @@
         from employee
         where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
-    <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
+    <select id="getByphone" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Base_Column_List"/>
         from employee
-        where phone_number = #{phoneNumber,jdbcType=VARCHAR}
+        where phone = #{phone,jdbcType=VARCHAR}
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
@@ -290,5 +286,11 @@
         <include refid="Base_Column_List"/>
         from employee
         where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="listByDeptId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from employee
+        where dept_id = #{deptId,jdbcType=INTEGER}
     </select>
 </mapper>

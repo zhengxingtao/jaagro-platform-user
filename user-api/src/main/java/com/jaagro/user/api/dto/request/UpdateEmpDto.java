@@ -13,7 +13,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UpdateEmpDto implements Serializable {
     /**
-     * 员工表自增
+     * 员工表id
      */
     private Integer id;
 
@@ -63,8 +63,7 @@ public class UpdateEmpDto implements Serializable {
     private Integer gender;
 
     /**
-     * 账号状态(2;注销 1；正常)
+     * 员工角色
      */
-    private Boolean enabled;
-
+    private Integer[] roleIds;
 }

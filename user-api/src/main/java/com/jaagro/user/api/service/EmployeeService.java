@@ -46,7 +46,7 @@ public interface EmployeeService {
      * @param newPassword      新密码
      * @return
      */
-    Map<String, Object> resetPassword(String phoneNumber, String verificationCode, String newPassword);
+    Map<String, Object> resetPassword(String phone, String verificationCode, String newPassword);
 
     /**
      * 注销员工

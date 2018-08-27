@@ -23,6 +23,4 @@ public interface EmployeeRoleService {
      * @return
      */
     Map<String, Object> updateEmpRole(List<UpdateEmpRoleDto> dtos);
-
-
 }

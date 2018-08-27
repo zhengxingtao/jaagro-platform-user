@@ -87,7 +87,7 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("删除员工[逻辑]")
-    @DeleteMapping("deleteEmpById/{id}")
+    @DeleteMapping("deleteEmpById/{id}/{notes}")
     public BaseResponse deleteById(@PathVariable Integer id, @PathVariable String notes) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("没有相应的员工数据");
@@ -102,7 +102,7 @@ public class EmployeeController {
      * @param updateEmpDto
      * @return
      */
-    @ApiOperation("修改基本信息")
+    @ApiOperation("修改基本信息[包括员工角色]")
     @PutMapping("/employee")
     public BaseResponse employee(@RequestBody UpdateEmpDto updateEmpDto) {
         if (StringUtils.isEmpty(updateEmpDto.getLoginName())) {
@@ -147,7 +147,7 @@ public class EmployeeController {
         } catch (RuntimeException e) {
             return BaseResponse.errorInstance(e.getMessage());
         }
-        return BaseResponse.successInstance("员工修改成功");
+        return BaseResponse.successInstance("员工修改密码成功");
     }
 
     /**
@@ -160,15 +160,15 @@ public class EmployeeController {
      */
     @ApiOperation("重置密码")
     @PostMapping("/resetPassword")
-    public BaseResponse resetPassword(@RequestParam(value = "phoneNumber") String phoneNumber,
+    public BaseResponse resetPassword(@RequestParam(value = "phone") String phone,
                                       @RequestParam(value = "verificationCode") String verificationCode,
                                       @RequestParam(value = "newPassword") String newPassword) {
-        UserInfo userInfo = this.employeeMapper.getByPhoneNumber(phoneNumber);
+        UserInfo userInfo = this.employeeMapper.getByphone(phone);
         if (userInfo == null) {
-            return BaseResponse.errorInstance("此员工不存在:phoneNumber:" + phoneNumber);
+            return BaseResponse.errorInstance("此员工不存在:phone:" + phone);
         }
         try {
-            this.employeeService.resetPassword(phoneNumber, verificationCode, newPassword);
+            this.employeeService.resetPassword(phone, verificationCode, newPassword);
         } catch (RuntimeException e) {
             return BaseResponse.errorInstance(e.getMessage());
         }
@@ -204,16 +204,31 @@ public class EmployeeController {
     /**
      * 单个查询
      *
-     * @param criteriaDto
+     * @param id
      * @return
      */
     @ApiOperation("查询单个员工")
-    @PostMapping("/getEmpById/{id}")
+    @GetMapping("/getEmpById/{id}")
     public BaseResponse getEmp(@PathVariable Integer id) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("员工不存在");
         }
-        return BaseResponse.service(this.employeeMapper.getById(id));
+        return BaseResponse.successInstance(this.employeeMapper.selectByPrimaryKey(id));
+    }
+
+    /**
+     * 根据部门id查询员工列表
+     *
+     * @param
+     * @return
+     */
+    @ApiOperation("根据部门id查询员工列表")
+    @GetMapping("/getEmpByDeptId/{deptId}")
+    public BaseResponse getEmpByDeptId(@PathVariable Integer deptId) {
+        if (this.departmentMapper.selectByPrimaryKey(deptId) == null) {
+            return BaseResponse.errorInstance("部门不存在");
+        }
+        return BaseResponse.successInstance(this.employeeMapper.listByDeptId(deptId));
     }
 
     /**
@@ -227,51 +242,5 @@ public class EmployeeController {
     public BaseResponse listEmpByCriteria(@RequestBody ListEmpCriteriaDto criteriaDto) {
         return BaseResponse.service(this.employeeService.listByCriteria(criteriaDto));
     }
-
-    //---------------------------员工角色-------------------------
-
-    /**
-     * 新增员工角色
-     *
-     * @param roleIds
-     * @param empId
-     * @return
-     */
-    @ApiOperation("新增员工角色")
-    @PostMapping("/employeeRole")
-    public BaseResponse employee(@RequestParam(value = "roleIds") Integer[] roleIds, @RequestParam(value = "empId") Integer empId) {
-        if (this.employeeMapper.selectByPrimaryKey(empId) == null) {
-            return BaseResponse.errorInstance("员工[" + empId + "]不存在");
-        }
-        if (roleIds != null && roleIds.length > 0) {
-            this.employeeRoleService.createEmp(roleIds, empId);
-        }
-        return BaseResponse.successInstance("员工角色创建成功");
-    }
-
-    /**
-     * 修改员工角色
-     *
-     * @param dtos
-     * @return
-     */
-    @ApiOperation("修改员工角色")
-    @PutMapping("/employeeRole")
-    public BaseResponse employeeRole(@RequestBody List<UpdateEmpRoleDto> dtos) {
-        if (dtos != null && dtos.size() > 0) {
-            for (UpdateEmpRoleDto dto : dtos) {
-                if (this.employeeMapper.selectByPrimaryKey(dto.getEmployeeId()) == null) {
-                    return BaseResponse.errorInstance("员工[" + dto.getEmployeeId() + "]不存在");
-                }
-                if (this.roleMapper.selectByPrimaryKey(dto.getRoleId()) == null) {
-                    return BaseResponse.errorInstance("角色[" + dto.getRoleId() + "]不存在");
-                }
-            }
-            this.employeeRoleService.updateEmpRole(dtos);
-            return BaseResponse.successInstance("员工角色创建成功");
-        }
-        return BaseResponse.errorInstance("传入参数有误");
-    }
-
 
 }
