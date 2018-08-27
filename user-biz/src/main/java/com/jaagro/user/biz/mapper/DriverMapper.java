@@ -1,7 +1,10 @@
 package com.jaagro.user.biz.mapper;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.biz.entity.Driver;
+
+import java.util.List;
 
 public interface DriverMapper {
     /**
@@ -59,4 +62,11 @@ public interface DriverMapper {
      * @return
      */
     UserInfo getUserInfoById(Integer id);
+
+    /**
+     * 通过车辆id获取司机list
+     * @param truckId
+     * @return
+     */
+    List<DriverReturnDto> listDriverByTruckId(Integer truckId);
 }

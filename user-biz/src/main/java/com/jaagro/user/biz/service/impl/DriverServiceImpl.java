@@ -3,6 +3,7 @@ package com.jaagro.user.biz.service.impl;
 import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
+import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.DriverService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,10 +39,25 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> createDriver(CreateDriverDto driver) {
+        return ServiceResult.toResult(createDriverToFeign(driver));
+    }
+
+    /**
+     * 提供给feign
+     *
+     * @param driver
+     * @return
+     */
+    @Override
+    public Integer createDriverToFeign(CreateDriverDto driver) {
+        if(driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null){
+            throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
+        }
         Driver dataDriver = new Driver();
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver.setCreateUserId(userService.getCurrentUser().getId());
-        return ServiceResult.toResult(driverMapper.insert(dataDriver));
+        driverMapper.insertSelective(dataDriver);
+        return dataDriver.getId();
     }
 
     /**
@@ -86,5 +103,16 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Map<String, Object> disableDriver(Integer id, String notes) {
         return null;
+    }
+
+    /**
+     * 通过车辆获取司机
+     *
+     * @param truckId
+     * @return
+     */
+    @Override
+    public List<DriverReturnDto> listByTruckId(Integer truckId) {
+        return driverMapper.listDriverByTruckId(truckId);
     }
 }

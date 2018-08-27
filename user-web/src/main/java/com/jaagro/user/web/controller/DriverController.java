@@ -1,14 +1,14 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.user.api.dto.request.CreateDriverDto;
+import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.DriverService;
-import com.jaagro.user.api.service.TruckClientService;
-import com.jaagro.user.biz.mapper.DriverMapper;
 import com.jaagro.utils.BaseResponse;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author tony
@@ -18,22 +18,33 @@ public class DriverController {
 
     @Autowired
     private DriverService driverService;
-    @Autowired
-    private DriverMapper driverMapper;
-    @Autowired
-    private TruckClientService truckClientService;
 
     @PostMapping("/driver")
     public BaseResponse createDriver(@RequestBody CreateDriverDto driver){
-        if(driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null){
-            throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
+
+        BaseResponse result;
+        try {
+            result = BaseResponse.service(driverService.createDriver(driver));
+        }catch (Exception e) {
+            throw e;
         }
-        if(truckClientService.getTruckById(driver.getTruckId()).getData() == null){
-            throw new RuntimeException(driver.getTruckId() + ": 车辆不存在");
+        return result;
+    }
+
+    @GetMapping("/listDriverByTruckId/{truckId}")
+    public List<DriverReturnDto> listByTruckId(@PathVariable("truckId") Integer truckId){
+        return driverService.listByTruckId(truckId);
+    }
+
+    @Ignore
+    @PostMapping("/driverFeign")
+    public Integer createDriverToFeign(@RequestBody CreateDriverDto driver){
+        Integer result;
+        try {
+            result = driverService.createDriverToFeign(driver);
+        }catch (Exception e) {
+            throw e;
         }
-        if(truckClientService.getTruckTeamById(driver.getTruckTeamId()).getData() == null){
-            throw new RuntimeException(driver.getTruckTeamId() + ": 车队不存在");
-        }
-        return BaseResponse.service(driverService.createDriver(driver));
+        return result;
     }
 }

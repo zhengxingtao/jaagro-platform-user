@@ -310,4 +310,10 @@
     from driver
     where id = #{id,jdbcType=BIGINT}
   </select>
+    <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+      select
+      <include refid="Base_Column_List" />
+      from driver
+      where truck_id = #{truckId,jdbcType=BIGINT}
+    </select>
 </mapper>

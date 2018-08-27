@@ -3,8 +3,10 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
+import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.oracle.tools.packager.mac.MacAppBundler;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +20,13 @@ public interface DriverService {
      * @return
      */
     Map<String,Object> createDriver(CreateDriverDto driver);
+
+    /**
+     * 提供给feign
+     * @param driver
+     * @return
+     */
+    Integer createDriverToFeign(CreateDriverDto driver);
 
     /**
      * 修改司机
@@ -47,5 +56,12 @@ public interface DriverService {
      * @return
      */
     Map<String, Object> disableDriver(Integer id, String notes);
+
+    /**
+     * 通过车辆获取司机
+     * @param truckId
+     * @return
+     */
+    List<DriverReturnDto> listByTruckId(Integer truckId);
 
 }
