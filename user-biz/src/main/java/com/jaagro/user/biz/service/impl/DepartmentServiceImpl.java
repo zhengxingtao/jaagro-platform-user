@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department
                 .setCreateTime(new Date())
                 .setEnabled(true);
-        departmentMapper.insert(department);
+        departmentMapper.insertSelective(department);
         return ServiceResult.toResult("部门创建成功");
     }
 

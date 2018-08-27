@@ -39,7 +39,7 @@ public interface RoleService {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Integer id);
+    Map<String, Object> getRoleDetailById(Integer id);
 
     /**
      * 分页查询角色

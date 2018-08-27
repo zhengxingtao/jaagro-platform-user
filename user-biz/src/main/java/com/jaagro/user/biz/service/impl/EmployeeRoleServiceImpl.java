@@ -54,9 +54,9 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
                     .setEmployeeId(employeeId)
                     .setRoleId(rid)
                     .setEnabled(true);
-            this.employeeRoleMapper.insert(employeeRole);
+            this.employeeRoleMapper.insertSelective(employeeRole);
         }
-        return ServiceResult.toResult("创建成功");
+        return ServiceResult.toResult("员工创建成功");
     }
 
     /**
@@ -81,10 +81,9 @@ public class EmployeeRoleServiceImpl implements EmployeeRoleService {
             }
             employeeRole
                     .setCreateUserId(userService.getCurrentUser().getId())
-                    .setCreateTime(new Date())
                     .setModifyTime(new Date())
                     .setModifyUserId(userService.getCurrentUser().getId());
-            this.employeeRoleMapper.insert(employeeRole);
+            this.employeeRoleMapper.insertSelective(employeeRole);
         }
         return ServiceResult.error("修改失败");
     }

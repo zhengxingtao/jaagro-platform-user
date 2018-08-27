@@ -6,14 +6,16 @@ import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.api.service.VerificationCodeClientService;
 import com.jaagro.user.biz.entity.BusinessSupport;
 import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.mapper.BusinessSupportMapper;
-import com.jaagro.user.biz.mapper.DepartmentMapper;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
+import com.jaagro.user.biz.entity.EmployeeRole;
+import com.jaagro.user.biz.entity.Role;
+import com.jaagro.user.biz.mapper.*;
+import com.jaagro.utils.MD5Utils;
 import com.jaagro.utils.PasswordEncoder;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
@@ -44,6 +46,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     private UserService userService;
     @Autowired
     private VerificationCodeClientService codeClientService;
+    @Autowired
+    private EmployeeRoleService employeeRoleService;
+    @Autowired
+    private EmployeeRoleMapper employeeRoleMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
@@ -64,15 +73,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         Map<String, String> stringMap = PasswordEncoder.encodePassword(dto.getPassword());
         if (stringMap.size() > 0) {
             employee
-                    .setEnabled(true)
                     .setSalt(stringMap.get("salt"))
                     .setPassword(stringMap.get("password"))
-                    .setCreateTime(new Date())
                     .setCreateUserId(userService.getCurrentUser().getId());
-
-            this.employeeMapper.insert(employee);
+            this.employeeMapper.insertSelective(employee);
+            if (dto.getRoleIds() != null && dto.getRoleIds().length > 0) {
+                this.employeeRoleService.createEmp(dto.getRoleIds(), employee.getId());
+            }
             return ServiceResult.toResult("员工创建成功");
         } else {
+            log.error("密码加密失败");
             throw new RuntimeException("密码加密失败");
         }
     }
@@ -91,6 +101,24 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
+        if (dto.getRoleIds() != null && dto.getRoleIds().length > 0) {
+            this.employeeRoleMapper.deleteByEmpId(dto.getId());
+            for (int i = 0; i < dto.getRoleIds().length; i++) {
+                Role role = this.roleMapper.selectByPrimaryKey(dto.getRoleIds()[i]);
+                if (role == null) {
+                    throw new RuntimeException("角色[" + dto.getRoleIds()[i] + "]不存在");
+                }
+                //新增
+                EmployeeRole employeeRole = new EmployeeRole();
+                employeeRole
+                        .setCreateTime(new Date())
+                        .setCreateUserId(this.userService.getCurrentUser().getId())
+                        .setEmployeeId(dto.getId())
+                        .setRoleId(dto.getRoleIds()[i])
+                        .setEnabled(true);
+                this.employeeRoleMapper.insertSelective(employeeRole);
+            }
+        }
         return ServiceResult.toResult("员工修改成功");
     }
 
@@ -104,7 +132,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
-        if (!PasswordEncoder.encodePassword(this.employeeMapper.selectByPrimaryKey(id).getPassword()).get("password").equals(PasswordEncoder.encodePassword(oldPassword).get("password"))) {
+        Employee emp = this.employeeMapper.selectByPrimaryKey(id);
+        if (emp == null) {
+            throw new RuntimeException("员工不存在");
+        }
+        System.err.println(MD5Utils.encode(oldPassword, emp.getSalt()));
+        System.err.println(emp.getPassword());
+        if (!MD5Utils.encode(oldPassword, emp.getSalt()).equals(emp.getPassword())) {
             throw new RuntimeException("原密码不正确");
         }
         Employee employee = new Employee();
@@ -129,9 +163,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Map<String, Object> resetPassword(String phoneNumber, String verificationCode, String newPassword) {
         Boolean flag = this.codeClientService.existMessage(phoneNumber, verificationCode);
         if (flag) {
+            log.error("\n验证验证码:" + flag);
             throw new RuntimeException("验证码错误");
         }
-        UserInfo userInfo = this.employeeMapper.getByPhoneNumber(phoneNumber);
+        UserInfo userInfo = this.employeeMapper.getByphone(phoneNumber);
         if (userInfo == null) {
             throw new RuntimeException("员工不存在");
         }
@@ -166,6 +201,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
+        this.employeeRoleMapper.disableByEmpId(employee.getId());
         return ServiceResult.toResult("注销员工成功");
     }
 
@@ -187,7 +223,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .setDepartmentId(did)
                     .setEmployeeId(id)
                     .setEnabled(true);
-            businessSupportMapper.insert(businessSupport);
+            businessSupportMapper.insertSelective(businessSupport);
         }
         return ServiceResult.toResult("员工协作部门创建成功");
     }

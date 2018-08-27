@@ -62,4 +62,9 @@ public class CreateEmpDto implements Serializable {
      */
     private Integer gender;
 
+    /**
+     * 员工角色
+     */
+    private Integer[] roleIds;
+
 }

@@ -10,37 +10,31 @@ import java.util.Map;
 
 public interface EmployeeMapper {
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int deleteByPrimaryKey(Integer id);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int insert(Employee record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int insertSelective(Employee record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     Employee selectByPrimaryKey(Integer id);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(Employee record);
 
     /**
-     *
      * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(Employee record);
@@ -59,7 +53,7 @@ public interface EmployeeMapper {
      * @param phoneNumber
      * @return
      */
-    UserInfo getByPhoneNumber(String phoneNumber);
+    UserInfo getByphone(String phoneNumber);
 
     /**
      * id获取userInfo
@@ -87,8 +81,17 @@ public interface EmployeeMapper {
 
     /**
      * 根据id查询单个
+     *
      * @param id
      * @return
      */
     Map<String, Object> getById(Integer id);
+
+    /**
+     * 根据部门id查询
+     *
+     * @param deptId
+     * @return
+     */
+    List<Employee> listByDeptId(Integer deptId);
 }

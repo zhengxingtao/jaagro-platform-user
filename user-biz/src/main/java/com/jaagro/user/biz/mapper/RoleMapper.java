@@ -1,5 +1,6 @@
 package com.jaagro.user.biz.mapper;
 
+import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.dto.response.ReturnRoleDto;
 import com.jaagro.user.biz.entity.Role;
 
@@ -52,7 +53,7 @@ public interface RoleMapper {
      * @param name
      * @return
      */
-    Role getByName(String name);
+    Role getByName(UpdateRoleDto roleDto);
 
     /**
      * 单个查询角色[含角色权限]
@@ -60,5 +61,5 @@ public interface RoleMapper {
      * @param id
      * @return
      */
-     ReturnRoleDto getById(Integer id);
+    ReturnRoleDto getRoleDetailById(Integer id);
 }

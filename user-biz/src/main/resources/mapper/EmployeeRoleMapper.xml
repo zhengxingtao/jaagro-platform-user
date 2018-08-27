@@ -25,7 +25,8 @@
     delete from employee_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.EmployeeRole" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
     insert into employee_role (id, employee_id, role_id,
       create_time, modify_time, create_user_id,
       modify_user_id, enabled)
@@ -33,7 +34,9 @@
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER},
       #{modifyUserId,jdbcType=INTEGER}, #{enabled,jdbcType=BIT})
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeRole">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.EmployeeRole" useGeneratedKeys="true"
+            keyProperty="id"
+            keyColumn="id">
         insert into employee_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -136,4 +139,7 @@
     delete from employee_role
     where employee_id = #{empId,jdbcType=INTEGER}
   </delete>
+    <update id="disableByEmpId" parameterType="java.lang.Integer">
+      update employee_role set enabled = 0 where employee_id = #{employeeId}
+    </update>
 </mapper>

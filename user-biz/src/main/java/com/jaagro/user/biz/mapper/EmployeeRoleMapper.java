@@ -50,4 +50,13 @@ public interface EmployeeRoleMapper {
      * @return
      */
     int deleteByEmpId(Integer employeeId);
+
+    /**
+     * 逻辑删除 根据员工id
+     *
+     * @param employeeId
+     * @return
+     */
+    int disableByEmpId(Integer employeeId);
+
 }

@@ -15,36 +15,24 @@ public class ListEmpCriteriaDto {
      */
     private Integer pageNum;
 
-
     /**
      * 每页条数
      */
     private Integer pageSize;
 
     /**
-     * 员工姓名
+     * 关键字
      */
-    private String employeeName;
-
-    /**
-     * 电话
-     */
-    private String phoneNumber;
-
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 性别
-     */
-    private Boolean gender;
+    private String keywords;
 
     /**
      * 部门id
      */
-    private Long departmentId;
+    private Integer departmentId;
 
+    /**
+     * 账号状态(0;注销 1；正常)
+     */
+    private Boolean enabled;
 
 }

@@ -3,19 +3,22 @@ package com.jaagro.user.biz.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
-import com.jaagro.user.api.dto.request.CreateRolePermissionDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Role;
 import com.jaagro.user.biz.entity.RolePermission;
+import com.jaagro.user.biz.mapper.PermissionMapper;
 import com.jaagro.user.biz.mapper.RoleMapper;
 import com.jaagro.user.biz.mapper.RolePermissionMapper;
 import com.jaagro.utils.ServiceResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,12 +30,14 @@ import java.util.Map;
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    private static final Logger log = LoggerFactory.getLogger(RoleServiceImpl.class);
+
     @Autowired
     private UserService userService;
     @Autowired
     private RoleMapper roleMapper;
     @Autowired
-    private RolePermissionMapper permissionMapper;
+    private PermissionMapper permissionMapper;
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
 
@@ -51,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
                 .setEnabled(true)
                 .setCreateTime(new Date())
                 .setCreateUserId(this.userService.getCurrentUser().getId());
-        this.roleMapper.insert(role);
+        this.roleMapper.insertSelective(role);
         Integer[] permissionDtos = dto.getPermissionDtos();
         //新增角色权限
         for (int i = 0; i < permissionDtos.length; i++) {
@@ -62,9 +67,9 @@ public class RoleServiceImpl implements RoleService {
                     .setCreateTime(new Date())
                     .setCreateUserId(this.userService.getCurrentUser().getId())
                     .setEnabled(true);
-            this.rolePermissionMapper.insert(rolePermission);
+            this.rolePermissionMapper.insertSelective(rolePermission);
         }
-        return ServiceResult.toResult(this.getById(role.getId()));
+        return ServiceResult.toResult(this.roleMapper.selectByPrimaryKey(role.getId()));
     }
 
     /**
@@ -73,6 +78,7 @@ public class RoleServiceImpl implements RoleService {
      * @param dto
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateRole(UpdateRoleDto dto) {
         Role role = new Role();
@@ -86,6 +92,10 @@ public class RoleServiceImpl implements RoleService {
             this.rolePermissionMapper.deleteByRoleId(dto.getId());
         }
         for (int i = 0; i < dto.getRolePermissions().length; i++) {
+            if (this.permissionMapper.selectByPrimaryKey(dto.getRolePermissions()[i]) == null) {
+                log.error("\n【角色修改】--------角色权限不存在");
+                throw new RuntimeException("角色权限不存在");
+            }
             RolePermission rolePermission = new RolePermission();
             rolePermission
                     .setRoleId(role.getId())
@@ -93,9 +103,9 @@ public class RoleServiceImpl implements RoleService {
                     .setCreateTime(new Date())
                     .setCreateUserId(this.userService.getCurrentUser().getId())
                     .setEnabled(true);
-            this.rolePermissionMapper.insert(rolePermission);
+            this.rolePermissionMapper.insertSelective(rolePermission);
         }
-        return ServiceResult.toResult(this.getById(role.getId()));
+        return ServiceResult.toResult(this.roleMapper.selectByPrimaryKey(role.getId()));
     }
 
     /**
@@ -111,19 +121,13 @@ public class RoleServiceImpl implements RoleService {
         role.setEnabled(false);
         this.roleMapper.updateByPrimaryKeySelective(role);
         //删除角色权限关联表
-        this.permissionMapper.deleteByRoleId(id);
+        this.rolePermissionMapper.deleteByRoleId(id);
         return ServiceResult.toResult("删除成功");
     }
 
-    /**
-     * 查询单个
-     *
-     * @param id
-     * @return
-     */
     @Override
-    public Map<String, Object> getById(Integer id) {
-        return ServiceResult.toResult(this.roleMapper.getById(id));
+    public Map<String, Object> getRoleDetailById(Integer id) {
+        return ServiceResult.toResult(this.roleMapper.getRoleDetailById(id));
     }
 
     /**
