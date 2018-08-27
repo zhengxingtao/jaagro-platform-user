@@ -1,7 +1,8 @@
 package com.jaagro.user.biz.service.impl;
 
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
-import com.jaagro.user.api.dto.response.UserInfo;
+import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapper;
 import com.jaagro.user.biz.mapper.DriverMapper;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -34,6 +36,10 @@ public class UserServiceImpl implements UserService {
     private EmployeeMapper employeeMapper;
     @Autowired
     private DriverMapper driverMapper;
+    @Autowired
+    private UserClientService userClientService;
+    @Autowired
+    private HttpServletRequest request;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -43,45 +49,37 @@ public class UserServiceImpl implements UserService {
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
         if(UserType.CUSTOMER.equals(userTypeTrim)){
+
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = customerUserMapper.getByULoginName(key);
+                userInfo = customerUserMapper.getByULoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = customerUserMapper.getByPhoneNumber(key);
+                userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
-                userInfo = customerUserMapper.getUserInfoById(key);
+                userInfo = customerUserMapper.getUserInfoById(parseKey(map));
             }
         }
         if(UserType.EMPLOYEE.equals(userTypeTrim)){
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = employeeMapper.getByLoginName(key);
+                userInfo = employeeMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = employeeMapper.getByPhoneNumber(key);
+                userInfo = employeeMapper.getByphone(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
-                userInfo = employeeMapper.getUserInfoById(key);
+                userInfo = employeeMapper.getUserInfoById(parseKey(map));
             }
         }
         if(UserType.DRIVER.equals(userTypeTrim)){
             if(LOGIN_NAME.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = driverMapper.getByLoginName(key);
+                userInfo = driverMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                String key = (String) map.get(KEY);
-                userInfo = driverMapper.getByPhoneNumber(key);
+                userInfo = driverMapper.getByPhoneNumber(parseKey(map));
             }
             if(ID.equals(loginType)){
-                Long key = Long.valueOf(map.get(KEY).toString());
-                userInfo = driverMapper.getUserInfoById(key);
+                userInfo = driverMapper.getUserInfoById(parseKey(map));
             }
         }
 
@@ -92,5 +90,19 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    private <T> T parseKey(Map<String, Object> map){
+        if(ID.equals(map.get(LOGIN_TYPE).toString())) {
+             return (T) new Integer(map.get(KEY).toString());
+        }else {
+            return (T) map.get(KEY).toString();
+        }
+    }
+
+    @Override
+    public UserInfo getCurrentUser(){
+        String token = request.getHeader("token");
+        return userClientService.getUserByToken(token);
     }
 }

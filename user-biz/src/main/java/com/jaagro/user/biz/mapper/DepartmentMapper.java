@@ -9,37 +9,37 @@ import java.util.List;
 public interface DepartmentMapper {
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int insert(Department record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int insertSelective(Department record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
-    Department selectByPrimaryKey(Long id);
+    Department selectByPrimaryKey(Integer id);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKeySelective(Department record);
 
     /**
      *
-     * @mbggenerated 2018-08-18
+     * @mbggenerated 2018-08-22
      */
     int updateByPrimaryKey(Department record);
 
@@ -49,7 +49,7 @@ public interface DepartmentMapper {
      * @param id
      * @return
      */
-    DepartmentReturnDto getById(Long id);
+    DepartmentReturnDto getById(Integer id);
 
     /**
      * 分页查询

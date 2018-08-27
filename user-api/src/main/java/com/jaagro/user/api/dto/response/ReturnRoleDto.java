@@ -1,31 +1,32 @@
-package com.jaagro.user.biz.entity;
+package com.jaagro.user.api.dto.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @author liqiangping
+ * @author baiyiran
  */
 @Data
 @Accessors(chain = true)
-public class EmployeeCooperation implements Serializable {
+public class ReturnRoleDto implements Serializable {
     /**
-     * 主键员工部门ID
+     * 角色表主键
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 关联员工ID(references employee)
+     * 角色名(管理员)
      */
-    private Long employeeId;
+    private String name;
 
     /**
-     * 关联部门ID(references deptment)
+     * 描述
      */
-    private Long deptId;
+    private String notes;
 
     /**
      * 创建时间
@@ -35,7 +36,7 @@ public class EmployeeCooperation implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,11 +46,16 @@ public class EmployeeCooperation implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;
+
+    /**
+     * 权限说明列表
+     */
+    private List<ReturnPermissionDto> permissionDtoList;
 
 }

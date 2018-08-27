@@ -19,4 +19,9 @@ public final class UserType {
      * 司机
      */
     public static final String DRIVER = "driver";
+
+    /**
+     * 客户装、卸货地
+     */
+    public static final String SITE = "site";
 }

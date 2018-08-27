@@ -15,17 +15,17 @@ public class RolePermission implements Serializable {
     /**
      * 角色权限表
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 关联角色ID
      */
-    private Long roleId;
+    private Integer roleId;
 
     /**
      * 关联权限ID
      */
-    private Long permissionId;
+    private Integer permissionId;
 
     /**
      * 是否可用(0 不可用 1 可用)
@@ -40,7 +40,7 @@ public class RolePermission implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -50,6 +50,5 @@ public class RolePermission implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
-
+    private Integer modifyUserId;
 }

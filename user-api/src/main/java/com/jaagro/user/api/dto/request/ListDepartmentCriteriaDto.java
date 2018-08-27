@@ -18,6 +18,7 @@ public class ListDepartmentCriteriaDto implements Serializable {
      */
     private Integer pageNum;
 
+
     /**
      * 每页条数
      */

@@ -15,17 +15,27 @@ public class Permission implements Serializable {
     /**
      * 权限表
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 权限编号
      */
-    private String accessNumber;
+    private String permissionNumber;
+
+    /**
+     * 权限名称
+     */
+    private String permissionName;
 
     /**
      * 权限说明
      */
-    private String accessIllustrate;
+    private String notes;
+
+    /**
+     * 是否可用(0 不可用 1 可用)
+     */
+    private Boolean enabled;
 
     /**
      * 创建时间
@@ -35,7 +45,7 @@ public class Permission implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,11 +55,6 @@ public class Permission implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
-
-    /**
-     * 是否可用(0 不可用 1 可用)
-     */
-    private Boolean enabled;
+    private Integer modifyUserId;
 
 }

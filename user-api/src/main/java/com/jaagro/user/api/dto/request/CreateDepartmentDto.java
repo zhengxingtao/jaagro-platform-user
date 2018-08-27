@@ -13,9 +13,9 @@ import java.util.Date;
 @Accessors(chain = true)
 public class CreateDepartmentDto implements Serializable {
     /**
-     * 部门表主键(网点表 是否可以就叫部门表。。。)
+     * 部门表主键
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 部门名称

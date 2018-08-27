@@ -15,17 +15,37 @@ public class Driver implements Serializable {
     /**
      * 主键司机ID
      */
-    private Long id;
+    private Integer id;
 
     /**
-     * 关联车辆表ID
+     * 关联车队表ID
      */
-    private Long vehicleId;
+    private Integer truckTeamId;
+
+    /**
+     * 关联车辆ID
+     */
+    private Integer truckId;
 
     /**
      * 司机姓名
      */
     private String driverName;
+
+    /**
+     * 身份证号码
+     */
+    private String identityCard;
+
+    /**
+     * 驾照类型(1 A1 2 B1 3 C1 4 C2)
+     */
+    private Integer drivingLicense;
+
+    /**
+     * 是否是主驾驶员(0 不是 1 是)
+     */
+    private Boolean maindriver;
 
     /**
      * 登录账号
@@ -48,14 +68,19 @@ public class Driver implements Serializable {
     private String salt;
 
     /**
-     * 账号状态(0;注销 1；正常)
+     * 驾驶证到期时间
      */
-    private Integer status;
+    private String expiryDrivingLicense;
+
+    /**
+     * 驾驶员帐号状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
+     */
+    private Integer driverStatus;
 
     /**
      * 生日
      */
-    private Date birthday;
+    private String birthday;
 
     /**
      * 创建日期
@@ -70,12 +95,12 @@ public class Driver implements Serializable {
     /**
      * 创建人(关联用户ID)
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改人(关联用户ID)
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 备注
@@ -96,10 +121,5 @@ public class Driver implements Serializable {
      * 所属区县
      */
     private String county;
-
-    /**
-     * 详细地址
-     */
-    private String address;
 
 }

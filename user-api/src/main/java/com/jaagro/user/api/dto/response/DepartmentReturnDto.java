@@ -13,19 +13,29 @@ import java.util.Date;
 @Accessors(chain = true)
 public class DepartmentReturnDto implements Serializable {
     /**
-     * 部门表主键(网点表 是否可以就叫部门表。。。)
+     * 部门表主键(网点表)
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 部门名称
      */
-    private String name;
+    private String departmentName;
+
+    /**
+     * 0-不是，1-是网点
+     */
+    private Boolean netpoint;
 
     /**
      * 上级部门id
      */
-    private Long parentId;
+    private Integer parentId;
+
+    /**
+     * 部门主管ID
+     */
+    private Integer leaderEmployeeId;
 
     /**
      * 创建时间
@@ -35,7 +45,7 @@ public class DepartmentReturnDto implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,7 +55,7 @@ public class DepartmentReturnDto implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
      * 是否可用(0 不可用 1 可用)
@@ -53,13 +63,8 @@ public class DepartmentReturnDto implements Serializable {
     private Boolean enabled;
 
     /**
-     * 排序
+     * 排序(越小越靠前)
      */
     private Integer sort;
-
-    /**
-     * 关联部门主管ID
-     */
-    private Long departmentManagerId;
 
 }

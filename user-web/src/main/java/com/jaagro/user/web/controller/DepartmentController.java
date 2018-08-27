@@ -5,12 +5,12 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
+import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import utils.BaseResponse;
 
 import java.util.Map;
 
@@ -36,16 +36,16 @@ public class DepartmentController {
     @PutMapping("/department")
     public BaseResponse updateDepartment(@RequestBody UpdateDepartmentDto department){
         if(departmentMapper.selectByPrimaryKey(department.getId()) == null){
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门");
         }
         return BaseResponse.service(departmentService.updateById(department));
     }
 
     @ApiOperation("查询单个部门")
     @GetMapping("/customer/{id}")
-    public BaseResponse getById(@PathVariable Long id) {
+    public BaseResponse getById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.queryDataEmpty();
+            return BaseResponse.errorInstance("查询不到部门ID");
         }
         Map<String, Object> result = departmentService.getById(id);
         return BaseResponse.service(result);
@@ -53,7 +53,7 @@ public class DepartmentController {
 
     @ApiOperation("删除部门[逻辑]")
     @DeleteMapping("/deleteById/{id}")
-    public BaseResponse deleteById(@PathVariable Long id) {
+    public BaseResponse deleteById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");
         }

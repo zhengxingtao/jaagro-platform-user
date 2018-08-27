@@ -1,6 +1,7 @@
 package com.jaagro.user.api.service;
 
-import com.jaagro.user.api.dto.response.UserInfo;
+
+import com.jaagro.constant.UserInfo;
 
 import java.util.Map;
 
@@ -15,4 +16,10 @@ public interface UserService {
      * @return
      */
     UserInfo getUserInfo(Map<String, Object> map);
+
+    /**
+     * 获取当前user
+     * @return
+     */
+    UserInfo getCurrentUser();
 }

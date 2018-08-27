@@ -13,14 +13,19 @@ import java.util.Date;
 @Accessors(chain = true)
 public class UpdateEmpDto implements Serializable {
     /**
-     * 员工表自增
+     * 员工表id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 员工姓名
      */
     private String employeeName;
+
+    /**
+     * 所属部门ID
+     */
+    private Integer departmentId;
 
     /**
      * 登录账号
@@ -30,7 +35,7 @@ public class UpdateEmpDto implements Serializable {
     /**
      * 手机号码
      */
-    private String phoneNumber;
+    private String phone;
 
     /**
      * 邮箱
@@ -45,12 +50,7 @@ public class UpdateEmpDto implements Serializable {
     /**
      * 生日
      */
-    private Date birthday;
-
-    /**
-     * 性别
-     */
-    private Boolean gender;
+    private String birthday;
 
     /**
      * 备注
@@ -58,7 +58,12 @@ public class UpdateEmpDto implements Serializable {
     private String notes;
 
     /**
-     * 关联部门ID(references department)
+     * 性别
      */
-    private Long departmentId;
+    private Integer gender;
+
+    /**
+     * 员工角色
+     */
+    private Integer[] roleIds;
 }
