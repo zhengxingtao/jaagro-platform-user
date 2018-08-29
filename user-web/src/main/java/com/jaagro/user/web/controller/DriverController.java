@@ -38,13 +38,23 @@ public class DriverController {
 
     @Ignore
     @PostMapping("/driverFeign")
-    public Integer createDriverToFeign(@RequestBody CreateDriverDto driver){
+    public Integer createDriverReturnId(@RequestBody CreateDriverDto driver){
         Integer result;
         try {
-            result = driverService.createDriverToFeign(driver);
+            result = driverService.createDriverReturnId(driver);
         }catch (Exception e) {
             throw e;
         }
         return result;
+    }
+
+    @DeleteMapping("/driver/{id}")
+    public BaseResponse deleteDriver(@PathVariable("id") Integer id){
+        return BaseResponse.service(driverService.deleteDriver(id));
+    }
+
+    @DeleteMapping("/driverByTruck/{truckId}")
+    public BaseResponse deleteDriverByTruckId(@PathVariable("truckId") Integer truckId){
+        return BaseResponse.service(driverService.deleteDriver(truckId));
     }
 }

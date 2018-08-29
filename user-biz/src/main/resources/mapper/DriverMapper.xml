@@ -292,6 +292,16 @@
       county = #{county,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="deleteDriverLogic">
+    update driver
+    set driver_status = #{status, jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="deleteDriverByTruckId">
+    update driver
+    set driver_status = #{status, jdbcType=INTEGER}
+    where truck_id = #{truckId,jdbcType=INTEGER}
+  </update>
   <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Base_Column_List" />
