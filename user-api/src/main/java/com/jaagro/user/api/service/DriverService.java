@@ -43,6 +43,13 @@ public interface DriverService {
     Map<String, Object> getById(Integer id);
 
     /**
+     * 获取单个司机 返回为对象
+     * @param id
+     * @return
+     */
+    DriverReturnDto getDriverReturnObject(Integer id);
+
+    /**
      * 通过条件获取所有司机（分页）
      * @param criteria
      * @return

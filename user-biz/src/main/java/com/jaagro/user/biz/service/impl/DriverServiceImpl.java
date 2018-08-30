@@ -89,6 +89,17 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
+     * 获取单个司机 返回为对象
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public DriverReturnDto getDriverReturnObject(Integer id) {
+        return driverMapper.getDriverById(id);
+    }
+
+    /**
      * 通过条件获取所有司机（分页）
      *
      * @param criteria

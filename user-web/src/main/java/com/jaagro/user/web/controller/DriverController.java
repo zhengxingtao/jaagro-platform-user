@@ -42,6 +42,12 @@ public class DriverController {
     }
 
     @Ignore
+    @GetMapping("/driverFeign/{id}")
+    public DriverReturnDto getDriverReturnObject(@PathVariable("id") Integer id){
+        return driverService.getDriverReturnObject(id);
+    }
+
+    @Ignore
     @PostMapping("/driverFeign")
     public Integer createDriverReturnId(@RequestBody CreateDriverDto driver){
         Integer result;
