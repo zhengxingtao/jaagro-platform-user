@@ -86,4 +86,11 @@ public interface DriverMapper {
      * @return
      */
     Integer deleteDriverByTruckId (@Param("status") Integer status, @Param("teamId") Integer truckId);
+
+    /**
+     * 通过id获取司机
+     * @param id
+     * @return
+     */
+    DriverReturnDto getDriverById(Integer id);
 }

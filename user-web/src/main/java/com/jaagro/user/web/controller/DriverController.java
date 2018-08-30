@@ -36,6 +36,11 @@ public class DriverController {
         return driverService.listByTruckId(truckId);
     }
 
+    @GetMapping("/driver/{id}")
+    public BaseResponse getDriverById(@PathVariable("id") Integer id){
+        return BaseResponse.service(driverService.getById(id));
+    }
+
     @Ignore
     @PostMapping("/driverFeign")
     public Integer createDriverReturnId(@RequestBody CreateDriverDto driver){

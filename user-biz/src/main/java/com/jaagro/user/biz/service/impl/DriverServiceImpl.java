@@ -81,7 +81,11 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> getById(Integer id) {
-        return null;
+        DriverReturnDto driver = driverMapper.getDriverById(id);
+        if(driver == null){
+            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(),id + " :不存在");
+        }
+        return ServiceResult.toResult(driver);
     }
 
     /**
