@@ -3,6 +3,7 @@ package com.jaagro.user.biz.mapper;
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.biz.entity.Driver;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -69,4 +70,27 @@ public interface DriverMapper {
      * @return
      */
     List<DriverReturnDto> listDriverByTruckId(Integer truckId);
+
+    /**
+     * 删除司机【逻辑】
+     * @param id
+     * @param status
+     * @return
+     */
+    Integer deleteDriverLogic(@Param("status") Integer status, @Param("id") Integer id);
+
+    /**
+     * 删除车队下所有司机【逻辑】
+     * @param status
+     * @param truckId
+     * @return
+     */
+    Integer deleteDriverByTruckId (@Param("status") Integer status, @Param("teamId") Integer truckId);
+
+    /**
+     * 通过id获取司机
+     * @param id
+     * @return
+     */
+    DriverReturnDto getDriverById(Integer id);
 }

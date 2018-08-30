@@ -43,11 +43,6 @@ public class DriverReturnDto implements Serializable {
     private Integer drivingLicense;
 
     /**
-     * 是否是主驾驶员(0 不是 1 是)
-     */
-    private Boolean maindriver;
-
-    /**
      * 登录账号
      */
     private String loginName;

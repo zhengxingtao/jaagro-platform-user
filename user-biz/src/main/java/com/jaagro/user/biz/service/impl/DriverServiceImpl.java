@@ -1,5 +1,6 @@
 package com.jaagro.user.biz.service.impl;
 
+import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
@@ -8,6 +9,7 @@ import com.jaagro.user.api.service.DriverService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapper;
+import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,7 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> createDriver(CreateDriverDto driver) {
-        return ServiceResult.toResult(createDriverToFeign(driver));
+        return ServiceResult.toResult(createDriverReturnId(driver));
     }
 
     /**
@@ -49,7 +51,7 @@ public class DriverServiceImpl implements DriverService {
      * @return
      */
     @Override
-    public Integer createDriverToFeign(CreateDriverDto driver) {
+    public Integer createDriverReturnId(CreateDriverDto driver) {
         if(driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null){
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
@@ -79,7 +81,22 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> getById(Integer id) {
-        return null;
+        DriverReturnDto driver = driverMapper.getDriverById(id);
+        if(driver == null){
+            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(),id + " :不存在");
+        }
+        return ServiceResult.toResult(driver);
+    }
+
+    /**
+     * 获取单个司机 返回为对象
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public DriverReturnDto getDriverReturnObject(Integer id) {
+        return driverMapper.getDriverById(id);
     }
 
     /**
@@ -97,12 +114,30 @@ public class DriverServiceImpl implements DriverService {
      * 删除司机
      *
      * @param id
-     * @param notes
      * @return
      */
     @Override
-    public Map<String, Object> disableDriver(Integer id, String notes) {
-        return null;
+    public Map<String, Object> deleteDriver(Integer id) {
+        if(driverMapper.selectByPrimaryKey(id) == null){
+            throw new NullPointerException(id + " :不正确");
+        }
+        //后期扩展如果当前driver有任务未完成，无法删除
+
+        driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
+        return ServiceResult.toResult(id + " :删除成功");
+    }
+
+    /**
+     * 删除车队所有司机
+     *
+     * @param teamId
+     * @return
+     */
+    @Override
+    public Map<String, Object> deleteDriverByTruckId(Integer teamId) {
+        //后期扩展如果当前driver有任务未完成，无法删除
+        driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
+        return ServiceResult.toResult("车辆id为" + teamId + " :的记录删除成功");
     }
 
     /**

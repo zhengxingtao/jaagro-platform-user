@@ -26,7 +26,7 @@ public interface DriverService {
      * @param driver
      * @return
      */
-    Integer createDriverToFeign(CreateDriverDto driver);
+    Integer createDriverReturnId(CreateDriverDto driver);
 
     /**
      * 修改司机
@@ -43,6 +43,13 @@ public interface DriverService {
     Map<String, Object> getById(Integer id);
 
     /**
+     * 获取单个司机 返回为对象
+     * @param id
+     * @return
+     */
+    DriverReturnDto getDriverReturnObject(Integer id);
+
+    /**
      * 通过条件获取所有司机（分页）
      * @param criteria
      * @return
@@ -52,10 +59,16 @@ public interface DriverService {
     /**
      * 删除司机
      * @param id
-     * @param notes
      * @return
      */
-    Map<String, Object> disableDriver(Integer id, String notes);
+    Map<String, Object> deleteDriver(Integer id);
+
+    /**
+     * 删除车辆所属司机
+     * @param truckId
+     * @return
+     */
+    Map<String, Object> deleteDriverByTruckId(Integer truckId);
 
     /**
      * 通过车辆获取司机

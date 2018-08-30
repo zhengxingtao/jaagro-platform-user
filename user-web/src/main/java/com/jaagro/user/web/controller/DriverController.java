@@ -36,15 +36,36 @@ public class DriverController {
         return driverService.listByTruckId(truckId);
     }
 
+    @GetMapping("/driver/{id}")
+    public BaseResponse getDriverById(@PathVariable("id") Integer id){
+        return BaseResponse.service(driverService.getById(id));
+    }
+
+    @Ignore
+    @GetMapping("/driverFeign/{id}")
+    public DriverReturnDto getDriverReturnObject(@PathVariable("id") Integer id){
+        return driverService.getDriverReturnObject(id);
+    }
+
     @Ignore
     @PostMapping("/driverFeign")
-    public Integer createDriverToFeign(@RequestBody CreateDriverDto driver){
+    public Integer createDriverReturnId(@RequestBody CreateDriverDto driver){
         Integer result;
         try {
-            result = driverService.createDriverToFeign(driver);
+            result = driverService.createDriverReturnId(driver);
         }catch (Exception e) {
             throw e;
         }
         return result;
+    }
+
+    @DeleteMapping("/driver/{id}")
+    public BaseResponse deleteDriver(@PathVariable("id") Integer id){
+        return BaseResponse.service(driverService.deleteDriver(id));
+    }
+
+    @DeleteMapping("/driverByTruck/{truckId}")
+    public BaseResponse deleteDriverByTruckId(@PathVariable("truckId") Integer truckId){
+        return BaseResponse.service(driverService.deleteDriver(truckId));
     }
 }
