@@ -13,7 +13,6 @@
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
-    <result column="user_status" property="userStatus" jdbcType="TINYINT" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -22,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, relevance_id, customer_type, login_name, password, salt, name, avatar, birthday, 
-    email, phone_number, user_status, create_user_id, modify_user_id, create_time, modify_time, 
+    email, phone_number, create_user_id, modify_user_id, create_time, modify_time,
     enabled
   </sql>
   <select id="getByULoginName" resultType="com.jaagro.constant.UserInfo">
@@ -57,13 +56,13 @@
     insert into customer_user (id, relevance_id, customer_type, 
       login_name, password, salt, 
       name, avatar, birthday, 
-      email, phone_number, user_status, 
+      email, phone_number,
       create_user_id, modify_user_id, create_time, 
       modify_time, enabled)
     values (#{id,jdbcType=INTEGER}, #{relevanceId,jdbcType=INTEGER}, #{customerType,jdbcType=INTEGER}, 
       #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{userStatus,jdbcType=TINYINT}, 
+      #{email,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR},
       #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=BIT})
   </insert>
@@ -102,9 +101,6 @@
       </if>
       <if test="phoneNumber != null" >
         phone_number,
-      </if>
-      <if test="userStatus != null" >
-        user_status,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -209,9 +205,6 @@
       <if test="phoneNumber != null" >
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
       </if>
-      <if test="userStatus != null" >
-        user_status = #{userStatus,jdbcType=TINYINT},
-      </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
@@ -242,7 +235,6 @@
       birthday = #{birthday,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
-      user_status = #{userStatus,jdbcType=TINYINT},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       modify_user_id = #{modifyUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
