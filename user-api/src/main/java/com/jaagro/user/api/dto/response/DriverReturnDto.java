@@ -30,7 +30,7 @@ public class DriverReturnDto implements Serializable {
     /**
      * 司机姓名
      */
-    private String driverName;
+    private String name;
 
     /**
      * 身份证号码
@@ -116,4 +116,6 @@ public class DriverReturnDto implements Serializable {
      * 所属区县
      */
     private String county;
+
+    private Boolean enabled;
 }

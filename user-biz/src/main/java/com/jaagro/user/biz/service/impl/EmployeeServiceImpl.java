@@ -166,7 +166,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("\n验证验证码:" + flag);
             throw new RuntimeException("验证码错误");
         }
-        UserInfo userInfo = this.employeeMapper.getByphone(phoneNumber);
+        UserInfo userInfo = this.employeeMapper.getByPhone(phoneNumber);
         if (userInfo == null) {
             throw new RuntimeException("员工不存在");
         }

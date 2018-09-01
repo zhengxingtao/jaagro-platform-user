@@ -24,21 +24,24 @@
     email, phone_number, create_user_id, modify_user_id, create_time, modify_time,
     enabled
   </sql>
+  <sql id="Info_Column">
+        id, login_name, password, phone_number, salt, enabled, name
+    </sql>
   <select id="getByULoginName" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from customer_user
     where login_name = #{loginName,jdbcType=VARCHAR}
   </select>
   <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from customer_user
     where phone_number = #{phoneNumber,jdbcType=VARCHAR}
   </select>
   <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from customer_user
     where id = #{id,jdbcType=INTEGER}
   </select>

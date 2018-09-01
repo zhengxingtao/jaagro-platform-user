@@ -3,7 +3,7 @@
 <mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapper">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Employee">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
         <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -21,9 +21,12 @@
         <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, employee_name, department_id, login_name, password, phone, salt, email, avatar,
-    birthday, notes, gender, enabled, create_time, modify_time, create_user_id, modify_user_id
-  </sql>
+        id, name, department_id, login_name, password, phone, salt, email, avatar,
+        birthday, notes, gender, enabled, create_time, modify_time, create_user_id, modify_user_id
+    </sql>
+    <sql id="Info_Column">
+        id, login_name, password, phone_number, salt, enabled, name
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -36,13 +39,13 @@
   </delete>
     <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-    insert into employee (id, employee_name, department_id,
+    insert into employee (id, name, department_id,
       login_name, password, phone,
       salt, email, avatar,
       birthday, notes, gender,
       enabled, create_time, modify_time,
       create_user_id, modify_user_id)
-    values (#{id,jdbcType=INTEGER}, #{employeeName,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
       #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
       #{birthday,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
@@ -56,8 +59,8 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="employeeName != null">
-                employee_name,
+            <if test="name != null">
+                name,
             </if>
             <if test="departmentId != null">
                 department_id,
@@ -109,8 +112,8 @@
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="employeeName != null">
-                #{employeeName,jdbcType=VARCHAR},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
             </if>
             <if test="departmentId != null">
                 #{departmentId,jdbcType=INTEGER},
@@ -162,8 +165,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Employee">
         update employee
         <set>
-            <if test="employeeName != null">
-                employee_name = #{employeeName,jdbcType=VARCHAR},
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="departmentId != null">
                 department_id = #{departmentId,jdbcType=INTEGER},
@@ -215,7 +218,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Employee">
     update employee
-    set employee_name = #{employeeName,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=INTEGER},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -251,7 +254,7 @@
         from employee
         where 1=1
         <if test="keywords != null">
-            <![CDATA[and (employee_name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
+            <![CDATA[and (name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
         </if>
         <if test="departmentId != null">
             and department_id = #{departmentId}
@@ -265,19 +268,19 @@
     </select>
     <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Info_Column"/>
         from employee
         where login_name = #{loginName,jdbcType=VARCHAR}
     </select>
-    <select id="getByphone" resultType="com.jaagro.constant.UserInfo">
+    <select id="getByPhone" resultType="com.jaagro.constant.UserInfo">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Info_Column"/>
         from employee
         where phone = #{phone,jdbcType=VARCHAR}
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Info_Column"/>
         from employee
         where id = #{id,jdbcType=INTEGER}
     </select>

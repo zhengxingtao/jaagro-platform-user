@@ -53,7 +53,7 @@ public interface EmployeeMapper {
      * @param phoneNumber
      * @return
      */
-    UserInfo getByphone(String phoneNumber);
+    UserInfo getByPhone(String phoneNumber);
 
     /**
      * id获取userInfo
