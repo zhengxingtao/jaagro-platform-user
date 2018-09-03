@@ -73,11 +73,6 @@ public class Employee implements Serializable {
     private Integer gender;
 
     /**
-     * 账号状态(2;注销 1；正常)
-     */
-    private Boolean enabled;
-
-    /**
      * 创建日期
      */
     private Date createTime;
@@ -96,5 +91,10 @@ public class Employee implements Serializable {
      * 修改人
      */
     private Integer modifyUserId;
+
+    /**
+     * 帐号状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
+     */
+    private Integer status;
 
 }

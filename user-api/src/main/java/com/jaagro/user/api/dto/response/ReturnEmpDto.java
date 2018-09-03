@@ -73,9 +73,9 @@ public class ReturnEmpDto implements Serializable {
     private Integer gender;
 
     /**
-     * 账号状态(2;注销 1；正常)
+     * 账号状态
      */
-    private Boolean enabled;
+    private Integer status;
 
     /**
      * 创建日期

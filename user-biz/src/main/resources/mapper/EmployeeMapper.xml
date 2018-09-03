@@ -14,7 +14,7 @@
         <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
         <result column="notes" property="notes" jdbcType="VARCHAR"/>
         <result column="gender" property="gender" jdbcType="INTEGER"/>
-        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
@@ -22,10 +22,10 @@
     </resultMap>
     <sql id="Base_Column_List">
         id, name, department_id, login_name, password, phone, salt, email, avatar,
-        birthday, notes, gender, enabled, create_time, modify_time, create_user_id, modify_user_id
+        birthday, notes, gender, status, create_time, modify_time, create_user_id, modify_user_id
     </sql>
     <sql id="Info_Column">
-        id, login_name, password, phone_number, salt, enabled, name
+        id, login_name, password, phone_number, salt, status, name
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -43,13 +43,13 @@
       login_name, password, phone,
       salt, email, avatar,
       birthday, notes, gender,
-      enabled, create_time, modify_time,
+      status, create_time, modify_time,
       create_user_id, modify_user_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
       #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
       #{birthday,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
-      #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
@@ -92,8 +92,8 @@
             <if test="gender != null">
                 gender,
             </if>
-            <if test="enabled != null">
-                enabled,
+            <if test="status != null">
+                status,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -145,8 +145,8 @@
             <if test="gender != null">
                 #{gender,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
-                #{enabled,jdbcType=TINYINT},
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -198,8 +198,8 @@
             <if test="gender != null">
                 gender = #{gender,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
-                enabled = #{enabled,jdbcType=TINYINT},
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -229,7 +229,7 @@
       birthday = #{birthday,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
-      enabled = #{enabled,jdbcType=TINYINT},
+      status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -245,7 +245,7 @@
         <if test="id != null">
             and id != #{id}
         </if>
-        and enabled = 1
+        and status = 1
     </select>
     <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListEmpCriteriaDto"
             resultMap="BaseResultMap">
@@ -259,30 +259,30 @@
         <if test="departmentId != null">
             and department_id = #{departmentId}
         </if>
-        <if test="enabled != null">
-            and enabled = #{enabled}
+        <if test="status != null">
+            and status = #{status}
         </if>
-        <if test="enabled == null">
-            and enabled = 1
+        <if test="status == null">
+            and status = 1
         </if>
     </select>
     <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Info_Column"/>
         from employee
-        where login_name = #{loginName,jdbcType=VARCHAR}
+        where login_name = #{loginName,jdbcType=VARCHAR} and status = 3
     </select>
     <select id="getByPhone" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Info_Column"/>
         from employee
-        where phone = #{phone,jdbcType=VARCHAR}
+        where phone = #{phone,jdbcType=VARCHAR} and status = 3
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Info_Column"/>
         from employee
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and status = 3
     </select>
     <select id="getById" resultMap="BaseResultMap">
         select

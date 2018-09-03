@@ -88,7 +88,7 @@ public class CustomerUser implements Serializable {
     private Date modifyTime;
 
     /**
-     * 是否可用 0 不可用  1 可用
+     * 账号状态
      */
-    private Boolean enabled;
+    private Integer status;
 }

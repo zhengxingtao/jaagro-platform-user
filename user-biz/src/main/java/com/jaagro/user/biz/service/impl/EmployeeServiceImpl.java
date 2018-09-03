@@ -3,6 +3,7 @@ package com.jaagro.user.biz.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
@@ -197,7 +198,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee
                 .setId(id)
                 .setNotes(notes)
-                .setEnabled(false)
+                .setStatus(AuditStatus.STOP_COOPERATION)
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
