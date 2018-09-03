@@ -270,19 +270,19 @@
         select
         <include refid="Info_Column"/>
         from employee
-        where login_name = #{loginName,jdbcType=VARCHAR} and status = 3
+        where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
     </select>
     <select id="getByPhone" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Info_Column"/>
         from employee
-        where phone = #{phone,jdbcType=VARCHAR} and status = 3
+        where phone = #{phone,jdbcType=VARCHAR} and status = 1
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
         <include refid="Info_Column"/>
         from employee
-        where id = #{id,jdbcType=INTEGER} and status = 3
+        where id = #{id,jdbcType=INTEGER} and status = 1
     </select>
     <select id="getById" resultMap="BaseResultMap">
         select

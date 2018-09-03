@@ -31,19 +31,19 @@
     select
     <include refid="Info_Column" />
     from customer_user
-    where login_name = #{loginName,jdbcType=VARCHAR} and status = 3
+    where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Info_Column" />
     from customer_user
-    where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 3
+    where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Info_Column" />
     from customer_user
-    where id = #{id,jdbcType=INTEGER} and status = 3
+    where id = #{id,jdbcType=INTEGER} and status = 1
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

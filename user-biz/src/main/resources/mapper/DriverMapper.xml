@@ -309,19 +309,19 @@
     select
     <include refid="Info_Column" />
     from driver
-    where login_name = #{loginName,jdbcType=VARCHAR} and status = 3
+    where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Info_Column" />
     from driver
-    where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status = 3
+    where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
     <include refid="Info_Column" />
     from driver
-    where id = #{id,jdbcType=BIGINT} and status = 3
+    where id = #{id,jdbcType=BIGINT} and status = 1
   </select>
     <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
       select
