@@ -32,7 +32,6 @@ public class UserController {
         map.put("loginType", loginType);
         map.put("key", key);
         map.put("userType", userType);
-
         return userService.getUserInfo(map);
     }
 }

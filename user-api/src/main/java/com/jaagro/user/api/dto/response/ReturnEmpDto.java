@@ -20,7 +20,7 @@ public class ReturnEmpDto implements Serializable {
     /**
      * 员工姓名
      */
-    private String employeeName;
+    private String name;
 
     /**
      * 所属部门ID
@@ -73,9 +73,9 @@ public class ReturnEmpDto implements Serializable {
     private Integer gender;
 
     /**
-     * 账号状态(2;注销 1；正常)
+     * 账号状态
      */
-    private Boolean enabled;
+    private Integer status;
 
     /**
      * 创建日期

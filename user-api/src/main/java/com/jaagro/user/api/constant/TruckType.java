@@ -8,7 +8,7 @@ public final class TruckType {
     /**
      * 1 个体
      */
-    public static final Integer PSERSON = 1;
+    public static final Integer PERSON = 1;
 
     /**
      * 2 自有

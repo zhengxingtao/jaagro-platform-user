@@ -1,7 +1,9 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.constant.UserInfo;
-import com.jaagro.user.api.dto.request.*;
+import com.jaagro.user.api.dto.request.CreateEmpDto;
+import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
+import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
@@ -16,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author baiyiran
@@ -48,8 +48,8 @@ public class EmployeeController {
     @ApiOperation("新增员工")
     @PostMapping("/employee")
     public BaseResponse employee(@RequestBody CreateEmpDto createEmpDto) {
-        if (StringUtils.isEmpty(createEmpDto.getEmployeeName())) {
-            return BaseResponse.errorInstance("员工姓名[employeeName]不能为空");
+        if (StringUtils.isEmpty(createEmpDto.getName())) {
+            return BaseResponse.errorInstance("员工姓名[name]不能为空");
         }
         if (StringUtils.isEmpty(createEmpDto.getLoginName())) {
             return BaseResponse.errorInstance("登录账号[loginName]不能为空");
@@ -163,7 +163,7 @@ public class EmployeeController {
     public BaseResponse resetPassword(@RequestParam(value = "phone") String phone,
                                       @RequestParam(value = "verificationCode") String verificationCode,
                                       @RequestParam(value = "newPassword") String newPassword) {
-        UserInfo userInfo = this.employeeMapper.getByphone(phone);
+        UserInfo userInfo = this.employeeMapper.getByPhone(phone);
         if (userInfo == null) {
             return BaseResponse.errorInstance("此员工不存在:phone:" + phone);
         }

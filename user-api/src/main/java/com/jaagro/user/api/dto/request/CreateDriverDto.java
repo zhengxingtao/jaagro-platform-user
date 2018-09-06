@@ -27,7 +27,7 @@ public class CreateDriverDto implements Serializable {
     /**
      * 司机姓名
      */
-    private String driverName;
+    private String name;
 
     /**
      * 驾照类型

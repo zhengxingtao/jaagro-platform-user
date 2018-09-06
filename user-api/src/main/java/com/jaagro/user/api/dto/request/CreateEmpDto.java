@@ -15,7 +15,7 @@ public class CreateEmpDto implements Serializable {
     /**
      * 员工姓名
      */
-    private String employeeName;
+    private String name;
 
     /**
      * 所属部门ID
