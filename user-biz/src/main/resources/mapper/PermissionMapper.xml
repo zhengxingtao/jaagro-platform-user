@@ -37,7 +37,8 @@
       #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Permission" useGeneratedKeys="true" keyProperty="id"
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Permission" useGeneratedKeys="true"
+            keyProperty="id"
             keyColumn="id">
         insert into permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -147,5 +148,11 @@
         from permission
         where permission_number = #{permissionNumber,jdbcType=VARCHAR}
         and enabled = 1
+    </select>
+    <select id="listAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        where enabled = 1
     </select>
 </mapper>

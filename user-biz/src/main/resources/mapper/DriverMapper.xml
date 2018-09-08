@@ -62,7 +62,7 @@
       #{notes,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{county,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Driver" >
+  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Driver"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into driver
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -321,18 +321,18 @@
     select
     <include refid="Info_Column" />
     from driver
-    where id = #{id,jdbcType=BIGINT} and status = 1
+    where id = #{id,jdbcType=INTEGER} and status = 1
   </select>
     <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
       select
       <include refid="Base_Column_List" />
       from driver
-      where truck_id = #{truckId,jdbcType=BIGINT}
+      where truck_id = #{truckId,jdbcType=INTEGER}
     </select>
   <select id="getDriverById" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
     select
     <include refid="Base_Column_List" />
     from driver
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>
