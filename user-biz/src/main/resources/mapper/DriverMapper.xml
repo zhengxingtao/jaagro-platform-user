@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="truck_team_id" property="truckTeamId" jdbcType="INTEGER" />
     <result column="truck_id" property="truckId" jdbcType="INTEGER" />
-    <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
     <result column="driving_license" property="drivingLicense" jdbcType="INTEGER" />
     <result column="maindriver" property="maindriver" jdbcType="BIT" />
@@ -14,7 +14,7 @@
     <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
     <result column="expiry_driving_license" property="expiryDrivingLicense" jdbcType="VARCHAR" />
-    <result column="driver_status" property="driverStatus" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
@@ -26,11 +26,14 @@
     <result column="county" property="county" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, truck_team_id, truck_id, driver_name, identity_card, driving_license, maindriver, 
-    login_name, password, phone_number, salt, expiry_driving_license, driver_status, 
+    id, truck_team_id, truck_id, name, identity_card, driving_license, maindriver,
+    login_name, password, phone_number, salt, expiry_driving_license, status, 
     birthday, create_time, modify_time, create_user_id, modify_user_id, notes, city, 
     province, county
   </sql>
+    <sql id="Info_Column">
+        id, login_name, password, phone_number, salt, status, name
+    </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -43,18 +46,18 @@
   </delete>
   <insert id="insert" parameterType="com.jaagro.user.biz.entity.Driver" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into driver (id, truck_team_id, truck_id, 
-      driver_name, identity_card, driving_license, 
+      name, identity_card, driving_license,
       maindriver, login_name, password, 
       phone_number, salt, expiry_driving_license, 
-      driver_status, birthday, create_time, 
+      status, birthday, create_time, 
       modify_time, create_user_id, modify_user_id, 
       notes, city, province, 
       county)
     values (#{id,jdbcType=INTEGER}, #{truckTeamId,jdbcType=INTEGER}, #{truckId,jdbcType=INTEGER}, 
-      #{driverName,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR}, #{drivingLicense,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR}, #{drivingLicense,jdbcType=INTEGER},
       #{maindriver,jdbcType=BIT}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phoneNumber,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{expiryDrivingLicense,jdbcType=VARCHAR}, 
-      #{driverStatus,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER}, 
       #{notes,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{county,jdbcType=VARCHAR})
@@ -71,8 +74,8 @@
       <if test="truckId != null" >
         truck_id,
       </if>
-      <if test="driverName != null" >
-        driver_name,
+      <if test="name != null" >
+        name,
       </if>
       <if test="identityCard != null" >
         identity_card,
@@ -98,8 +101,8 @@
       <if test="expiryDrivingLicense != null" >
         expiry_driving_license,
       </if>
-      <if test="driverStatus != null" >
-        driver_status,
+      <if test="status != null" >
+        status,
       </if>
       <if test="birthday != null" >
         birthday,
@@ -139,8 +142,8 @@
       <if test="truckId != null" >
         #{truckId,jdbcType=INTEGER},
       </if>
-      <if test="driverName != null" >
-        #{driverName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="identityCard != null" >
         #{identityCard,jdbcType=VARCHAR},
@@ -166,8 +169,8 @@
       <if test="expiryDrivingLicense != null" >
         #{expiryDrivingLicense,jdbcType=VARCHAR},
       </if>
-      <if test="driverStatus != null" >
-        #{driverStatus,jdbcType=INTEGER},
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
         #{birthday,jdbcType=VARCHAR},
@@ -207,8 +210,8 @@
       <if test="truckId != null" >
         truck_id = #{truckId,jdbcType=INTEGER},
       </if>
-      <if test="driverName != null" >
-        driver_name = #{driverName,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="identityCard != null" >
         identity_card = #{identityCard,jdbcType=VARCHAR},
@@ -234,8 +237,8 @@
       <if test="expiryDrivingLicense != null" >
         expiry_driving_license = #{expiryDrivingLicense,jdbcType=VARCHAR},
       </if>
-      <if test="driverStatus != null" >
-        driver_status = #{driverStatus,jdbcType=INTEGER},
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="birthday != null" >
         birthday = #{birthday,jdbcType=VARCHAR},
@@ -271,7 +274,7 @@
     update driver
     set truck_team_id = #{truckTeamId,jdbcType=INTEGER},
       truck_id = #{truckId,jdbcType=INTEGER},
-      driver_name = #{driverName,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       identity_card = #{identityCard,jdbcType=VARCHAR},
       driving_license = #{drivingLicense,jdbcType=INTEGER},
       maindriver = #{maindriver,jdbcType=BIT},
@@ -280,7 +283,7 @@
       phone_number = #{phoneNumber,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
       expiry_driving_license = #{expiryDrivingLicense,jdbcType=VARCHAR},
-      driver_status = #{driverStatus,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
@@ -294,31 +297,31 @@
   </update>
   <update id="deleteDriverLogic">
     update driver
-    set driver_status = #{status, jdbcType=INTEGER}
+    set status = #{status, jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="deleteDriverByTruckId">
     update driver
-    set driver_status = #{status, jdbcType=INTEGER}
+    set status = #{status, jdbcType=INTEGER}
     where truck_id = #{truckId,jdbcType=INTEGER}
   </update>
   <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from driver
-    where login_name = #{loginName,jdbcType=VARCHAR}
+    where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from driver
-    where phone_number = #{phoneNubmer,jdbcType=VARCHAR}
+    where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Info_Column" />
     from driver
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and status = 1
   </select>
     <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
       select

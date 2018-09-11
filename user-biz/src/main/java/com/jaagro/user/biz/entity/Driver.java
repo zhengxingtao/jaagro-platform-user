@@ -30,7 +30,7 @@ public class Driver implements Serializable {
     /**
      * 司机姓名
      */
-    private String driverName;
+    private String name;
 
     /**
      * 身份证号码
@@ -75,7 +75,7 @@ public class Driver implements Serializable {
     /**
      * 驾驶员帐号状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
      */
-    private Integer driverStatus;
+    private Integer status;
 
     /**
      * 生日
@@ -121,5 +121,4 @@ public class Driver implements Serializable {
      * 所属区县
      */
     private String county;
-
 }

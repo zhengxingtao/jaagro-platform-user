@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = employeeMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
-                userInfo = employeeMapper.getByphone(parseKey(map));
+                userInfo = employeeMapper.getByPhone(parseKey(map));
             }
             if(ID.equals(loginType)){
                 userInfo = employeeMapper.getUserInfoById(parseKey(map));
