@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +53,7 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Integer createDriverReturnId(CreateDriverDto driver) {
-        if(driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null){
+        if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
@@ -70,7 +71,15 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
-        return null;
+        if (driver.getDriverId() == null) {
+            throw new NullPointerException("司机id不能为空");
+        }
+        Driver dataDriver = new Driver();
+        BeanUtils.copyProperties(driver, dataDriver);
+        dataDriver
+                .setModifyUserId(this.userService.getCurrentUser().getId())
+                .setModifyTime(new Date());
+        return ServiceResult.toResult("修改成功");
     }
 
     /**
@@ -82,8 +91,8 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Map<String, Object> getById(Integer id) {
         DriverReturnDto driver = driverMapper.getDriverById(id);
-        if(driver == null){
-            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(),id + " :不存在");
+        if (driver == null) {
+            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), id + " :不存在");
         }
         return ServiceResult.toResult(driver);
     }
@@ -118,7 +127,7 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> deleteDriver(Integer id) {
-        if(driverMapper.selectByPrimaryKey(id) == null){
+        if (driverMapper.selectByPrimaryKey(id) == null) {
             throw new NullPointerException(id + " :不正确");
         }
         //后期扩展如果当前driver有任务未完成，无法删除
