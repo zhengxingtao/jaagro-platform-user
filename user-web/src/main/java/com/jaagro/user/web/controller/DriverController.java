@@ -73,7 +73,7 @@ public class DriverController {
         return BaseResponse.service(result);
     }
 
-    @DeleteMapping("/driver/{id}")
+    @PostMapping("/driver/{id}")
     public BaseResponse deleteDriver(@PathVariable("id") Integer id) {
         return BaseResponse.service(driverService.deleteDriver(id));
     }

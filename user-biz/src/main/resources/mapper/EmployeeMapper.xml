@@ -25,7 +25,7 @@
         birthday, notes, gender, status, create_time, modify_time, create_user_id, modify_user_id
     </sql>
     <sql id="Info_Column">
-        id, login_name, password, phone_number, salt, status, name
+        id, login_name, password, phone, salt, status, name
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select

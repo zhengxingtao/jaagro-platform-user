@@ -71,7 +71,8 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
-        if (driver.getDriverId() == null) {
+        System.err.println("-----------司机:" + driver.toString());
+        if (driver.getId() == null) {
             throw new NullPointerException("司机id不能为空");
         }
         Driver dataDriver = new Driver();
@@ -79,6 +80,7 @@ public class DriverServiceImpl implements DriverService {
         dataDriver
                 .setModifyUserId(this.userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
+        this.driverMapper.updateByPrimaryKeySelective(dataDriver);
         return ServiceResult.toResult("修改成功");
     }
 
