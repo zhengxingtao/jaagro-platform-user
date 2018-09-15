@@ -9,6 +9,7 @@ import com.jaagro.user.api.service.DriverService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapper;
+import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public class DriverServiceImpl implements DriverService {
     private static final Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
 
     @Autowired
-    private DriverMapper driverMapper;
+    private DriverMapperExt driverMapper;
     @Autowired
     private UserService userService;
 

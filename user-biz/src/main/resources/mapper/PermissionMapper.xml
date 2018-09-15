@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.PermissionMapper">
+<mapper namespace="com.jaagro.user.biz.mapper.PermissionMapperExt">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Permission">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="permission_number" property="permissionNumber" jdbcType="VARCHAR"/>
@@ -142,17 +142,4 @@
       modify_user_id = #{modifyUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="getByNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select
-        <include refid="Base_Column_List"/>
-        from permission
-        where permission_number = #{permissionNumber,jdbcType=VARCHAR}
-        and enabled = 1
-    </select>
-    <select id="listAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from permission
-        where enabled = 1
-    </select>
 </mapper>

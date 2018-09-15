@@ -7,10 +7,7 @@ import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.mapper.DepartmentMapper;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
-import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
-import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,13 +26,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private EmployeeMapperExt employeeMapper;
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private DepartmentMapperExt departmentMapper;
     @Autowired
-    private RoleMapper roleMapper;
+    private RoleMapperExt roleMapper;
     @Autowired
-    private EmployeeRoleMapper employeeRoleMapper;
+    private EmployeeRoleMapperExt employeeRoleMapper;
     @Autowired
     private EmployeeRoleService employeeRoleService;
 

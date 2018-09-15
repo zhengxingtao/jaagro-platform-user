@@ -5,9 +5,7 @@ import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.EmployeeRole;
 import com.jaagro.user.biz.entity.Role;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
-import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
-import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +22,11 @@ import java.util.Map;
 public class EmployeeRoleServiceImpl implements EmployeeRoleService {
 
     @Autowired
-    private EmployeeRoleMapper employeeRoleMapper;
+    private EmployeeRoleMapperExt employeeRoleMapper;
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private EmployeeMapperExt employeeMapper;
     @Autowired
-    private RoleMapper roleMapper;
+    private RoleMapperExt roleMapper;
     @Autowired
     private UserService userService;
 

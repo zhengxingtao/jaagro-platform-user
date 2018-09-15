@@ -5,6 +5,7 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
+import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +25,7 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private DepartmentMapperExt departmentMapper;
 
     @ApiOperation("新增部门")
     @PostMapping("/department")

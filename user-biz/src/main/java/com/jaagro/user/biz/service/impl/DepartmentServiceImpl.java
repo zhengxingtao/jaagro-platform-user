@@ -9,6 +9,7 @@ import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
+import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
@@ -20,11 +21,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author tony
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private DepartmentMapperExt departmentMapper;
 
     /**
      * 创建部门

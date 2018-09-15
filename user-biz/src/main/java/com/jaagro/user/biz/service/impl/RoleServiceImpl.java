@@ -9,9 +9,7 @@ import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Role;
 import com.jaagro.user.biz.entity.RolePermission;
-import com.jaagro.user.biz.mapper.PermissionMapper;
-import com.jaagro.user.biz.mapper.RoleMapper;
-import com.jaagro.user.biz.mapper.RolePermissionMapper;
+import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +33,11 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private UserService userService;
     @Autowired
-    private RoleMapper roleMapper;
+    private RoleMapperExt roleMapper;
     @Autowired
-    private PermissionMapper permissionMapper;
+    private PermissionMapperExt permissionMapper;
     @Autowired
-    private RolePermissionMapper rolePermissionMapper;
+    private RolePermissionMapperExt rolePermissionMapper;
 
     /**
      * 新增
