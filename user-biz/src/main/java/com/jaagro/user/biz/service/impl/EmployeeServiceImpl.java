@@ -38,11 +38,11 @@ import java.util.Map;
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    private DepartmentMapper departmentMapper;
+    private DepartmentMapperExt departmentMapper;
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private EmployeeMapperExt employeeMapper;
     @Autowired
-    private BusinessSupportMapper businessSupportMapper;
+    private BusinessSupportMapperExt businessSupportMapper;
     @Autowired
     private UserService userService;
     @Autowired
@@ -50,9 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRoleService employeeRoleService;
     @Autowired
-    private EmployeeRoleMapper employeeRoleMapper;
+    private EmployeeRoleMapperExt employeeRoleMapper;
     @Autowired
-    private RoleMapper roleMapper;
+    private RoleMapperExt roleMapper;
 
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.CustomerUserMapper" >
+<mapper namespace="com.jaagro.user.biz.mapper.CustomerUserMapperExt" >
   <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.CustomerUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="relevance_id" property="relevanceId" jdbcType="INTEGER" />
@@ -24,27 +24,6 @@
     email, phone_number, create_user_id, modify_user_id, create_time, modify_time,
     status
   </sql>
-  <sql id="Info_Column">
-    id, login_name, password, phone_number, salt, status, name
-  </sql>
-  <select id="getByULoginName" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from customer_user
-    where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
-  </select>
-  <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from customer_user
-    where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 1
-  </select>
-  <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from customer_user
-    where id = #{id,jdbcType=INTEGER} and status = 1
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
