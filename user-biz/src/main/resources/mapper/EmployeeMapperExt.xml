@@ -65,4 +65,10 @@
         from employee
         where dept_id = #{deptId,jdbcType=INTEGER}
     </select>
+    <select id="listEmployee" resultMap="ReturnMap">
+        select
+        <include refid="Return_List"/>
+        from employee
+        where status != 3
+    </select>
 </mapper>

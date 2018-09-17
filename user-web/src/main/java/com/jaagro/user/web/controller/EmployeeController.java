@@ -220,7 +220,7 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("根据部门id查询员工列表")
-    @GetMapping("/getEmpByDeptId/{deptId}")
+    @GetMapping("/listEmpByDeptId/{deptId}")
     public BaseResponse getEmpByDeptId(@PathVariable Integer deptId) {
         if (this.departmentMapper.selectByPrimaryKey(deptId) == null) {
             return BaseResponse.errorInstance("部门不存在");
@@ -238,6 +238,18 @@ public class EmployeeController {
     @PostMapping("/listEmpByCriteria")
     public BaseResponse listEmpByCriteria(@RequestBody ListEmpCriteriaDto criteriaDto) {
         return BaseResponse.service(this.employeeService.listByCriteria(criteriaDto));
+    }
+
+    /**
+     * 根据部门id查询员工列表
+     *
+     * @param
+     * @return
+     */
+    @ApiOperation("获取全部员工列表")
+    @GetMapping("/listEmployee")
+    public BaseResponse listEmployee() {
+        return BaseResponse.successInstance(this.employeeMapper.listEmployee());
     }
 
 }

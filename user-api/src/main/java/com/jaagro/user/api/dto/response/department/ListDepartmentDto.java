@@ -24,8 +24,13 @@ public class ListDepartmentDto implements Serializable {
     private String departmentName;
 
     /**
+     * 等级
+     */
+    private Integer level;
+
+    /**
      * 子部门列表
      */
-    private List<ListDepartmentSonDto> departmentDtoList;
+    private List<ListDepartmentDto> departmentDtoList;
 
 }

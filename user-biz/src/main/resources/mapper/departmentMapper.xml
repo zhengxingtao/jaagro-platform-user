@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
     <result column="netpoint" jdbcType="BIT" property="netpoint" />
+    <result column="level" jdbcType="INTEGER" property="level" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -14,10 +15,12 @@
     <result column="enabled" jdbcType="BIT" property="enabled" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
-
   <sql id="Base_Column_List">
-    id, department_name, netpoint, parent_id, leader_employee_id, create_time, create_user_id,
-    modify_time, modify_user_id, enabled, sort
+    id, department_name, netpoint, level, parent_id, leader_employee_id, create_time, 
+    create_user_id, modify_time, modify_user_id, enabled, sort
+  </sql>
+    <sql id="Return_List">
+    id, department_name,level
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -29,19 +32,19 @@
     delete from department
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true" keyProperty="id"
-          keyColumn="id">
-    insert into department (id, department_name, netpoint,
-      parent_id, leader_employee_id, create_time,
-      create_user_id, modify_time, modify_user_id,
-      enabled, sort)
-    values (#{id,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, #{netpoint,jdbcType=BIT},
-      #{parentId,jdbcType=INTEGER}, #{leaderEmployeeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-      #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER},
-      #{enabled,jdbcType=BIT}, #{sort,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department">
+    insert into department (id, department_name, netpoint, 
+      level, parent_id, leader_employee_id, 
+      create_time, create_user_id, modify_time, 
+      modify_user_id, enabled, sort
+      )
+    values (#{id,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, #{netpoint,jdbcType=BIT}, 
+      #{level,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{leaderEmployeeId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyUserId,jdbcType=INTEGER}, #{enabled,jdbcType=BIT}, #{sort,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true" keyProperty="id"
-          keyColumn="id">
+  <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department">
     insert into department
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -52,6 +55,9 @@
       </if>
       <if test="netpoint != null">
         netpoint,
+      </if>
+      <if test="level != null">
+        level,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -88,6 +94,9 @@
       <if test="netpoint != null">
         #{netpoint,jdbcType=BIT},
       </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
       </if>
@@ -123,6 +132,9 @@
       <if test="netpoint != null">
         netpoint = #{netpoint,jdbcType=BIT},
       </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
@@ -154,6 +166,7 @@
     update department
     set department_name = #{departmentName,jdbcType=VARCHAR},
       netpoint = #{netpoint,jdbcType=BIT},
+      level = #{level,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       leader_employee_id = #{leaderEmployeeId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

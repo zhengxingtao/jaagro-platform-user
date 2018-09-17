@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.dto.response.department.ListDepartmentSonDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,8 +39,8 @@ public interface DepartmentMapperExt extends DepartmentMapper {
     /**
      * 根据父级id查询子列表
      *
-     * @param parentId
+     * @param id
      * @return
      */
-    List<ListDepartmentSonDto> listByParentId(Integer parentId);
+    List<ListDepartmentDto> listByParentId(@Param("id") Integer id);
 }

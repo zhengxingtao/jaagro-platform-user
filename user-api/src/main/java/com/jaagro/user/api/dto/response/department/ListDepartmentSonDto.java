@@ -23,4 +23,9 @@ public class ListDepartmentSonDto implements Serializable {
      */
     private String departmentName;
 
+    /**
+     * 等级
+     */
+    private Integer level;
+
 }
