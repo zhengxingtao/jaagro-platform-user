@@ -117,4 +117,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<DepartmentReturnDto> departmentReturnDtos = this.departmentMapper.getByCriteriDto(dto);
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
+
+    @Override
+    public Map<String, Object> listDepartment() {
+        return ServiceResult.toResult(this.departmentMapper.listDepartment());
+    }
 }

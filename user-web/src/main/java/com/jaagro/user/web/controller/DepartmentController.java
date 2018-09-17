@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @author Administrator
-        */
+ */
 @RestController
 @Api(value = "department", description = "部门管理", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DepartmentController {
@@ -29,14 +29,14 @@ public class DepartmentController {
 
     @ApiOperation("新增部门")
     @PostMapping("/department")
-    public BaseResponse insertDepartment(@RequestBody CreateDepartmentDto department){
+    public BaseResponse insertDepartment(@RequestBody CreateDepartmentDto department) {
         return BaseResponse.service(departmentService.createDepartment(department));
     }
 
     @ApiOperation("修改部门")
     @PutMapping("/department")
-    public BaseResponse updateDepartment(@RequestBody UpdateDepartmentDto department){
-        if(departmentMapper.selectByPrimaryKey(department.getId()) == null){
+    public BaseResponse updateDepartment(@RequestBody UpdateDepartmentDto department) {
+        if (departmentMapper.selectByPrimaryKey(department.getId()) == null) {
             return BaseResponse.errorInstance("查询不到部门");
         }
         return BaseResponse.service(departmentService.updateById(department));
@@ -65,5 +65,11 @@ public class DepartmentController {
     @PostMapping("/getByCriteria")
     public BaseResponse listByCriteria(@RequestBody ListDepartmentCriteriaDto criteriaDto) {
         return BaseResponse.service(this.departmentService.listByCriteria(criteriaDto));
+    }
+
+    @ApiOperation("查询部门")
+    @PostMapping("/listDeparment")
+    public BaseResponse listDeparment() {
+        return BaseResponse.service(this.departmentService.listDepartment());
     }
 }
