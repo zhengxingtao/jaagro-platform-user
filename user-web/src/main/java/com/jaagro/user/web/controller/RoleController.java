@@ -4,8 +4,7 @@ import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
-import com.jaagro.user.biz.mapper.EmployeeRoleMapper;
-import com.jaagro.user.biz.mapper.RoleMapper;
+import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,11 +23,13 @@ import java.util.Map;
 public class RoleController {
 
     @Autowired
-    private RoleMapper roleMapper;
+    private RoleMapperExt roleMapper;
     @Autowired
     private RoleService roleService;
     @Autowired
-    private EmployeeRoleMapper employeeRoleMapper;
+    private EmployeeRoleMapperExt employeeRoleMapper;
+    @Autowired
+    private PermissionMapperExt permissionMapper;
 
     /**
      * 新增角色
@@ -142,5 +143,17 @@ public class RoleController {
     @PostMapping("/listRolePermByCriteria")
     public BaseResponse listRolePermByCriteria(@RequestBody ListRoleCriteriaDto criteriaDto) {
         return BaseResponse.service(this.roleService.listRole(criteriaDto));
+    }
+
+    /**
+     * 查询全部权限
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("查询全部权限")
+    @PostMapping("/listAllPermission")
+    public BaseResponse listAllPermission() {
+        return BaseResponse.successInstance(this.permissionMapper.listAll());
     }
 }
