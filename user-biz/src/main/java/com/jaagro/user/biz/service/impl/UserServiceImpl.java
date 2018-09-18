@@ -4,9 +4,7 @@ import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.biz.mapper.CustomerUserMapper;
-import com.jaagro.user.biz.mapper.DriverMapper;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
+import com.jaagro.user.biz.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +29,11 @@ public class UserServiceImpl implements UserService {
     private static final String USER_TYPE = "userType";
 
     @Autowired
-    private CustomerUserMapper customerUserMapper;
+    private CustomerUserMapperExt customerUserMapper;
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private EmployeeMapperExt employeeMapper;
     @Autowired
-    private DriverMapper driverMapper;
+    private DriverMapperExt driverMapper;
     @Autowired
     private UserClientService userClientService;
     @Autowired
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
         if(UserType.CUSTOMER.equals(userTypeTrim)){
 
             if(LOGIN_NAME.equals(loginType)){
-                userInfo = customerUserMapper.getByULoginName(parseKey(map));
+                userInfo = customerUserMapper.getByLoginName(parseKey(map));
             }
             if(PHONE_NUMBER.equals(loginType)){
                 userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));

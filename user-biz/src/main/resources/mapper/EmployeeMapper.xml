@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapper">
+<mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapperExt">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Employee">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -23,9 +23,6 @@
     <sql id="Base_Column_List">
         id, name, department_id, login_name, password, phone, salt, email, avatar,
         birthday, notes, gender, status, create_time, modify_time, create_user_id, modify_user_id
-    </sql>
-    <sql id="Info_Column">
-        id, login_name, password, phone_number, salt, status, name
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -236,64 +233,4 @@
       modify_user_id = #{modifyUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="getByUpdateDto" parameterType="com.jaagro.user.api.dto.request.UpdateEmpDto" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where
-        (login_name = #{loginName} or phone = #{phone})
-        <if test="id != null">
-            and id != #{id}
-        </if>
-        and status = 1
-    </select>
-    <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListEmpCriteriaDto"
-            resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where 1=1
-        <if test="keywords != null">
-            <![CDATA[and (name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
-        </if>
-        <if test="departmentId != null">
-            and department_id = #{departmentId}
-        </if>
-        <if test="status != null">
-            and status = #{status}
-        </if>
-        <if test="status == null">
-            and status = 1
-        </if>
-    </select>
-    <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Info_Column"/>
-        from employee
-        where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
-    </select>
-    <select id="getByPhone" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Info_Column"/>
-        from employee
-        where phone = #{phone,jdbcType=VARCHAR} and status = 1
-    </select>
-    <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Info_Column"/>
-        from employee
-        where id = #{id,jdbcType=INTEGER} and status = 1
-    </select>
-    <select id="getById" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="listByDeptId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where dept_id = #{deptId,jdbcType=INTEGER}
-    </select>
 </mapper>

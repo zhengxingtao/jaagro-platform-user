@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jaagro.user.biz.mapper.DepartmentMapper">
+<mapper namespace="com.jaagro.user.biz.mapper.DepartmentMapperExt">
   <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Department">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
@@ -14,19 +14,7 @@
     <result column="enabled" jdbcType="BIT" property="enabled" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
   </resultMap>
-  <resultMap id="DetailInfo" type="com.jaagro.user.api.dto.response.DepartmentReturnDto">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
-    <result column="netpoint" jdbcType="BIT" property="netpoint" />
-    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
-    <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-    <result column="modify_user_id" jdbcType="INTEGER" property="modifyUserId" />
-    <result column="enabled" jdbcType="BIT" property="enabled" />
-    <result column="sort" jdbcType="INTEGER" property="sort" />
-  </resultMap>
+
   <sql id="Base_Column_List">
     id, department_name, netpoint, parent_id, leader_employee_id, create_time, create_user_id,
     modify_time, modify_user_id, enabled, sort
@@ -176,27 +164,4 @@
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getById" parameterType="java.lang.Integer" resultMap="DetailInfo">
-    select
-    <include refid="Base_Column_List" />
-    from department
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <select id="getByCriteriDto" parameterType="com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto" resultMap="DetailInfo">
-    select
-    <include refid="Base_Column_List" />
-    from department
-    where 1=1
-    <if test="endDate != null">
-      <![CDATA[and create_time <= #{endDate}]]>
-    </if>
-    <if test="startDate != null">
-      <![CDATA[and create_time <= #{startDate}]]>
-    </if>
-    <if test="keywords != null">
-      <![CDATA[and department_name like concat('%',#{keywords},'%')]]>
-    </if>
-    and enabled = 1
-    order by create_time desc
-  </select>
 </mapper>

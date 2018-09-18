@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jaagro.user.biz.mapper.RoleMapperExt">
+
+    <resultMap id="ReturnMap" type="com.jaagro.user.api.dto.response.ReturnRoleDto">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+        <collection property="permissionDtoList" column="id"
+                    select="com.jaagro.user.biz.mapper.RolePermissionMapper.listByRoleId"/>
+    </resultMap>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT * FROM role
+        where enabled = 1
+        /*
+        SELECT * FROM role r
+        left join role_permission rp on r.id = rp.role_id
+        left join permission p on p.id = rp.permission_id*/
+    </select>
+    <select id="getByName" resultMap="BaseResultMap" parameterType="com.jaagro.user.api.dto.request.UpdateRoleDto">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where
+        name = #{name,jdbcType=VARCHAR}
+        <if test="id != null">
+            and id != #{id}
+        </if>
+        and enabled = 1
+    </select>
+    <select id="getRoleDetailById" resultMap="ReturnMap" parameterType="java.lang.Integer">
+        SELECT
+        *
+        FROM
+        role r
+        where r.id = #{id,jdbcType=INTEGER}
+    </select>
+</mapper>
