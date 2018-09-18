@@ -20,16 +20,9 @@
         <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
         <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap id="ReturnMap" type="com.jaagro.user.api.dto.response.Employee.ListEmployeeDto">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-    </resultMap>
     <sql id="Base_Column_List">
         id, name, department_id, login_name, password, phone, salt, email, avatar,
         birthday, notes, gender, status, create_time, modify_time, create_user_id, modify_user_id
-    </sql>
-    <sql id="Return_List">
-        id, name
     </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select

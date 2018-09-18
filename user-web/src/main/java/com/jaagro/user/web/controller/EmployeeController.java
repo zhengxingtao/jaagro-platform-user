@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @author baiyiran
  */
@@ -71,9 +73,14 @@ public class EmployeeController {
         if (this.employeeMapper.getByUpdateDto(updateEmpDto) != null) {
             return BaseResponse.errorInstance("登陆账号或手机号码已存在");
         }
-        //新增
-        this.employeeService.createEmployee(createEmpDto);
-        return BaseResponse.successInstance("员工创建成功");
+
+        Map<String, Object> result;
+        try {
+            result = this.employeeService.createEmployee(createEmpDto);
+        } catch (Exception ex) {
+            return BaseResponse.errorInstance(ex.getMessage());
+        }
+        return BaseResponse.service(result);
     }
 
     /**
@@ -84,7 +91,7 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("删除员工[逻辑]")
-    @DeleteMapping("deleteEmpById/{id}/{notes}")
+    @PostMapping("deleteEmpById/{id}/{notes}")
     public BaseResponse deleteById(@PathVariable Integer id, @PathVariable String notes) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("没有相应的员工数据");
@@ -210,7 +217,7 @@ public class EmployeeController {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("员工不存在");
         }
-        return BaseResponse.successInstance(this.employeeMapper.selectByPrimaryKey(id));
+        return BaseResponse.successInstance(this.employeeService.getById(id));
     }
 
     /**

@@ -7,14 +7,9 @@ import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
-import com.jaagro.user.api.service.EmployeeRoleService;
-import com.jaagro.user.api.service.EmployeeService;
-import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.api.service.VerificationCodeClientService;
-import com.jaagro.user.biz.entity.BusinessSupport;
-import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.entity.EmployeeRole;
-import com.jaagro.user.biz.entity.Role;
+import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
+import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.entity.*;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.MD5Utils;
 import com.jaagro.utils.PasswordEncoder;
@@ -27,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRoleMapperExt employeeRoleMapper;
     @Autowired
     private RoleMapperExt roleMapper;
+    @Autowired
+    private OssSignUrlClientService ossSignUrlClientService;
 
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
@@ -240,5 +238,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(criteriaDto.getPageNum(), criteriaDto.getPageSize());
         List<Employee> emps = this.employeeMapper.listByCriteria(criteriaDto);
         return ServiceResult.toResult(new PageInfo<>(emps));
+    }
+
+    @Override
+    public GetEmployeeDto getById(Integer id) {
+        GetEmployeeDto employeeDto = this.employeeMapper.getById(id);
+        if (employeeDto != null) {
+            //填充部门等级
+            Department department = departmentMapper.selectByPrimaryKey(employeeDto.getDepartmentId());
+            if (department != null) {
+                employeeDto.setLevel(department.getLevel());
+            }
+            //替换头像地址
+            String[] strArray = {employeeDto.getAvatar()};
+            List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
+            employeeDto.setAvatar(urlList.get(0).toString());
+        }
+        return employeeDto;
     }
 }

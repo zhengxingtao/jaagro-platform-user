@@ -3,7 +3,9 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,4 +76,11 @@ public interface EmployeeService {
      */
     Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto);
 
+    /**
+     * 查询单个员工
+     *
+     * @param id
+     * @return
+     */
+    GetEmployeeDto getById(Integer id);
 }
