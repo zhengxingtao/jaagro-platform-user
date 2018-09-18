@@ -25,7 +25,7 @@ public class CreateDepartmentDto implements Serializable {
     /**
      * 关联部门主管ID
      */
-    private Integer departmentManagerId;
+    private Integer leaderEmployeeId;
 
     /**
      * 等级

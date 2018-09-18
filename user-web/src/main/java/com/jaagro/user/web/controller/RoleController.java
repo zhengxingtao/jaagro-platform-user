@@ -134,6 +134,19 @@ public class RoleController {
     }
 
     /**
+     * 查询全部角色
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("查询全部角色")
+    @GetMapping("/listAllRole")
+    public BaseResponse listAllRole() {
+        return BaseResponse.service(this.roleService.listAllRole());
+    }
+
+
+    /**
      * 分页查询角色权限列表
      *
      * @param criteriaDto

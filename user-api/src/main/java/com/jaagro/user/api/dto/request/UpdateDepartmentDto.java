@@ -38,26 +38,6 @@ public class UpdateDepartmentDto implements Serializable {
     private Integer leaderEmployeeId;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 创建人
-     */
-    private Integer createUserId;
-
-    /**
-     * 修改时间
-     */
-    private Date modifyTime;
-
-    /**
-     * 修改人
-     */
-    private Integer modifyUserId;
-
-    /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;

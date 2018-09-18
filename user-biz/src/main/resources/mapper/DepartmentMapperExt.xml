@@ -22,6 +22,9 @@
                     select="com.jaagro.user.biz.mapper.DepartmentMapperExt.listByParentId">
         </collection>
     </resultMap>
+    <sql id="Return_List" >
+        id, department_name, level
+     </sql>
 
     <select id="getById" parameterType="java.lang.Integer" resultMap="DetailInfo">
         select

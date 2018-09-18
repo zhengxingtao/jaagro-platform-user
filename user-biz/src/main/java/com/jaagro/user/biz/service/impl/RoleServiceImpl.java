@@ -141,4 +141,9 @@ public class RoleServiceImpl implements RoleService {
         return ServiceResult.toResult(new PageInfo<>(roles));
     }
 
+    @Override
+    public Map<String, Object> listAllRole() {
+        return ServiceResult.toResult(this.roleMapper.listAll());
+    }
+
 }

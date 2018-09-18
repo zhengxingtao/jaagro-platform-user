@@ -13,6 +13,7 @@ import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
+import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +35,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentMapperExt departmentMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmployeeMapper employeeMapper;
 
     /**
      * 创建部门
@@ -44,6 +47,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> createDepartment(CreateDepartmentDto dto) {
+        if (departmentMapper.selectByPrimaryKey(dto.getParentId()) == null) {
+            return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "上级部门不存在");
+        }
+        if (employeeMapper.selectByPrimaryKey(dto.getLeaderEmployeeId()) == null) {
+            return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "主管不存在");
+        }
         //创建部门对象
         Department department = new Department();
         BeanUtils.copyProperties(dto, department);
@@ -66,7 +75,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = new Department();
         BeanUtils.copyProperties(dto, department);
         department
-                .setCreateTime(new Date());
+                .setModifyTime(new Date())
+                .setModifyUserId(userService.getCurrentUser().getId());
         departmentMapper.updateByPrimaryKeySelective(department);
         return ServiceResult.toResult("修改部门成功");
     }

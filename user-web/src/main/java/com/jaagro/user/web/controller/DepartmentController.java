@@ -37,6 +37,25 @@ public class DepartmentController {
     @ApiOperation("新增部门")
     @PostMapping("/department")
     public BaseResponse insertDepartment(@RequestBody CreateDepartmentDto department) {
+        if (department.getLevel() == null) {
+            return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不能为空"));
+        }
+        if (department.getLeaderEmployeeId() == null) {
+            return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "leaderEmployeeId不能为空"));
+        }
+        if (department.getLevel().equals(1)) {
+            if (department.getParentId() != null) {
+                return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level为1时parentId不允许传值"));
+            }
+        }
+        if (!department.getLevel().equals(1)) {
+            if (department.getParentId() == null) {
+                return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不为1时parentId不能为空"));
+            }
+            if (department.getParentId() < 1) {
+                return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "parentId不正确"));
+            }
+        }
         return BaseResponse.service(departmentService.createDepartment(department));
     }
 
