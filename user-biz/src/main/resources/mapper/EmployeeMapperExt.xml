@@ -64,6 +64,7 @@
         <include refid="Base_Column_List"/>
         from employee
         where dept_id = #{deptId,jdbcType=INTEGER}
+        and status != 3
     </select>
     <select id="listEmployee" resultMap="ReturnMap">
         select

@@ -20,12 +20,12 @@ public class CreateDepartmentDto implements Serializable {
     /**
      * 上级部门id
      */
-    private Long parentId;
+    private Integer parentId;
 
     /**
      * 关联部门主管ID
      */
-    private Long departmentManagerId;
+    private Integer departmentManagerId;
 
     /**
      * 等级

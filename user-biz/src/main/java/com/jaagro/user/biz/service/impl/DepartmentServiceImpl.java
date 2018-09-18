@@ -8,6 +8,8 @@ import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
+import com.jaagro.user.api.service.UserClientService;
+import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -30,6 +32,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Autowired
     private DepartmentMapperExt departmentMapper;
+    @Autowired
+    private UserService userService;
 
     /**
      * 创建部门
@@ -44,8 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = new Department();
         BeanUtils.copyProperties(dto, department);
         department
-                .setCreateTime(new Date())
-                .setEnabled(true);
+                .setCreateUserId(userService.getCurrentUser().getId());
         departmentMapper.insertSelective(department);
         return ServiceResult.toResult("部门创建成功");
     }
@@ -93,15 +96,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Map<String, Object> disableDepartment(Integer id) {
         //创建部门Dto返回的对象
-        DepartmentReturnDto departmentDto = departmentMapper.getById(id);
-        //创建部门对象
-        Department department = new Department();
-        BeanUtils.copyProperties(departmentDto, department);
-        if (department != null) {
-            //逻辑删除部门
-            department.setEnabled(false);
-            departmentMapper.updateByPrimaryKeySelective(department);
+        Department department = departmentMapper.selectByPrimaryKey(id);
+        if (department == null) {
+            return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门查询无数据");
         }
+        //逻辑删除部门
+        department.setEnabled(false);
+        departmentMapper.updateByPrimaryKeySelective(department);
         return ServiceResult.toResult("部门删除成功");
     }
 
