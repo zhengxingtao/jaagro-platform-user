@@ -28,9 +28,19 @@ public class DepartmentReturnDto implements Serializable {
     private Boolean netpoint;
 
     /**
+     * 部门级别
+     */
+    private Integer level;
+
+    /**
      * 上级部门id
      */
     private Integer parentId;
+
+    /**
+     * 上级部门level
+     */
+    private Integer parentLevel;
 
     /**
      * 部门主管ID

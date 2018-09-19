@@ -69,7 +69,7 @@ public class DepartmentController {
     }
 
     @ApiOperation("查询单个部门")
-    @GetMapping("/customer/{id}")
+    @GetMapping("/department/{id}")
     public BaseResponse getById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到部门ID");

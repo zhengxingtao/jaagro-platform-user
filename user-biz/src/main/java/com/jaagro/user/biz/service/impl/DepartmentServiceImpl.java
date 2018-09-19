@@ -93,7 +93,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         if (departmentMapper.selectByPrimaryKey(id) == null) {
             return ServiceResult.error(ResponseStatusCode.ID_VALUE_ERROR.getCode(), "id: " + id + "不存在");
         }
-        return ServiceResult.toResult(departmentMapper.getById(id));
+        DepartmentReturnDto departmentReturnDto = departmentMapper.getById(id);
+        if (departmentReturnDto != null) {
+            Department department = departmentMapper.selectByPrimaryKey(departmentReturnDto.getParentId());
+            if (department != null) {
+                departmentReturnDto.setParentLevel(department.getLevel());
+            }
+        }
+        return ServiceResult.toResult(departmentReturnDto);
     }
 
     /**

@@ -5,6 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
         <result column="netpoint" jdbcType="BIT" property="netpoint"/>
+        <result column="level" jdbcType="INTEGER" property="level" />
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
         <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
