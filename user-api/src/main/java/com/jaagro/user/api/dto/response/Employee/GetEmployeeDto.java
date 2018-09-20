@@ -1,9 +1,11 @@
 package com.jaagro.user.api.dto.response.employee;
 
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author baiyiran
@@ -75,5 +77,10 @@ public class GetEmployeeDto implements Serializable {
      * 帐号状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
      */
     private Integer status;
+
+    /**
+     * 员工角色列表
+     */
+    private List<GetRoleDto> roleDtoList;
 
 }

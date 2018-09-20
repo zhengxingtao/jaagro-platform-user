@@ -8,6 +8,7 @@ import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.BaseResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -43,6 +44,11 @@ public class RoleController {
         if (StringUtils.isEmpty(dto.getName())) {
             return BaseResponse.errorInstance("角色名不能为空");
         }
+        UpdateRoleDto updateRoleDto = new UpdateRoleDto();
+        BeanUtils.copyProperties(dto, updateRoleDto);
+        if (roleMapper.getByName(updateRoleDto) != null) {
+            return BaseResponse.errorInstance("角色名称已存在");
+        }
         if (dto.getPermissionDtos() != null && dto.getPermissionDtos().length > 0) {
             return BaseResponse.service(this.roleService.createRole(dto));
         } else {
@@ -62,8 +68,10 @@ public class RoleController {
         if (StringUtils.isEmpty(dto.getId())) {
             return BaseResponse.errorInstance("角色id不能为空");
         }
-        if (roleMapper.getByName(dto) != null) {
-            return BaseResponse.errorInstance("角色名称已存在");
+        if (!StringUtils.isEmpty(dto.getName())) {
+            if (roleMapper.getByName(dto) != null) {
+                return BaseResponse.errorInstance("角色名称已存在");
+            }
         }
         try {
             return BaseResponse.service(roleService.updateRole(dto));
@@ -109,7 +117,7 @@ public class RoleController {
      * @return
      */
     @ApiOperation("删除角色[逻辑]")
-    @DeleteMapping("/deleteRoleById/{id}")
+    @PostMapping("/deleteRoleById/{id}")
     public BaseResponse deleteRoleById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance("查询不到相应数据");

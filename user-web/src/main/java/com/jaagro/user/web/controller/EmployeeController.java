@@ -4,6 +4,7 @@ import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.Employee.DeleteEmployeeDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
@@ -91,12 +92,12 @@ public class EmployeeController {
      * @return
      */
     @ApiOperation("删除员工[逻辑]")
-    @PostMapping("deleteEmpById/{id}/{notes}")
-    public BaseResponse deleteById(@PathVariable Integer id, @PathVariable String notes) {
-        if (this.employeeMapper.selectByPrimaryKey(id) == null) {
+    @PostMapping("deleteEmpById")
+    public BaseResponse deleteById(@RequestBody DeleteEmployeeDto deleteEmployeeDto) {
+        if (this.employeeMapper.selectByPrimaryKey(deleteEmployeeDto.getId()) == null) {
             return BaseResponse.errorInstance("没有相应的员工数据");
         }
-        this.employeeService.disableEmployee(id, notes);
+        this.employeeService.disableEmployee(deleteEmployeeDto);
         return BaseResponse.successInstance("删除员工成功");
     }
 

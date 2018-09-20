@@ -3,7 +3,6 @@ package com.jaagro.user.biz.mapper;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
-import com.jaagro.user.api.dto.response.department.ListDepartmentSonDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -7,6 +7,8 @@ import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.Employee.DeleteEmployeeDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.service.*;
 import com.jaagro.user.biz.entity.*;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -191,11 +194,10 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> disableEmployee(Integer id, String notes) {
+    public Map<String, Object> disableEmployee(DeleteEmployeeDto deleteEmployeeDto) {
         Employee employee = new Employee();
+        BeanUtils.copyProperties(deleteEmployeeDto, employee);
         employee
-                .setId(id)
-                .setNotes(notes)
                 .setStatus(AuditStatus.STOP_COOPERATION)
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
@@ -253,6 +255,21 @@ public class EmployeeServiceImpl implements EmployeeService {
             String[] strArray = {employeeDto.getAvatar()};
             List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
             employeeDto.setAvatar(urlList.get(0).toString());
+            //填充员工角色列表
+            List<EmployeeRole> employeeRoleList = employeeRoleMapper.listByEmpId(employeeDto.getId());
+            List<GetRoleDto> roleDtoList = new ArrayList<>();
+            if (employeeRoleList.size() > 0) {
+                for (EmployeeRole employeeRole : employeeRoleList
+                ) {
+                    Role role = roleMapper.selectByPrimaryKey(employeeRole.getRoleId());
+                    if (role != null) {
+                        GetRoleDto getRoleDto = new GetRoleDto();
+                        BeanUtils.copyProperties(role, getRoleDto);
+                        roleDtoList.add(getRoleDto);
+                    }
+                }
+                employeeDto.setRoleDtoList(roleDtoList);
+            }
         }
         return employeeDto;
     }

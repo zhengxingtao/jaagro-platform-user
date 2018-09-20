@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
+import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
@@ -81,8 +82,14 @@ public class DepartmentController {
     @ApiOperation("删除部门[逻辑]")
     @GetMapping("/deleteById/{id}")
     public BaseResponse deleteById(@PathVariable Integer id) {
-        if (this.departmentMapper.selectByPrimaryKey(id) == null) {
+        Department department = this.departmentMapper.selectByPrimaryKey(id);
+        if (department == null) {
             return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到相应数据"));
+        }
+        if (department.getLevel() == 1) {
+            if (departmentMapper.listByParentId(department.getId()).size() > 0) {
+                return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此部门存在下级，不得删除此部门"));
+            }
         }
         if (this.employeeMapper.listByDeptId(id).size() > 0) {
             return BaseResponse.service(ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此部门下存在员工，不得删除此部门"));

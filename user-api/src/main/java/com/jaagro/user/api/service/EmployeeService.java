@@ -3,6 +3,7 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.Employee.DeleteEmployeeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public interface EmployeeService {
      * @param notes 注销原因
      * @return
      */
-    Map<String, Object> disableEmployee(Integer id, String notes);
+    Map<String, Object> disableEmployee(DeleteEmployeeDto deleteEmployeeDto);
 
     /**
      * 设置员工需协作部门
