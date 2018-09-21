@@ -16,6 +16,7 @@ import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.MD5Utils;
 import com.jaagro.utils.PasswordEncoder;
 import com.jaagro.utils.ServiceResult;
+import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -95,6 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateEmployee(UpdateEmpDto dto) {
         Employee employee = new Employee();
@@ -108,7 +110,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             for (int i = 0; i < dto.getRoleIds().length; i++) {
                 Role role = this.roleMapper.selectByPrimaryKey(dto.getRoleIds()[i]);
                 if (role == null) {
-                    throw new RuntimeException("角色[" + dto.getRoleIds()[i] + "]不存在");
+                    throw new NullPointerException("角色[" + dto.getRoleIds()[i] + "]不存在");
                 }
                 //新增
                 EmployeeRole employeeRole = new EmployeeRole();
@@ -136,7 +138,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
         Employee emp = this.employeeMapper.selectByPrimaryKey(id);
         if (emp == null) {
-            throw new RuntimeException("员工不存在");
+            throw new NullPointerException("员工不存在");
         }
         System.err.println(MD5Utils.encode(oldPassword, emp.getSalt()));
         System.err.println(emp.getPassword());

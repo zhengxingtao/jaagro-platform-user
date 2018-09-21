@@ -23,7 +23,6 @@ public class DriverController {
 
     @PostMapping("/driver")
     public BaseResponse createDriver(@RequestBody CreateDriverDto driver) {
-
         BaseResponse result;
         try {
             result = BaseResponse.service(driverService.createDriver(driver));

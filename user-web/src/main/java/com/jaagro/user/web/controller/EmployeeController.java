@@ -10,6 +10,7 @@ import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.BaseResponse;
+import com.jaagro.utils.ResponseStatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -49,22 +51,22 @@ public class EmployeeController {
     @PostMapping("/employee")
     public BaseResponse employee(@RequestBody CreateEmpDto createEmpDto) {
         if (StringUtils.isEmpty(createEmpDto.getName())) {
-            return BaseResponse.errorInstance("员工姓名[name]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "员工姓名[name]不能为空");
         }
         if (StringUtils.isEmpty(createEmpDto.getLoginName())) {
-            return BaseResponse.errorInstance("登录账号[loginName]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "登录账号[loginName]不能为空");
         }
         if (StringUtils.isEmpty(createEmpDto.getPassword())) {
-            return BaseResponse.errorInstance("登录密码[password]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "登录密码[password]不能为空");
         }
         if (StringUtils.isEmpty(createEmpDto.getPhone())) {
-            return BaseResponse.errorInstance("手机号码[phoneNumber]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "手机号码[phoneNumber]不能为空");
         }
         if (StringUtils.isEmpty(createEmpDto.getDepartmentId())) {
             return BaseResponse.idNull("关联部门ID[departmentId]不能为空");
         }
         if (this.departmentMapper.selectByPrimaryKey(createEmpDto.getDepartmentId()) == null) {
-            return BaseResponse.errorInstance("部门ID[departmentId]不存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门ID[departmentId]不存在");
         }
         //判断登陆账号和手机号是否已存在
         UpdateEmpDto updateEmpDto = new UpdateEmpDto();
@@ -72,7 +74,7 @@ public class EmployeeController {
                 .setLoginName(createEmpDto.getLoginName())
                 .setPhone(createEmpDto.getPhone());
         if (this.employeeMapper.getByUpdateDto(updateEmpDto) != null) {
-            return BaseResponse.errorInstance("登陆账号或手机号码已存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "登陆账号或手机号码已存在");
         }
 
         Map<String, Object> result;
@@ -95,7 +97,7 @@ public class EmployeeController {
     @PostMapping("deleteEmpById")
     public BaseResponse deleteById(@RequestBody DeleteEmployeeDto deleteEmployeeDto) {
         if (this.employeeMapper.selectByPrimaryKey(deleteEmployeeDto.getId()) == null) {
-            return BaseResponse.errorInstance("没有相应的员工数据");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "没有相应的员工数据");
         }
         this.employeeService.disableEmployee(deleteEmployeeDto);
         return BaseResponse.successInstance("删除员工成功");
@@ -111,23 +113,28 @@ public class EmployeeController {
     @PutMapping("/employee")
     public BaseResponse employee(@RequestBody UpdateEmpDto updateEmpDto) {
         if (StringUtils.isEmpty(updateEmpDto.getLoginName())) {
-            return BaseResponse.errorInstance("登录账号[loginName]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "登录账号[loginName]不能为空");
         }
         if (StringUtils.isEmpty(updateEmpDto.getPhone())) {
-            return BaseResponse.errorInstance("手机号码[phoneNumber]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "手机号码[phoneNumber]不能为空");
         }
         if (StringUtils.isEmpty(updateEmpDto.getDepartmentId())) {
-            return BaseResponse.idNull("关联部门ID[departmentId]不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "关联部门ID[departmentId]不能为空");
         }
         if (this.departmentMapper.selectByPrimaryKey(updateEmpDto.getDepartmentId()) == null) {
-            return BaseResponse.errorInstance("部门ID[departmentId]不存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门ID[departmentId]不存在");
         }
         //判断登陆账号和手机号是否已存在
         if (this.employeeMapper.getByUpdateDto(updateEmpDto) != null) {
-            return BaseResponse.errorInstance("登陆账号或手机号码已存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "登陆账号或手机号码已存在");
         }
-        this.employeeService.updateEmployee(updateEmpDto);
-        return BaseResponse.successInstance("员工修改成功");
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result = this.employeeService.updateEmployee(updateEmpDto);
+        } catch (Exception ex) {
+            BaseResponse.errorInstance(ex.getMessage());
+        }
+        return BaseResponse.service(result);
     }
 
     /**
@@ -145,11 +152,11 @@ public class EmployeeController {
                                           @RequestParam(value = "id") Integer id) {
         Employee employee = this.employeeMapper.selectByPrimaryKey(id);
         if (employee == null) {
-            return BaseResponse.errorInstance("此员工不存在:id:" + id);
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:id:" + id);
         }
         try {
             this.employeeService.updatePassword(id, oldPassword, newPassword);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return BaseResponse.errorInstance(e.getMessage());
         }
         return BaseResponse.successInstance("员工修改密码成功");
@@ -170,7 +177,7 @@ public class EmployeeController {
                                       @RequestParam(value = "newPassword") String newPassword) {
         UserInfo userInfo = this.employeeMapper.getByPhone(phone);
         if (userInfo == null) {
-            return BaseResponse.errorInstance("此员工不存在:phone:" + phone);
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + phone);
         }
         try {
             this.employeeService.resetPassword(phone, verificationCode, newPassword);
@@ -191,16 +198,16 @@ public class EmployeeController {
     @PostMapping("/createEmpDepartment")
     public BaseResponse createEmpDepartment(@RequestParam(value = "departmentIds") Integer[] departmentIds, @RequestParam(value = "id") Integer id) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance("员工[id:" + id + "]不存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "员工[id:" + id + "]不存在");
         }
         if (departmentIds.length > 0) {
             for (Integer did : departmentIds) {
                 if (this.departmentMapper.selectByPrimaryKey(did) == null) {
-                    return BaseResponse.errorInstance("部门[id:" + did + "]不存在");
+                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门[id:" + did + "]不存在");
                 }
             }
         } else {
-            return BaseResponse.errorInstance("部门ids不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门ids不能为空");
         }
         this.employeeService.setDepartmentCooperation(id, departmentIds);
         return BaseResponse.successInstance("员工协作部门创建成功");
@@ -216,7 +223,7 @@ public class EmployeeController {
     @GetMapping("/getEmpById/{id}")
     public BaseResponse getEmp(@PathVariable Integer id) {
         if (this.employeeMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance("员工不存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "员工不存在");
         }
         return BaseResponse.successInstance(this.employeeService.getById(id));
     }
@@ -231,7 +238,7 @@ public class EmployeeController {
     @GetMapping("/listEmpByDeptId/{deptId}")
     public BaseResponse getEmpByDeptId(@PathVariable Integer deptId) {
         if (this.departmentMapper.selectByPrimaryKey(deptId) == null) {
-            return BaseResponse.errorInstance("部门不存在");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门不存在");
         }
         return BaseResponse.successInstance(this.employeeMapper.listByDeptId(deptId));
     }
