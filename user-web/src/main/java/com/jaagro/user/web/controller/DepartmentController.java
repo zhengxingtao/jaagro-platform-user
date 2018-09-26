@@ -40,22 +40,19 @@ public class DepartmentController {
     @PostMapping("/department")
     public BaseResponse insertDepartment(@RequestBody CreateDepartmentDto department) {
         if (department.getLevel() == null) {
-            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不能为空");
-        }
-        if (department.getLeaderEmployeeId() == null) {
-            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "leaderEmployeeId不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门级别不能为空");
         }
         if (department.getLevel().equals(1)) {
             if (department.getParentId() != null) {
-                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level为1时parentId不允许传值");
+                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门级别为一级时父级部门不允许传值");
             }
         }
         if (!department.getLevel().equals(1)) {
             if (department.getParentId() == null) {
-                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不为1时parentId不能为空");
+                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门级别不为一级时父级部门不能为空");
             }
             if (department.getParentId() < 1) {
-                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "parentId不正确");
+                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "父级部门不正确");
             }
         }
         Map<String, Object> result;
@@ -79,10 +76,10 @@ public class DepartmentController {
             }
             if (!department.getLevel().equals(1)) {
                 if (department.getParentId() == null) {
-                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不为1时parentId不能为空");
+                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门级别不为一级时父级部门不能为空");
                 }
                 if (department.getParentId() < 1) {
-                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "parentId不正确");
+                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "父级部门不正确");
                 }
             }
         }
@@ -99,7 +96,7 @@ public class DepartmentController {
     @GetMapping("/department/{id}")
     public BaseResponse getById(@PathVariable Integer id) {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到部门ID");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到部门");
         }
         return BaseResponse.service(departmentService.getById(id));
     }

@@ -3,6 +3,7 @@ package com.jaagro.user.api.service;
 
 import com.jaagro.constant.UserInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,7 @@ public interface UserService {
 
     /**
      * 全局获取userInfo
+     *
      * @param map
      * @return
      */
@@ -19,7 +21,9 @@ public interface UserService {
 
     /**
      * 获取当前user
+     *
      * @return
      */
     UserInfo getCurrentUser();
+
 }

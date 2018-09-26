@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.DriverService;
+import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.utils.BaseResponse;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,17 @@ public class DriverController {
     @DeleteMapping("/driverByTruck/{truckId}")
     public BaseResponse deleteDriverByTruckId(@PathVariable("truckId") Integer truckId) {
         return BaseResponse.service(driverService.deleteDriver(truckId));
+    }
+
+    @Ignore
+    @PostMapping("/updateDriverStatusFeign/{driverId}")
+    public BaseResponse updateDriverStatusFeign(@PathVariable("driverId") Integer driverId) {
+        Map<String, Object> result;
+        try {
+            result = driverService.updateDriverStatus(driverId);
+        } catch (Exception e) {
+            throw e;
+        }
+        return BaseResponse.service(result);
     }
 }

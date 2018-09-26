@@ -162,4 +162,18 @@ public class DriverServiceImpl implements DriverService {
     public List<DriverReturnDto> listByTruckId(Integer truckId) {
         return driverMapper.listDriverByTruckId(truckId);
     }
+
+    @Override
+    public Map<String, Object> updateDriverStatus(Integer driverId) {
+        Driver driver = driverMapper.selectByPrimaryKey(driverId);
+        if (driver != null) {
+            driver
+                    .setStatus(AuditStatus.NORMAL_COOPERATION)
+                    .setModifyTime(new Date())
+                    .setModifyUserId(userService.getCurrentUser().getId());
+            driverMapper.updateByPrimaryKeySelective(driver);
+            return ServiceResult.toResult("审核司机通过成功");
+        }
+        return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
+    }
 }
