@@ -18,6 +18,11 @@ public class UpdateDepartmentDto implements Serializable {
     private Integer id;
 
     /**
+     * 等级
+     */
+    private Integer level;
+
+    /**
      * 部门名称
      */
     private String departmentName;

@@ -15,6 +15,7 @@ import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
+import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
@@ -83,6 +84,15 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .setModifyTime(new Date())
                 .setModifyUserId(userService.getCurrentUser().getId());
         departmentMapper.updateByPrimaryKeySelective(department);
+        if (dto.getLevel() != null) {
+            if (dto.getLevel().equals(1)) {
+                if (dto.getParentId() == null) {
+                    Department department1 = departmentMapper.selectByPrimaryKey(department.getId());
+                    department1.setParentId(null);
+                    departmentMapper.updateByPrimaryKey(department1);
+                }
+            }
+        }
         return ServiceResult.toResult("修改部门成功");
     }
 

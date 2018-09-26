@@ -73,6 +73,19 @@ public class DepartmentController {
         if (departmentMapper.selectByPrimaryKey(department.getId()) == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到部门");
         }
+        if (department.getLevel() != null) {
+            if (department.getLevel().equals(1)) {
+                department.setParentId(null);
+            }
+            if (!department.getLevel().equals(1)) {
+                if (department.getParentId() == null) {
+                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "level不为1时parentId不能为空");
+                }
+                if (department.getParentId() < 1) {
+                    return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "parentId不正确");
+                }
+            }
+        }
         Map<String, Object> result;
         try {
             result = departmentService.updateById(department);
