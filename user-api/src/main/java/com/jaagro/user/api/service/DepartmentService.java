@@ -55,5 +55,5 @@ public interface DepartmentService {
      *
      * @return
      */
-    Map<String, Object> listDepartment();
+    Map<String, Object> listDepartment(Boolean netpoint);
 }

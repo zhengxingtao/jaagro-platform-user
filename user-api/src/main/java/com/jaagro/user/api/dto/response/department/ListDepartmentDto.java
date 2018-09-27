@@ -24,6 +24,11 @@ public class ListDepartmentDto implements Serializable {
     private String departmentName;
 
     /**
+     * 0-不是，1-是网点
+     */
+    private Boolean netpoint;
+
+    /**
      * 等级
      */
     private Integer level;

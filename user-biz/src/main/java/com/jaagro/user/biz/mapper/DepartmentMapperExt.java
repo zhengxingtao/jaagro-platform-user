@@ -33,7 +33,7 @@ public interface DepartmentMapperExt extends DepartmentMapper {
      *
      * @return
      */
-    List<ListDepartmentDto> listDepartment();
+    List<ListDepartmentDto> listDepartment(@Param("netpoint") Boolean netpoint);
 
     /**
      * 根据父级id查询子列表

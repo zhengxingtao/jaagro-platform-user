@@ -153,7 +153,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Map<String, Object> listDepartment() {
-        return ServiceResult.toResult(this.departmentMapper.listDepartment());
+    public Map<String, Object> listDepartment(Boolean netpoint) {
+        return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
     }
 }
