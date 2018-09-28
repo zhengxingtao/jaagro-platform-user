@@ -108,10 +108,8 @@ public class DepartmentController {
         if (department == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到相应数据");
         }
-        if (department.getLevel() == 1) {
-            if (departmentMapper.listByParentId(department.getId()).size() > 0) {
-                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此部门存在下级，不得删除此部门");
-            }
+        if (departmentMapper.listByParentId(department.getId()).size() > 0) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此部门存在下级，不得删除此部门");
         }
         if (this.employeeMapper.listByDeptId(id).size() > 0) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此部门下存在员工，不得删除此部门");
