@@ -44,6 +44,7 @@
         where 1=1
         <if test="keywords != null">
             <![CDATA[and (name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
+            and status = 1
         </if>
         <if test="departmentId != null">
             and department_id = #{departmentId}
@@ -54,6 +55,7 @@
         <if test="status == null">
             and status = 1
         </if>
+        order by create_time desc
     </select>
     <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
         select
