@@ -1,162 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jaagro.user.biz.mapper.DepartmentMapperExt">
-    <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Department">
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
-        <result column="netpoint" jdbcType="BIT" property="netpoint"/>
-        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
-        <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
-        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
-        <result column="modify_user_id" jdbcType="INTEGER" property="modifyUserId"/>
-        <result column="enabled" jdbcType="BIT" property="enabled"/>
-        <result column="sort" jdbcType="INTEGER" property="sort"/>
+    <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Department" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+        <result column="netpoint" property="netpoint" jdbcType="BIT" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+        <result column="leader_employee_id" property="leaderEmployeeId" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
+        <result column="enabled" property="enabled" jdbcType="BIT" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
     </resultMap>
-    <sql id="Base_Column_List">
-    id, department_name, netpoint, parent_id, leader_employee_id, create_time, create_user_id,
-    modify_time, modify_user_id, enabled, sort
-  </sql>
-    <sql id="Return_List">
-    id, department_name
-  </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <sql id="Base_Column_List" >
+        id, department_name, netpoint, level, parent_id, leader_employee_id, create_time,
+        create_user_id, modify_time, modify_user_id, enabled, sort
+      </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from department
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from department
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true" keyProperty="id"
-            keyColumn="id">
+    <insert id="insert" parameterType="com.jaagro.user.biz.entity.Department" >
     insert into department (id, department_name, netpoint,
-      parent_id, leader_employee_id, create_time,
-      create_user_id, modify_time, modify_user_id,
-      enabled, sort)
+      level, parent_id, leader_employee_id,
+      create_time, create_user_id, modify_time,
+      modify_user_id, enabled, sort
+      )
     values (#{id,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, #{netpoint,jdbcType=BIT},
-      #{parentId,jdbcType=INTEGER}, #{leaderEmployeeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
-      #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=INTEGER},
-      #{enabled,jdbcType=BIT}, #{sort,jdbcType=INTEGER})
+      #{level,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{leaderEmployeeId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{modifyUserId,jdbcType=INTEGER}, #{enabled,jdbcType=BIT}, #{sort,jdbcType=INTEGER}
+      )
   </insert>
-    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department" useGeneratedKeys="true"
-            keyProperty="id"
-            keyColumn="id">
+    <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Department" >
         insert into department
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
                 id,
             </if>
-            <if test="departmentName != null">
+            <if test="departmentName != null" >
                 department_name,
             </if>
-            <if test="netpoint != null">
+            <if test="netpoint != null" >
                 netpoint,
             </if>
-            <if test="parentId != null">
+            <if test="level != null" >
+                level,
+            </if>
+            <if test="parentId != null" >
                 parent_id,
             </if>
-            <if test="leaderEmployeeId != null">
+            <if test="leaderEmployeeId != null" >
                 leader_employee_id,
             </if>
-            <if test="createTime != null">
+            <if test="createTime != null" >
                 create_time,
             </if>
-            <if test="createUserId != null">
+            <if test="createUserId != null" >
                 create_user_id,
             </if>
-            <if test="modifyTime != null">
+            <if test="modifyTime != null" >
                 modify_time,
             </if>
-            <if test="modifyUserId != null">
+            <if test="modifyUserId != null" >
                 modify_user_id,
             </if>
-            <if test="enabled != null">
+            <if test="enabled != null" >
                 enabled,
             </if>
-            <if test="sort != null">
+            <if test="sort != null" >
                 sort,
             </if>
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="departmentName != null">
+            <if test="departmentName != null" >
                 #{departmentName,jdbcType=VARCHAR},
             </if>
-            <if test="netpoint != null">
+            <if test="netpoint != null" >
                 #{netpoint,jdbcType=BIT},
             </if>
-            <if test="parentId != null">
+            <if test="level != null" >
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null" >
                 #{parentId,jdbcType=INTEGER},
             </if>
-            <if test="leaderEmployeeId != null">
+            <if test="leaderEmployeeId != null" >
                 #{leaderEmployeeId,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
+            <if test="createTime != null" >
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUserId != null">
+            <if test="createUserId != null" >
                 #{createUserId,jdbcType=INTEGER},
             </if>
-            <if test="modifyTime != null">
+            <if test="modifyTime != null" >
                 #{modifyTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="modifyUserId != null">
+            <if test="modifyUserId != null" >
                 #{modifyUserId,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
+            <if test="enabled != null" >
                 #{enabled,jdbcType=BIT},
             </if>
-            <if test="sort != null">
+            <if test="sort != null" >
                 #{sort,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Department">
+    <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Department" >
         update department
-        <set>
-            <if test="departmentName != null">
+        <set >
+            <if test="departmentName != null" >
                 department_name = #{departmentName,jdbcType=VARCHAR},
             </if>
-            <if test="netpoint != null">
+            <if test="netpoint != null" >
                 netpoint = #{netpoint,jdbcType=BIT},
             </if>
-            <if test="parentId != null">
+            <if test="level != null" >
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null" >
                 parent_id = #{parentId,jdbcType=INTEGER},
             </if>
-            <if test="leaderEmployeeId != null">
+            <if test="leaderEmployeeId != null" >
                 leader_employee_id = #{leaderEmployeeId,jdbcType=INTEGER},
             </if>
-            <if test="createTime != null">
+            <if test="createTime != null" >
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="createUserId != null">
+            <if test="createUserId != null" >
                 create_user_id = #{createUserId,jdbcType=INTEGER},
             </if>
-            <if test="modifyTime != null">
+            <if test="modifyTime != null" >
                 modify_time = #{modifyTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="modifyUserId != null">
+            <if test="modifyUserId != null" >
                 modify_user_id = #{modifyUserId,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
+            <if test="enabled != null" >
                 enabled = #{enabled,jdbcType=BIT},
             </if>
-            <if test="sort != null">
+            <if test="sort != null" >
                 sort = #{sort,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Department">
+    <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Department" >
     update department
     set department_name = #{departmentName,jdbcType=VARCHAR},
       netpoint = #{netpoint,jdbcType=BIT},
+      level = #{level,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       leader_employee_id = #{leaderEmployeeId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},

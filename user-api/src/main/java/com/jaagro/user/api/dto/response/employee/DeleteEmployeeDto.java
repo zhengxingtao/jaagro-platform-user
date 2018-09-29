@@ -1,4 +1,4 @@
-package com.jaagro.user.api.dto.response.Employee;
+package com.jaagro.user.api.dto.response.employee;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

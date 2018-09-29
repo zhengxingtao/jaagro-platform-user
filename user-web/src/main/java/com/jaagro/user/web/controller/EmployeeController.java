@@ -4,7 +4,7 @@ import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
-import com.jaagro.user.api.dto.response.Employee.DeleteEmployeeDto;
+import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
