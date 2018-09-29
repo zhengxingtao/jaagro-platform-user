@@ -44,6 +44,7 @@
         where 1=1
         <if test="keywords != null">
             <![CDATA[and (name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
+            and status in (0,1,2,3)
         </if>
         <if test="departmentId != null">
             and department_id = #{departmentId}
@@ -51,7 +52,7 @@
         <if test="status != null">
             and status = #{status}
         </if>
-        <if test="status == null">
+        <if test="keywords == null">
             and status = 1
         </if>
         order by create_time desc
