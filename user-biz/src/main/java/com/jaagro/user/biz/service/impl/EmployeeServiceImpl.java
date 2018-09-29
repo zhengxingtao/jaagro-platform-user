@@ -204,6 +204,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
+        //逻辑删除员工角色
         this.employeeRoleMapper.disableByEmpId(employee.getId());
         return ServiceResult.toResult("注销员工成功");
     }
