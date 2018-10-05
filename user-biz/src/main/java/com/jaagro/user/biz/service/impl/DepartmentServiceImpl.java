@@ -156,4 +156,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
     }
+
+    /**
+     * 获取下级部门的数组
+     *
+     * @param deptId
+     * @return
+     */
+    @Override
+    public int[] getDownDepartment(Integer deptId) {
+        return new int[0];
+    }
 }

@@ -56,4 +56,12 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> listDepartment(Boolean netpoint);
+
+    /**
+     * 获取下级部门的数组
+     *
+     * @param deptId
+     * @return
+     */
+    int[] getDownDepartment(Integer deptId);
 }

@@ -5,7 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
         <result column="netpoint" jdbcType="BIT" property="netpoint"/>
-        <result column="level" jdbcType="INTEGER" property="level" />
+        <result column="level" jdbcType="INTEGER" property="level"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
         <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -19,12 +19,12 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="netpoint" jdbcType="BIT" property="netpoint"/>
         <result column="department_name" jdbcType="VARCHAR" property="departmentName"/>
-        <result column="level" jdbcType="INTEGER" property="level" />
+        <result column="level" jdbcType="INTEGER" property="level"/>
         <collection property="departmentDtoList" column="id"
                     select="com.jaagro.user.biz.mapper.DepartmentMapperExt.listByParentId">
         </collection>
     </resultMap>
-    <sql id="Return_List" >
+    <sql id="Return_List">
         id, department_name, level
      </sql>
 
@@ -52,7 +52,7 @@
         and enabled = 1
         order by sort
     </select>
-    <select id="listDepartment" resultMap="ReturnInfo" >
+    <select id="listDepartment" resultMap="ReturnInfo">
         select
         <include refid="Return_List"/>
         from department
@@ -70,5 +70,11 @@
         where enabled = 1
         and parent_id = #{id}
         order by sort
+    </select>
+    <select id="getDownDepartmentId" resultType="java.lang.Integer">
+        select id
+        from department
+        where enabled = 1
+        and (parent_id = #{id} or id = #{id})
     </select>
 </mapper>

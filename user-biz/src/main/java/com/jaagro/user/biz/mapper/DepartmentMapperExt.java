@@ -42,4 +42,12 @@ public interface DepartmentMapperExt extends DepartmentMapper {
      * @return
      */
     List<ListDepartmentDto> listByParentId(@Param("id") Integer id);
+
+    /**
+     * 获取下级部门数组
+     *
+     * @param id
+     * @return
+     */
+    List<Integer> getDownDepartmentId(@Param("id") Integer id);
 }
