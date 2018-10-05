@@ -183,9 +183,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         return null;
     }
 
-    private Set<Integer> departmentRecursion(List<Integer> deptIds) {
-        for(Integer did : deptIds){
-
-        }
-    }
+//    private Set<Integer> departmentRecursion(List<Integer> deptIds) {
+//        for(Integer did : deptIds){
+//
+//        }
+//    }
 }
