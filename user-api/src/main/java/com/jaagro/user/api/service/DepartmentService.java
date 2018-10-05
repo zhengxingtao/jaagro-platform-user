@@ -5,6 +5,7 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author tony
@@ -60,8 +61,7 @@ public interface DepartmentService {
     /**
      * 获取下级部门的数组
      *
-     * @param deptId
      * @return
      */
-    int[] getDownDepartment(Integer deptId);
+    Set<Integer> getDownDepartment();
 }

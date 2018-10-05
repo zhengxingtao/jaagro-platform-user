@@ -75,6 +75,6 @@
         select id
         from department
         where enabled = 1
-        and (parent_id = #{id} or id = #{id})
+        and parent_id = #{id}
     </select>
 </mapper>
