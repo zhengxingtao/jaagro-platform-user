@@ -2,11 +2,13 @@ package com.jaagro.user.biz.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
+import com.jaagro.user.api.service.AuthClientService;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
@@ -23,9 +25,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author tony
@@ -39,6 +43,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     private UserService userService;
     @Autowired
     private EmployeeMapperExt employeeMapper;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private AuthClientService authClientService;
 
     /**
      * 创建部门
@@ -145,7 +153,6 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-
     public Map<String, Object> listByCriteria(ListDepartmentCriteriaDto dto) {
         PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
         List<DepartmentReturnDto> departmentReturnDtos = this.departmentMapper.getByCriteriDto(dto);
@@ -155,5 +162,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
+    }
+
+    /**
+     * 获取下级部门的数组
+     *
+     * @return
+     */
+    @Override
+    public Set<Integer> getDownDepartment() {
+        String token = request.getHeader("token");
+        UserInfo userInfo = authClientService.getUserByToken(token);
+        List<Integer> deptIds = departmentMapper.getDownDepartmentId(userInfo.getDepartmentId());
+        
+        return null;
     }
 }
