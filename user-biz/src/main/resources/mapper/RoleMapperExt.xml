@@ -12,7 +12,7 @@
         <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
         <result column="enabled" property="enabled" jdbcType="TINYINT"/>
         <collection property="permissionDtoList" column="id"
-                    select="com.jaagro.user.biz.mapper.RolePermissionMapper.listByRoleId"/>
+                    select="com.jaagro.user.biz.mapper.RolePermissionMapperExt.listByRoleId"/>
     </resultMap>
 
     <select id="listAll" resultMap="BaseResultMap">
@@ -22,6 +22,16 @@
         SELECT * FROM role r
         left join role_permission rp on r.id = rp.role_id
         left join permission p on p.id = rp.permission_id*/
+    </select>
+    <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListRoleCriteriaDto" resultMap="BaseResultMap">
+        SELECT * FROM role
+        where 1=1
+        <if test="roleName != null">
+            <![CDATA[and (name like concat('%',#{roleName},'%') )]]>
+        </if>
+        <if test="roleName == null">
+            and enabled = 1
+        </if>
     </select>
     <select id="getByName" resultMap="BaseResultMap" parameterType="com.jaagro.user.api.dto.request.UpdateRoleDto">
         select

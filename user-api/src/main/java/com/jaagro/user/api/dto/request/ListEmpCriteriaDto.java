@@ -35,4 +35,9 @@ public class ListEmpCriteriaDto {
      */
     private Boolean enabled;
 
+    /**
+     * 状态
+     */
+    private Integer status;
+
 }

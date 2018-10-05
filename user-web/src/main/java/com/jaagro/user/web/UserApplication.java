@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author tony
+ *
  */
 @EnableEurekaClient
 @EnableCircuitBreaker

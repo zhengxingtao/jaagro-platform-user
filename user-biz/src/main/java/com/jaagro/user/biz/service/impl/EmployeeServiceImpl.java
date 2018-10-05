@@ -7,14 +7,11 @@ import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
-import com.jaagro.user.api.service.EmployeeRoleService;
-import com.jaagro.user.api.service.EmployeeService;
-import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.api.service.VerificationCodeClientService;
-import com.jaagro.user.biz.entity.BusinessSupport;
-import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.entity.EmployeeRole;
-import com.jaagro.user.biz.entity.Role;
+import com.jaagro.user.api.dto.response.GetRoleDto;
+import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
+import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
+import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.entity.*;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.MD5Utils;
 import com.jaagro.utils.PasswordEncoder;
@@ -27,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +52,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRoleMapperExt employeeRoleMapper;
     @Autowired
     private RoleMapperExt roleMapper;
+    @Autowired
+    private OssSignUrlClientService ossSignUrlClientService;
 
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
@@ -94,6 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateEmployee(UpdateEmpDto dto) {
         Employee employee = new Employee();
@@ -107,7 +109,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             for (int i = 0; i < dto.getRoleIds().length; i++) {
                 Role role = this.roleMapper.selectByPrimaryKey(dto.getRoleIds()[i]);
                 if (role == null) {
-                    throw new RuntimeException("角色[" + dto.getRoleIds()[i] + "]不存在");
+                    throw new NullPointerException("角色[" + dto.getRoleIds()[i] + "]不存在");
                 }
                 //新增
                 EmployeeRole employeeRole = new EmployeeRole();
@@ -135,7 +137,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
         Employee emp = this.employeeMapper.selectByPrimaryKey(id);
         if (emp == null) {
-            throw new RuntimeException("员工不存在");
+            throw new NullPointerException("员工不存在");
         }
         System.err.println(MD5Utils.encode(oldPassword, emp.getSalt()));
         System.err.println(emp.getPassword());
@@ -193,15 +195,15 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> disableEmployee(Integer id, String notes) {
+    public Map<String, Object> disableEmployee(DeleteEmployeeDto deleteEmployeeDto) {
         Employee employee = new Employee();
+        BeanUtils.copyProperties(deleteEmployeeDto, employee);
         employee
-                .setId(id)
-                .setNotes(notes)
                 .setStatus(AuditStatus.STOP_COOPERATION)
                 .setModifyUserId(userService.getCurrentUser().getId())
                 .setModifyTime(new Date());
         this.employeeMapper.updateByPrimaryKeySelective(employee);
+        //逻辑删除员工角色
         this.employeeRoleMapper.disableByEmpId(employee.getId());
         return ServiceResult.toResult("注销员工成功");
     }
@@ -240,5 +242,37 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(criteriaDto.getPageNum(), criteriaDto.getPageSize());
         List<Employee> emps = this.employeeMapper.listByCriteria(criteriaDto);
         return ServiceResult.toResult(new PageInfo<>(emps));
+    }
+
+    @Override
+    public GetEmployeeDto getById(Integer id) {
+        GetEmployeeDto employeeDto = this.employeeMapper.getById(id);
+        if (employeeDto != null) {
+            //填充部门等级
+            Department department = departmentMapper.selectByPrimaryKey(employeeDto.getDepartmentId());
+            if (department != null) {
+                employeeDto.setLevel(department.getLevel());
+            }
+            //替换头像地址
+            String[] strArray = {employeeDto.getAvatar()};
+            List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
+            employeeDto.setAvatar(urlList.get(0).toString());
+            //填充员工角色列表
+            List<EmployeeRole> employeeRoleList = employeeRoleMapper.listByEmpId(employeeDto.getId());
+            List<GetRoleDto> roleDtoList = new ArrayList<>();
+            if (employeeRoleList.size() > 0) {
+                for (EmployeeRole employeeRole : employeeRoleList
+                ) {
+                    Role role = roleMapper.selectByPrimaryKey(employeeRole.getRoleId());
+                    if (role != null) {
+                        GetRoleDto getRoleDto = new GetRoleDto();
+                        BeanUtils.copyProperties(role, getRoleDto);
+                        roleDtoList.add(getRoleDto);
+                    }
+                }
+                employeeDto.setRoleDtoList(roleDtoList);
+            }
+        }
+        return employeeDto;
     }
 }

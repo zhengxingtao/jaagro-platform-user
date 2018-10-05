@@ -3,6 +3,8 @@ package com.jaagro.user.biz.mapper;
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
+import com.jaagro.user.api.dto.response.employee.ListEmployeeDto;
 import com.jaagro.user.biz.entity.Employee;
 
 import java.util.List;
@@ -59,7 +61,7 @@ public interface EmployeeMapperExt extends EmployeeMapper {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Integer id);
+    GetEmployeeDto getById(Integer id);
 
     /**
      * 根据部门id查询
@@ -68,4 +70,11 @@ public interface EmployeeMapperExt extends EmployeeMapper {
      * @return
      */
     List<Employee> listByDeptId(Integer deptId);
+
+    /**
+     * 获取全部员工列表
+     *
+     * @return
+     */
+    List<ListEmployeeDto> listEmployee();
 }
