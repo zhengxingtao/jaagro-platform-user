@@ -141,4 +141,9 @@ public class DepartmentController {
         return BaseResponse.service(this.departmentService.listDepartment(netpoint));
     }
 
+    @PostMapping("/getDownDepartment")
+    public BaseResponse getDownDepartment() {
+        return BaseResponse.successInstance(departmentService.getDownDepartment());
+    }
+
 }
