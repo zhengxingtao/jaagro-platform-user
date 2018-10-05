@@ -24,12 +24,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author tony
@@ -174,7 +172,20 @@ public class DepartmentServiceImpl implements DepartmentService {
         String token = request.getHeader("token");
         UserInfo userInfo = authClientService.getUserByToken(token);
         List<Integer> deptIds = departmentMapper.getDownDepartmentId(userInfo.getDepartmentId());
-        
+        Set<Integer> deptSet = new LinkedHashSet<>();
+        deptSet.add(userInfo.getDepartmentId());
+
+        if (deptIds.size() == 0) {
+            return deptSet;
+        } else {
+
+        }
         return null;
+    }
+
+    private Set<Integer> departmentRecursion(List<Integer> deptIds) {
+        for(Integer did : deptIds){
+
+        }
     }
 }
