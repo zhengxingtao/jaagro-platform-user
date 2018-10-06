@@ -7,25 +7,20 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
-import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.AuthClientService;
 import com.jaagro.user.api.service.DepartmentService;
-import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Department;
-import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
-import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
-import com.oracle.tools.packager.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -35,6 +30,8 @@ import java.util.*;
  */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
+
+    private static final Logger log = LoggerFactory.getLogger(DepartmentServiceImpl.class);
 
     @Autowired
     private DepartmentMapperExt departmentMapper;
@@ -187,7 +184,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 departmentRecursion(deptIdSet, deptId);
             }
         }
-        Log.info("当前用户可查询的部门id： " + deptIdSet);
+        log.info("当前用户可查询的部门id： " + deptIdSet);
         return deptIdSet;
     }
 }
