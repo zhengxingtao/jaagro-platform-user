@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapper">
+<mapper namespace="com.jaagro.user.biz.mapper.EmployeeMapperExt">
     <resultMap id="BaseResultMap" type="com.jaagro.user.biz.entity.Employee">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_name" property="employeeName" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
         <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -14,16 +14,16 @@
         <result column="birthday" property="birthday" jdbcType="VARCHAR"/>
         <result column="notes" property="notes" jdbcType="VARCHAR"/>
         <result column="gender" property="gender" jdbcType="INTEGER"/>
-        <result column="enabled" property="enabled" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
         <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, employee_name, department_id, login_name, password, phone, salt, email, avatar,
-    birthday, notes, gender, enabled, create_time, modify_time, create_user_id, modify_user_id
-  </sql>
+        id, name, department_id, login_name, password, phone, salt, email, avatar,
+        birthday, notes, gender, status, create_time, modify_time, create_user_id, modify_user_id
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -36,17 +36,17 @@
   </delete>
     <insert id="insert" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
             keyProperty="id" keyColumn="id">
-    insert into employee (id, employee_name, department_id,
+    insert into employee (id, name, department_id,
       login_name, password, phone,
       salt, email, avatar,
       birthday, notes, gender,
-      enabled, create_time, modify_time,
+      status, create_time, modify_time,
       create_user_id, modify_user_id)
-    values (#{id,jdbcType=INTEGER}, #{employeeName,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{departmentId,jdbcType=INTEGER},
       #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{salt,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
       #{birthday,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER},
-      #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER}, #{modifyUserId,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.jaagro.user.biz.entity.Employee" useGeneratedKeys="true"
@@ -56,8 +56,8 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="employeeName != null">
-                employee_name,
+            <if test="name != null">
+                name,
             </if>
             <if test="departmentId != null">
                 department_id,
@@ -89,8 +89,8 @@
             <if test="gender != null">
                 gender,
             </if>
-            <if test="enabled != null">
-                enabled,
+            <if test="status != null">
+                status,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -109,8 +109,8 @@
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="employeeName != null">
-                #{employeeName,jdbcType=VARCHAR},
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
             </if>
             <if test="departmentId != null">
                 #{departmentId,jdbcType=INTEGER},
@@ -142,8 +142,8 @@
             <if test="gender != null">
                 #{gender,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
-                #{enabled,jdbcType=TINYINT},
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
@@ -162,8 +162,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.jaagro.user.biz.entity.Employee">
         update employee
         <set>
-            <if test="employeeName != null">
-                employee_name = #{employeeName,jdbcType=VARCHAR},
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="departmentId != null">
                 department_id = #{departmentId,jdbcType=INTEGER},
@@ -195,8 +195,8 @@
             <if test="gender != null">
                 gender = #{gender,jdbcType=INTEGER},
             </if>
-            <if test="enabled != null">
-                enabled = #{enabled,jdbcType=TINYINT},
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -215,7 +215,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.jaagro.user.biz.entity.Employee">
     update employee
-    set employee_name = #{employeeName,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       department_id = #{departmentId,jdbcType=INTEGER},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -226,71 +226,11 @@
       birthday = #{birthday,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=INTEGER},
-      enabled = #{enabled,jdbcType=TINYINT},
+      status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       modify_user_id = #{modifyUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="getByUpdateDto" parameterType="com.jaagro.user.api.dto.request.UpdateEmpDto" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where
-        (login_name = #{loginName} or phone = #{phone})
-        <if test="id != null">
-            and id != #{id}
-        </if>
-        and enabled = 1
-    </select>
-    <select id="listByCriteria" parameterType="com.jaagro.user.api.dto.request.ListEmpCriteriaDto"
-            resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where 1=1
-        <if test="keywords != null">
-            <![CDATA[and (employee_name like concat('%',#{keywords},'%') or phone like concat('%',#{keywords},'%'))]]>
-        </if>
-        <if test="departmentId != null">
-            and department_id = #{departmentId}
-        </if>
-        <if test="enabled != null">
-            and enabled = #{enabled}
-        </if>
-        <if test="enabled == null">
-            and enabled = 1
-        </if>
-    </select>
-    <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where login_name = #{loginName,jdbcType=VARCHAR}
-    </select>
-    <select id="getByphone" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where phone = #{phone,jdbcType=VARCHAR}
-    </select>
-    <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="getById" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-    <select id="listByDeptId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from employee
-        where dept_id = #{deptId,jdbcType=INTEGER}
-    </select>
 </mapper>

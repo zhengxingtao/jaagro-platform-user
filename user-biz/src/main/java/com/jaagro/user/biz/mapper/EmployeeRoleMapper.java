@@ -34,29 +34,4 @@ public interface EmployeeRoleMapper {
      * @mbggenerated 2018-08-18
      */
     int updateByPrimaryKey(EmployeeRole record);
-
-    /**
-     * 查询
-     *
-     * @param roleId
-     * @return
-     */
-    List<EmployeeRole> listByRoleId(Integer roleId);
-
-    /**
-     * 根据员工id删除
-     *
-     * @param employeeId
-     * @return
-     */
-    int deleteByEmpId(Integer employeeId);
-
-    /**
-     * 逻辑删除 根据员工id
-     *
-     * @param employeeId
-     * @return
-     */
-    int disableByEmpId(Integer employeeId);
-
 }

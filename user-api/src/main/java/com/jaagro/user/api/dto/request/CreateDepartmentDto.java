@@ -13,53 +13,23 @@ import java.util.Date;
 @Accessors(chain = true)
 public class CreateDepartmentDto implements Serializable {
     /**
-     * 部门表主键
-     */
-    private Integer id;
-
-    /**
      * 部门名称
      */
-    private String name;
+    private String departmentName;
 
     /**
      * 上级部门id
      */
-    private Long parentId;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 创建人
-     */
-    private Long createUser;
-
-    /**
-     * 修改时间
-     */
-    private Date modifyTime;
-
-    /**
-     * 修改人
-     */
-    private Long modifyUser;
-
-    /**
-     * 是否可用(0 不可用 1 可用)
-     */
-    private Boolean enabled;
-
-    /**
-     * 排序
-     */
-    private Integer sort;
+    private Integer parentId;
 
     /**
      * 关联部门主管ID
      */
-    private Long departmentManagerId;
+    private Integer leaderEmployeeId;
+
+    /**
+     * 等级
+     */
+    private Integer level;
 
 }

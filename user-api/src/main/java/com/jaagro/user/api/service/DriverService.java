@@ -4,7 +4,6 @@ import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
-import com.oracle.tools.packager.mac.MacAppBundler;
 
 import java.util.List;
 import java.util.Map;
@@ -16,13 +15,15 @@ public interface DriverService {
 
     /**
      * 新增司机
+     *
      * @param driver
      * @return
      */
-    Map<String,Object> createDriver(CreateDriverDto driver);
+    Map<String, Object> createDriver(CreateDriverDto driver);
 
     /**
      * 提供给feign
+     *
      * @param driver
      * @return
      */
@@ -30,6 +31,7 @@ public interface DriverService {
 
     /**
      * 修改司机
+     *
      * @param driver
      * @return
      */
@@ -37,6 +39,7 @@ public interface DriverService {
 
     /**
      * 获取单个司机
+     *
      * @param id
      * @return
      */
@@ -44,6 +47,7 @@ public interface DriverService {
 
     /**
      * 获取单个司机 返回为对象
+     *
      * @param id
      * @return
      */
@@ -51,6 +55,7 @@ public interface DriverService {
 
     /**
      * 通过条件获取所有司机（分页）
+     *
      * @param criteria
      * @return
      */
@@ -58,6 +63,7 @@ public interface DriverService {
 
     /**
      * 删除司机
+     *
      * @param id
      * @return
      */
@@ -65,6 +71,7 @@ public interface DriverService {
 
     /**
      * 删除车辆所属司机
+     *
      * @param truckId
      * @return
      */
@@ -72,9 +79,17 @@ public interface DriverService {
 
     /**
      * 通过车辆获取司机
+     *
      * @param truckId
      * @return
      */
     List<DriverReturnDto> listByTruckId(Integer truckId);
 
+    /**
+     * 修改司机状态为审核通过
+     *
+     * @param driverId
+     * @return
+     */
+    Map<String, Object> updateDriverStatus(Integer driverId);
 }

@@ -5,6 +5,7 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author tony
@@ -12,16 +13,20 @@ import java.util.Map;
 public interface DepartmentService {
     /**
      * 创建部门
+     *
      * @param dto
      * @return
      */
     Map<String, Object> createDepartment(CreateDepartmentDto dto);
+
     /**
      * 修改部门
+     *
      * @param dto
      * @return
      */
     Map<String, Object> updateById(UpdateDepartmentDto dto);
+
     /**
      * 获取单条
      *
@@ -29,6 +34,7 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> getById(Integer id);
+
     /**
      * 逻辑删除部门
      *
@@ -36,6 +42,7 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> disableDepartment(Integer id);
+
     /**
      * 分页获取list，注意criteria查询条件
      *
@@ -43,4 +50,18 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> listByCriteria(ListDepartmentCriteriaDto dto);
+
+    /**
+     * 查询部门列表树
+     *
+     * @return
+     */
+    Map<String, Object> listDepartment(Boolean netpoint);
+
+    /**
+     * 获取下级部门的数组
+     *
+     * @return
+     */
+    Set<Integer> getDownDepartment();
 }

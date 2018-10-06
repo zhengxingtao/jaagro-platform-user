@@ -9,6 +9,7 @@ import com.jaagro.user.api.service.DriverService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapper;
+import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class DriverServiceImpl implements DriverService {
     private static final Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
 
     @Autowired
-    private DriverMapper driverMapper;
+    private DriverMapperExt driverMapper;
     @Autowired
     private UserService userService;
 
@@ -52,7 +54,7 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Integer createDriverReturnId(CreateDriverDto driver) {
-        if(driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null){
+        if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
@@ -70,7 +72,17 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
-        return null;
+        System.err.println("-----------司机:" + driver.toString());
+        if (driver.getId() == null) {
+            throw new NullPointerException("司机id不能为空");
+        }
+        Driver dataDriver = new Driver();
+        BeanUtils.copyProperties(driver, dataDriver);
+        dataDriver
+                .setModifyUserId(this.userService.getCurrentUser().getId())
+                .setModifyTime(new Date());
+        this.driverMapper.updateByPrimaryKeySelective(dataDriver);
+        return ServiceResult.toResult("修改成功");
     }
 
     /**
@@ -82,8 +94,8 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Map<String, Object> getById(Integer id) {
         DriverReturnDto driver = driverMapper.getDriverById(id);
-        if(driver == null){
-            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(),id + " :不存在");
+        if (driver == null) {
+            ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), id + " :不存在");
         }
         return ServiceResult.toResult(driver);
     }
@@ -118,7 +130,7 @@ public class DriverServiceImpl implements DriverService {
      */
     @Override
     public Map<String, Object> deleteDriver(Integer id) {
-        if(driverMapper.selectByPrimaryKey(id) == null){
+        if (driverMapper.selectByPrimaryKey(id) == null) {
             throw new NullPointerException(id + " :不正确");
         }
         //后期扩展如果当前driver有任务未完成，无法删除
@@ -149,5 +161,19 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public List<DriverReturnDto> listByTruckId(Integer truckId) {
         return driverMapper.listDriverByTruckId(truckId);
+    }
+
+    @Override
+    public Map<String, Object> updateDriverStatus(Integer driverId) {
+        Driver driver = driverMapper.selectByPrimaryKey(driverId);
+        if (driver != null) {
+            driver
+                    .setStatus(AuditStatus.NORMAL_COOPERATION)
+                    .setModifyTime(new Date())
+                    .setModifyUserId(userService.getCurrentUser().getId());
+            driverMapper.updateByPrimaryKeySelective(driver);
+            return ServiceResult.toResult("审核司机通过成功");
+        }
+        return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
     }
 }

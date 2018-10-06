@@ -6,9 +6,6 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author liqiangping
- */
 @Data
 @Accessors(chain = true)
 public class Department implements Serializable {
@@ -26,6 +23,11 @@ public class Department implements Serializable {
      * 0-不是，1-是网点
      */
     private Boolean netpoint;
+
+    /**
+     * 部门级别
+     */
+    private Integer level;
 
     /**
      * 上级部门id

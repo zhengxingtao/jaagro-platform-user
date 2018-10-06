@@ -68,11 +68,6 @@ public class CustomerUser implements Serializable {
     private String phoneNumber;
 
     /**
-     * 系统状态  枚举类型:0 注销 ;1  正常
-     */
-    private Boolean userStatus;
-
-    /**
      * 创建人
      */
     private Integer createUserId;
@@ -93,7 +88,7 @@ public class CustomerUser implements Serializable {
     private Date modifyTime;
 
     /**
-     * 是否可用 0 不可用  1 可用
+     * 账号状态
      */
-    private Boolean enabled;
+    private Integer status;
 }

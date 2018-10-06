@@ -1,6 +1,7 @@
 package com.jaagro.user.api.constant;
 
 /**
+ * 提供给生成token
  * @author tony
  */
 public final class LoginType {
