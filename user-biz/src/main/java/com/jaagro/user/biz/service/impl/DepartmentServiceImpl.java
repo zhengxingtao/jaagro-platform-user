@@ -20,6 +20,7 @@ import com.jaagro.user.biz.mapper.EmployeeMapperExt;
 import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
+import com.oracle.tools.packager.Log;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -171,21 +172,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Set<Integer> getDownDepartment() {
         String token = request.getHeader("token");
         UserInfo userInfo = authClientService.getUserByToken(token);
-        List<Integer> deptIds = departmentMapper.getDownDepartmentId(userInfo.getDepartmentId());
-        Set<Integer> deptSet = new LinkedHashSet<>();
-        deptSet.add(userInfo.getDepartmentId());
-
-        if (deptIds.size() == 0) {
-            return deptSet;
-        } else {
-
-        }
-        return null;
+        Set<Integer> deptIdSet = new LinkedHashSet<>();
+        return departmentRecursion(deptIdSet, userInfo.getDepartmentId());
     }
 
-//    private Set<Integer> departmentRecursion(List<Integer> deptIds) {
-//        for(Integer did : deptIds){
-//
-//        }
-//    }
+    private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {
+        deptIdSet.add(did);
+        //找到所有第一层子部门列表
+        List<Integer> deptIds = departmentMapper.getDownDepartmentId(did);
+        if (deptIds.size() == 0) {
+            return deptIdSet;
+        } else {
+            for (Integer deptId : deptIds) {
+                departmentRecursion(deptIdSet, deptId);
+            }
+        }
+        Log.info("当前用户可查询的部门id： " + deptIdSet);
+        return deptIdSet;
+    }
 }

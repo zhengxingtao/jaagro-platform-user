@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Service;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Administrator
@@ -142,8 +143,8 @@ public class DepartmentController {
     }
 
     @PostMapping("/getDownDepartment")
-    public BaseResponse getDownDepartment() {
-        return BaseResponse.successInstance(departmentService.getDownDepartment());
+    public Set<Integer> getDownDepartment() {
+        return departmentService.getDownDepartment();
     }
 
 }
