@@ -169,6 +169,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Set<Integer> getDownDepartment() {
         String token = request.getHeader("token");
         UserInfo userInfo = authClientService.getUserByToken(token);
+        System.out.println(userInfo);
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         return departmentRecursion(deptIdSet, userInfo.getDepartmentId());
     }
