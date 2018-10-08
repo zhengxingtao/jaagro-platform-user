@@ -4,6 +4,8 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -63,5 +65,5 @@ public interface DepartmentService {
      *
      * @return
      */
-    Set<Integer> getDownDepartment();
+    List<Integer> getDownDepartment();
 }
