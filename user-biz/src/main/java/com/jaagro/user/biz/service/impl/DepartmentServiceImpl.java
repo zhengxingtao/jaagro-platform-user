@@ -21,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -166,20 +167,25 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return
      */
     @Override
-    public Set<Integer> getDownDepartment() {
+    public List<Integer> getDownDepartment() {
         String token = request.getHeader("token");
         UserInfo userInfo = authClientService.getUserByToken(token);
+        System.out.println(userInfo);
         Set<Integer> deptIdSet = new LinkedHashSet<>();
-        return departmentRecursion(deptIdSet, userInfo.getDepartmentId());
+        Set<Integer> set = departmentRecursion(deptIdSet, userInfo.getDepartmentId());
+        List<Integer> list = new ArrayList<>(set);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        } else {
+            return list;
+        }
     }
 
     private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {
         deptIdSet.add(did);
         //找到所有第一层子部门列表
         List<Integer> deptIds = departmentMapper.getDownDepartmentId(did);
-        if (deptIds.size() == 0) {
-            return deptIdSet;
-        } else {
+        if (deptIds.size() != 0) {
             for (Integer deptId : deptIds) {
                 departmentRecursion(deptIdSet, deptId);
             }
