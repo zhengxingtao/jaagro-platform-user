@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @see FeignHystrixConcurrencyStrategy
  * @since JDK1.8
  */
-//@Component
+@Component
 public class FeignHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
 
     private static final Logger log = LoggerFactory.getLogger(FeignHystrixConcurrencyStrategy.class);
