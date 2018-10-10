@@ -255,7 +255,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
             if (!StringUtils.isEmpty(employeeDto.getAvatar())) {
                 //替换头像地址
-                String[] strArray = {};
+                String[] strArray = {employeeDto.getAvatar()};
                 List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
                 employeeDto.setAvatar(urlList.get(0).toString());
             }
