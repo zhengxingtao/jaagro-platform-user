@@ -14,6 +14,7 @@ import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -101,6 +102,16 @@ public class DepartmentController {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到部门");
         }
         return BaseResponse.service(departmentService.getById(id));
+    }
+
+    @Ignore
+    @ApiOperation("查询单个部门名称提供给crm")
+    @GetMapping("/getDeptNameById/{id}")
+    public String getDeptNameById(@PathVariable Integer id) {
+        if (this.departmentMapper.selectByPrimaryKey(id) == null) {
+            return null;
+        }
+        return this.departmentMapper.selectByPrimaryKey(id).getDepartmentName();
     }
 
     @ApiOperation("删除部门[逻辑]")
