@@ -38,6 +38,7 @@
     <include refid="Base_Column_List" />
     from driver
     where truck_id = #{truckId,jdbcType=INTEGER}
+    and status != 3
   </select>
   <select id="getDriverById" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
     select
