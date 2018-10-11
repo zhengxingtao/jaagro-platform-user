@@ -253,10 +253,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (department != null) {
                 employeeDto.setLevel(department.getLevel());
             }
-            //替换头像地址
-            String[] strArray = {employeeDto.getAvatar()};
-            List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
-            employeeDto.setAvatar(urlList.get(0).toString());
+            if (!StringUtils.isEmpty(employeeDto.getAvatar())) {
+                //替换头像地址
+                String[] strArray = {employeeDto.getAvatar()};
+                List<URL> urlList = ossSignUrlClientService.listSignedUrl(strArray);
+                employeeDto.setAvatar(urlList.get(0).toString());
+            }
             //填充员工角色列表
             List<EmployeeRole> employeeRoleList = employeeRoleMapper.listByEmpId(employeeDto.getId());
             List<GetRoleDto> roleDtoList = new ArrayList<>();

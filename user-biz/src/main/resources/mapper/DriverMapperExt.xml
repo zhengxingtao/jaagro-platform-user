@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.DriverMapperExt" >
+<mapper namespace="com.jaagro.user.biz.mapper.DriverMapperExt">
 
-  <sql id="Info_Column">
+    <sql id="Info_Column">
         id, login_name, password, phone_number, salt, status, name
   </sql>
-  <update id="deleteDriverLogic">
+    <update id="deleteDriverLogic">
     update driver
     set status = #{status, jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="deleteDriverByTruckId">
+    <update id="deleteDriverByTruckId">
     update driver
     set status = #{status, jdbcType=INTEGER}
     where truck_id = #{truckId,jdbcType=INTEGER}
   </update>
-  <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from driver
-    where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
-  </select>
-  <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from driver
-    where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status = 1
-  </select>
-  <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
-    select
-    <include refid="Info_Column" />
-    from driver
-    where id = #{id,jdbcType=INTEGER} and status = 1
-  </select>
-  <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
-    select
-    <include refid="Base_Column_List" />
-    from driver
-    where truck_id = #{truckId,jdbcType=INTEGER}
-  </select>
-  <select id="getDriverById" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
-    select
-    <include refid="Base_Column_List" />
-    from driver
-    where id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
+        select
+        <include refid="Info_Column"/>
+        from driver
+        where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
+    </select>
+    <select id="getByPhoneNumber" resultType="com.jaagro.constant.UserInfo">
+        select
+        <include refid="Info_Column"/>
+        from driver
+        where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status in (0,1)
+    </select>
+    <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
+        select
+        <include refid="Info_Column"/>
+        from driver
+        where id = #{id,jdbcType=INTEGER} and status = 1
+    </select>
+    <select id="listDriverByTruckId" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where truck_id = #{truckId,jdbcType=INTEGER}
+        and status != 3
+    </select>
+    <select id="getDriverById" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where id = #{id,jdbcType=INTEGER}
+    </select>
 </mapper>

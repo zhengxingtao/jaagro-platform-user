@@ -169,8 +169,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Integer> getDownDepartment() {
         String token = request.getHeader("token");
+        System.out.println("token -----" + token);
         UserInfo userInfo = authClientService.getUserByToken(token);
-        System.out.println(userInfo);
+        System.out.println("userInfo ----" + userInfo);
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         Set<Integer> set = departmentRecursion(deptIdSet, userInfo.getDepartmentId());
         List<Integer> list = new ArrayList<>(set);
