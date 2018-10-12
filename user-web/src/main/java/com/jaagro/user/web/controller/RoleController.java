@@ -6,8 +6,10 @@ import com.jaagro.user.api.dto.request.UpdateRoleDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.BaseResponse;
+import com.jaagro.utils.ResponseStatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
@@ -41,7 +43,12 @@ public class RoleController {
     @PostMapping("/role")
     public BaseResponse createRole(@RequestBody CreateRoleDto dto) {
         if (StringUtils.isEmpty(dto.getName())) {
-            return BaseResponse.errorInstance("角色名不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "角色名不能为空");
+        }
+        UpdateRoleDto updateRoleDto = new UpdateRoleDto();
+        BeanUtils.copyProperties(dto, updateRoleDto);
+        if (roleMapper.getByName(updateRoleDto) != null) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "角色名称已存在");
         }
         if (dto.getPermissionDtos() != null && dto.getPermissionDtos().length > 0) {
             return BaseResponse.service(this.roleService.createRole(dto));
@@ -60,10 +67,12 @@ public class RoleController {
     @PutMapping("/role")
     public BaseResponse updateRole(@RequestBody UpdateRoleDto dto) {
         if (StringUtils.isEmpty(dto.getId())) {
-            return BaseResponse.errorInstance("角色id不能为空");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "角色id不能为空");
         }
-        if (roleMapper.getByName(dto) != null) {
-            return BaseResponse.errorInstance("角色名称已存在");
+        if (!StringUtils.isEmpty(dto.getName())) {
+            if (roleMapper.getByName(dto) != null) {
+                return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "角色名称已存在");
+            }
         }
         try {
             return BaseResponse.service(roleService.updateRole(dto));
@@ -82,7 +91,7 @@ public class RoleController {
     @GetMapping("/role/{id}")
     public BaseResponse getRoleById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance("查询不到对应信息");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到对应信息");
         }
         return BaseResponse.successInstance(roleMapper.selectByPrimaryKey(id));
     }
@@ -97,7 +106,7 @@ public class RoleController {
     @GetMapping("/roleDetail/{id}")
     public BaseResponse getRoleDetailById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance("查询不到对应信息");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到对应信息");
         }
         return BaseResponse.service(roleService.getRoleDetailById(id));
     }
@@ -109,14 +118,14 @@ public class RoleController {
      * @return
      */
     @ApiOperation("删除角色[逻辑]")
-    @DeleteMapping("/deleteRoleById/{id}")
+    @PostMapping("/deleteRoleById/{id}")
     public BaseResponse deleteRoleById(@PathVariable Integer id) {
         if (this.roleMapper.selectByPrimaryKey(id) == null) {
-            return BaseResponse.errorInstance("查询不到相应数据");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到相应数据");
         }
         //查询员工角色关联表
         if (employeeRoleMapper.listByRoleId(id).size() > 0) {
-            return BaseResponse.errorInstance("请先解除绑定此角色的员工");
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "请先解除绑定此角色的员工");
         }
         return BaseResponse.service(this.roleService.deleteById(id));
     }
@@ -132,6 +141,19 @@ public class RoleController {
     public BaseResponse listRoleByCriteria(@RequestBody ListRoleCriteriaDto criteriaDto) {
         return BaseResponse.service(this.roleService.listRole(criteriaDto));
     }
+
+    /**
+     * 查询全部角色
+     *
+     * @param criteriaDto
+     * @return
+     */
+    @ApiOperation("查询全部角色")
+    @GetMapping("/listAllRole")
+    public BaseResponse listAllRole() {
+        return BaseResponse.service(this.roleService.listAllRole());
+    }
+
 
     /**
      * 分页查询角色权限列表

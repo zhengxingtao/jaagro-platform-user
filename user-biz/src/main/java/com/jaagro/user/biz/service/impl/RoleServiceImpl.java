@@ -137,8 +137,13 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Map<String, Object> listRole(ListRoleCriteriaDto dto) {
         PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
-        List<Role> roles = this.roleMapper.listAll();
+        List<Role> roles = this.roleMapper.listByCriteria(dto);
         return ServiceResult.toResult(new PageInfo<>(roles));
+    }
+
+    @Override
+    public Map<String, Object> listAllRole() {
+        return ServiceResult.toResult(this.roleMapper.listAll());
     }
 
 }

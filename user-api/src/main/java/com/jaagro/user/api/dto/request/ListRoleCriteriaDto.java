@@ -15,10 +15,14 @@ public class ListRoleCriteriaDto {
      */
     private Integer pageNum;
 
-
     /**
      * 每页条数
      */
     private Integer pageSize;
+
+    /**
+     * 角色名称
+     */
+    private String roleName;
 
 }

@@ -33,4 +33,10 @@ public interface EmployeeRoleMapperExt extends EmployeeRoleMapper {
      */
     int disableByEmpId(Integer employeeId);
 
+    /**
+     * 根据员工查询
+     * @param id
+     * @return
+     */
+    List<EmployeeRole> listByEmpId(Integer id);
 }

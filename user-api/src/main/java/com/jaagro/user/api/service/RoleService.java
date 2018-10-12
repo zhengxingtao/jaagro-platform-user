@@ -47,4 +47,11 @@ public interface RoleService {
      * @return
      */
     Map<String, Object> listRole(ListRoleCriteriaDto dto);
+
+    /**
+     * 分页查询角色
+     *
+     * @return
+     */
+    Map<String, Object> listAllRole();
 }
