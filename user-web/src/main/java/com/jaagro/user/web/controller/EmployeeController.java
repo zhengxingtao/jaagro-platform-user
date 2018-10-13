@@ -149,9 +149,18 @@ public class EmployeeController {
     @ApiOperation("修改密码")
     @PostMapping("/updateEmpPassword")
     public BaseResponse updateEmpPassword(@RequestBody CheckCodeDto checkCodeDto) {
+        if (StringUtils.isEmpty(checkCodeDto.getPhone())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "电话能不为空");
+        }
         UserInfo employee = this.employeeMapper.getByPhone(checkCodeDto.getPhone());
         if (employee == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:" + checkCodeDto.getPhone());
+        }
+        if (StringUtils.isEmpty(checkCodeDto.getNewPassword())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "新密码不能为空");
+        }
+        if (StringUtils.isEmpty(checkCodeDto.getOldPassword())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "旧密码不能为空");
         }
         try {
             this.employeeService.updatePassword(employee.getId(), checkCodeDto.getOldPassword(), checkCodeDto.getNewPassword());
@@ -170,12 +179,42 @@ public class EmployeeController {
     @ApiOperation("校验验证码")
     @PostMapping("/checkCode")
     public BaseResponse resetPassword(@RequestBody CheckCodeDto checkCodeDto) {
+        if (StringUtils.isEmpty(checkCodeDto.getPhone())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "电话不能为空");
+        }
+        if (StringUtils.isEmpty(checkCodeDto.getVerificationCode())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "验证码不能为空");
+        }
+        UserInfo userInfo = this.employeeMapper.getByPhone(checkCodeDto.getPhone());
+        if (userInfo == null) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + checkCodeDto.getPhone());
+        }
+        if (StringUtils.isEmpty(checkCodeDto.getNewPassword())) {
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "新密码不能为空");
+        }
+        try {
+            this.employeeService.resetPassword(checkCodeDto.getPhone(), checkCodeDto.getVerificationCode());
+        } catch (RuntimeException e) {
+            return BaseResponse.errorInstance(e.getMessage());
+        }
+        return BaseResponse.successInstance("重置密码成功");
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param checkCodeDto
+     * @return
+     */
+    @ApiOperation("忘记密码")
+    @PostMapping("/forgetPassword")
+    public BaseResponse forgetPassword(@RequestBody CheckCodeDto checkCodeDto) {
         UserInfo userInfo = this.employeeMapper.getByPhone(checkCodeDto.getPhone());
         if (userInfo == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + checkCodeDto.getPhone());
         }
         try {
-            this.employeeService.resetPassword(checkCodeDto.getPhone(), checkCodeDto.getVerificationCode());
+            this.employeeService.forgetPwd(userInfo.getId(), checkCodeDto.getNewPassword());
         } catch (RuntimeException e) {
             return BaseResponse.errorInstance(e.getMessage());
         }

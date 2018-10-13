@@ -50,6 +50,15 @@ public interface EmployeeService {
     Map<String, Object> resetPassword(String phone, String verificationCode);
 
     /**
+     * 忘记密码
+     *
+     * @param id
+     * @param newPassword
+     * @return
+     */
+    Map<String, Object> forgetPwd(Integer id, String newPassword);
+
+    /**
      * 注销员工
      *
      * @param id    id

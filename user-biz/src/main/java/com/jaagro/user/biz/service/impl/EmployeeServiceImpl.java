@@ -176,6 +176,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ServiceResult.toResult("验证成功");
     }
 
+    @Override
+    public Map<String, Object> forgetPwd(Integer id, String newPassword) {
+        Employee emp = this.employeeMapper.selectByPrimaryKey(id);
+        if (emp == null) {
+            throw new NullPointerException("员工不存在");
+        }
+        Employee employee = new Employee();
+        employee
+                .setId(id)
+                .setModifyUserId(userService.getCurrentUser().getId())
+                .setModifyTime(new Date())
+                .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
+                .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"));
+        return ServiceResult.toResult("员工修改密码成功");
+    }
+
     /**
      * 注销员工
      *
