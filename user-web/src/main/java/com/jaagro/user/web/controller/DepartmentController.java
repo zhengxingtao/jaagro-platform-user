@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Service;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -154,7 +155,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/getDownDepartment")
-    public Set<Integer> getDownDepartment() {
+    public List<Integer> getDownDepartment() {
         return departmentService.getDownDepartment();
     }
 

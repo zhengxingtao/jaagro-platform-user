@@ -102,6 +102,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo getCurrentUser() {
         String token = request.getHeader("token");
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<" + token);
         return userClientService.getUserByToken(token);
     }
 }
