@@ -165,7 +165,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<String, Object> resetPassword(String phoneNumber, String verificationCode) {
         Boolean flag = this.codeClientService.existMessage(phoneNumber, verificationCode);
-        if (flag) {
+        if (!flag) {
             log.error("\n验证验证码:" + flag);
             throw new RuntimeException("验证码错误");
         }
