@@ -163,24 +163,22 @@ public class EmployeeController {
     }
 
     /**
-     * 重置密码
+     * 校验验证码
      *
-     * @param phoneNumber
+     * @param phone
      * @param verificationCode
-     * @param newPassword
      * @return
      */
-    @ApiOperation("重置密码")
-    @PostMapping("/resetPassword")
+    @ApiOperation("校验验证码")
+    @PostMapping("/checkCode")
     public BaseResponse resetPassword(@RequestParam(value = "phone") String phone,
-                                      @RequestParam(value = "verificationCode") String verificationCode,
-                                      @RequestParam(value = "newPassword") String newPassword) {
+                                      @RequestParam(value = "verificationCode") String verificationCode) {
         UserInfo userInfo = this.employeeMapper.getByPhone(phone);
         if (userInfo == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + phone);
         }
         try {
-            this.employeeService.resetPassword(phone, verificationCode, newPassword);
+            this.employeeService.resetPassword(phone, verificationCode);
         } catch (RuntimeException e) {
             return BaseResponse.errorInstance(e.getMessage());
         }

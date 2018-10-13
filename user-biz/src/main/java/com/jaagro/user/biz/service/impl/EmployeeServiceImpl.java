@@ -163,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public Map<String, Object> resetPassword(String phoneNumber, String verificationCode, String newPassword) {
+    public Map<String, Object> resetPassword(String phoneNumber, String verificationCode) {
         Boolean flag = this.codeClientService.existMessage(phoneNumber, verificationCode);
         if (flag) {
             log.error("\n验证验证码:" + flag);
@@ -173,18 +173,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (userInfo == null) {
             throw new RuntimeException("员工不存在");
         }
-        Employee employee = new Employee();
-        BeanUtils.copyProperties(userInfo, employee);
-        if (employee.getId() == null) {
-            throw new RuntimeException("员工重置密码失败");
-        }
-        employee
-                .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"))
-                .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
-                .setModifyTime(new Date())
-                .setModifyUserId(this.userService.getCurrentUser().getId());
-        this.employeeMapper.updateByPrimaryKeySelective(employee);
-        return ServiceResult.toResult("重置密码成功");
+        return ServiceResult.toResult("验证成功");
     }
 
     /**

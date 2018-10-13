@@ -41,14 +41,13 @@ public interface EmployeeService {
     Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword);
 
     /**
-     * 重置密码
+     * 校验验证码
      *
-     * @param phoneNumber      employee表中的手机号码字段
-     * @param verificationCode 短信验证码
-     * @param newPassword      新密码
+     * @param phone
+     * @param verificationCode
      * @return
      */
-    Map<String, Object> resetPassword(String phone, String verificationCode, String newPassword);
+    Map<String, Object> resetPassword(String phone, String verificationCode);
 
     /**
      * 注销员工
