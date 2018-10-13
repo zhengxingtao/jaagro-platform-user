@@ -148,15 +148,13 @@ public class EmployeeController {
      */
     @ApiOperation("修改密码")
     @PostMapping("/updateEmpPassword")
-    public BaseResponse updateEmpPassword(@RequestParam(value = "oldPassword") String oldPassword,
-                                          @RequestParam(value = "newPassword") String newPassword,
-                                          @RequestParam(value = "id") Integer id) {
-        Employee employee = this.employeeMapper.selectByPrimaryKey(id);
+    public BaseResponse updateEmpPassword(@RequestBody CheckCodeDto checkCodeDto) {
+        UserInfo employee = this.employeeMapper.getByPhone(checkCodeDto.getPhone());
         if (employee == null) {
-            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:id:" + id);
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:" + checkCodeDto.getPhone());
         }
         try {
-            this.employeeService.updatePassword(id, oldPassword, newPassword);
+            this.employeeService.updatePassword(employee.getId(), checkCodeDto.getOldPassword(), checkCodeDto.getNewPassword());
         } catch (Exception e) {
             return BaseResponse.errorInstance(e.getMessage());
         }
@@ -166,8 +164,7 @@ public class EmployeeController {
     /**
      * 校验验证码
      *
-     * @param phone
-     * @param verificationCode
+     * @param checkCodeDto
      * @return
      */
     @ApiOperation("校验验证码")

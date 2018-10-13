@@ -12,13 +12,24 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class CheckCodeDto implements Serializable {
     /**
-     * 部门名称
+     * 电话
      */
     private String phone;
 
     /**
-     * 上级部门id
+     * 验证码
      */
     private String verificationCode;
+
+    /**
+     * oldPassword
+     */
+    private String oldPassword;
+
+    /**
+     * newPassword
+     */
+    private String newPassword;
+
 
 }
