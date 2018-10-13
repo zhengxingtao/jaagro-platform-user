@@ -1,6 +1,7 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.dto.request.CheckCodeDto;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
@@ -171,14 +172,13 @@ public class EmployeeController {
      */
     @ApiOperation("校验验证码")
     @PostMapping("/checkCode")
-    public BaseResponse resetPassword(@RequestParam(value = "phone") String phone,
-                                      @RequestParam(value = "verificationCode") String verificationCode) {
-        UserInfo userInfo = this.employeeMapper.getByPhone(phone);
+    public BaseResponse resetPassword(@RequestBody CheckCodeDto checkCodeDto) {
+        UserInfo userInfo = this.employeeMapper.getByPhone(checkCodeDto.getPhone());
         if (userInfo == null) {
-            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + phone);
+            return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "此员工不存在:phone:" + checkCodeDto.getPhone());
         }
         try {
-            this.employeeService.resetPassword(phone, verificationCode);
+            this.employeeService.resetPassword(checkCodeDto.getPhone(), checkCodeDto.getVerificationCode());
         } catch (RuntimeException e) {
             return BaseResponse.errorInstance(e.getMessage());
         }
