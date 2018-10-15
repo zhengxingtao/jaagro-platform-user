@@ -185,7 +185,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee
                 .setId(id)
-                .setModifyUserId(userService.getCurrentUser().getId())
+                .setModifyUserId(id)
                 .setModifyTime(new Date())
                 .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
                 .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"));
