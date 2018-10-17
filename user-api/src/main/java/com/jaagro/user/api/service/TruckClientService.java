@@ -13,6 +13,7 @@ public interface TruckClientService {
 
     /**
      * 获取车辆
+     *
      * @param id
      * @return
      */
@@ -21,9 +22,19 @@ public interface TruckClientService {
 
     /**
      * 获取车队
+     *
      * @param id
      * @return
      */
     @GetMapping("/truckTeam/{id}")
     BaseResponse getTruckTeamById(@PathVariable("id") Integer id);
+
+    /**
+     * 根据司机id删除资质
+     *
+     * @param driverId
+     * @return
+     */
+    @GetMapping("/deleteTruckQualificationByDriverId/{driverId}")
+    BaseResponse deleteTruckQualificationByDriverId(@PathVariable("driverId") Integer driverId);
 }

@@ -6,6 +6,7 @@ import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.DriverService;
+import com.jaagro.user.api.service.TruckClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapper;
@@ -34,6 +35,8 @@ public class DriverServiceImpl implements DriverService {
     private DriverMapperExt driverMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TruckClientService truckClientService;
 
     /**
      * 新增司机
@@ -75,6 +78,9 @@ public class DriverServiceImpl implements DriverService {
         System.err.println("-----------司机:" + driver.toString());
         if (driver.getId() == null) {
             throw new NullPointerException("司机id不能为空");
+        }
+        if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
+            throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
         BeanUtils.copyProperties(driver, dataDriver);
@@ -156,8 +162,9 @@ public class DriverServiceImpl implements DriverService {
             throw new NullPointerException(id + " :不正确");
         }
         //后期扩展如果当前driver有任务未完成，无法删除
-
         driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
+        //逻辑删除司机相关资质
+        this.truckClientService.deleteTruckQualificationByDriverId(id);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -171,6 +178,14 @@ public class DriverServiceImpl implements DriverService {
     public Map<String, Object> deleteDriverByTruckId(Integer teamId) {
         //后期扩展如果当前driver有任务未完成，无法删除
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
+        //逻辑删除司机相关资质
+        List<DriverReturnDto> driverReturnDtos = listByTruckId(teamId);
+        if (driverReturnDtos.size() > 0) {
+            for (DriverReturnDto driverReturnDto : driverReturnDtos
+            ) {
+                this.truckClientService.deleteTruckQualificationByDriverId(driverReturnDto.getId());
+            }
+        }
         return ServiceResult.toResult("车辆id为" + teamId + " :的记录删除成功");
     }
 
