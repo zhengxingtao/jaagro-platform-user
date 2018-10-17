@@ -94,4 +94,16 @@ public class DriverController {
         }
         return BaseResponse.service(result);
     }
+
+    @Ignore
+    @PostMapping("/updateDriverByPhoneNumber")
+    public BaseResponse updateDriverByPhoneNumber(@RequestBody UpdateDriverDto driver) {
+        Map<String, Object> result;
+        try {
+            result = driverService.updateDriverRegIdByPhoneNumber(driver);
+        } catch (Exception e) {
+            throw e;
+        }
+        return BaseResponse.service(result);
+    }
 }
