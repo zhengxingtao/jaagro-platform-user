@@ -46,4 +46,8 @@
         from driver
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <update id="updateDriverRegIdByPhoneNumber" parameterType="java.lang.String">
+        update driver set registration_id=#{registrationId},modify_time=now(),modify_user_id=99999999 where phone_number=#{phoneNumber}
+    </update>
+
 </mapper>

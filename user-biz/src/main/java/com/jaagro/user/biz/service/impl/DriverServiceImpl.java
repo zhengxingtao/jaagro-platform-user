@@ -89,6 +89,28 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
+     * 修改司机手机app注册设备id
+     * gavin
+     *
+     * @param driver
+     * @return
+     */
+    @Override
+    public Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver) {
+        if (driver.getPhoneNumber() == null) {
+            throw new NullPointerException("手机号不能为空");
+        }
+        if (driver.getRegistrationId() == null) {
+            throw new NullPointerException("手机app注册id不能为空");
+        }
+        int count = this.driverMapper.updateDriverRegIdByPhoneNumber(driver.getPhoneNumber(), driver.getRegistrationId());
+        if (0 == count) {
+            throw new NullPointerException("更新失败，司机未注册或者需要先更新司机的手机号");
+        }
+        return ServiceResult.toResult("修改成功");
+    }
+
+    /**
      * 获取单个司机
      *
      * @param id

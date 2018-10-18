@@ -92,4 +92,12 @@ public interface DriverService {
      * @return
      */
     Map<String, Object> updateDriverStatus(Integer driverId);
+
+    /**
+     * 修改司机app注册设备id
+     *
+     * @param driver
+     * @return
+     */
+    Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver);
 }
