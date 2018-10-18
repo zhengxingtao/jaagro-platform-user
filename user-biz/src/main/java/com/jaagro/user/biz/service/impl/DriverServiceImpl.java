@@ -79,9 +79,6 @@ public class DriverServiceImpl implements DriverService {
         if (driver.getId() == null) {
             throw new NullPointerException("司机id不能为空");
         }
-        if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
-            throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
-        }
         Driver dataDriver = new Driver();
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver
