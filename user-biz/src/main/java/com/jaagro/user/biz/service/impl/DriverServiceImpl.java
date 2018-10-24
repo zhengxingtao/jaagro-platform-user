@@ -6,6 +6,7 @@ import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.DriverService;
+import com.jaagro.user.api.service.TruckClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapper;
@@ -34,6 +35,8 @@ public class DriverServiceImpl implements DriverService {
     private DriverMapperExt driverMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TruckClientService truckClientService;
 
     /**
      * 新增司机
@@ -86,6 +89,28 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
+     * 修改司机手机app注册设备id
+     * gavin
+     *
+     * @param driver
+     * @return
+     */
+    @Override
+    public Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver) {
+        if (driver.getPhoneNumber() == null) {
+            throw new NullPointerException("手机号不能为空");
+        }
+        if (driver.getRegistrationId() == null) {
+            throw new NullPointerException("手机app注册id不能为空");
+        }
+        int count = this.driverMapper.updateDriverRegIdByPhoneNumber(driver.getPhoneNumber(), driver.getRegistrationId());
+        if (0 == count) {
+            throw new NullPointerException("更新失败，司机未注册或者需要先更新司机的手机号");
+        }
+        return ServiceResult.toResult("修改成功");
+    }
+
+    /**
      * 获取单个司机
      *
      * @param id
@@ -134,8 +159,9 @@ public class DriverServiceImpl implements DriverService {
             throw new NullPointerException(id + " :不正确");
         }
         //后期扩展如果当前driver有任务未完成，无法删除
-
         driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
+        //逻辑删除司机相关资质
+        this.truckClientService.deleteTruckQualificationByDriverId(id);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -149,6 +175,14 @@ public class DriverServiceImpl implements DriverService {
     public Map<String, Object> deleteDriverByTruckId(Integer teamId) {
         //后期扩展如果当前driver有任务未完成，无法删除
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
+        //逻辑删除司机相关资质
+        List<DriverReturnDto> driverReturnDtos = listByTruckId(teamId);
+        if (driverReturnDtos.size() > 0) {
+            for (DriverReturnDto driverReturnDto : driverReturnDtos
+            ) {
+                this.truckClientService.deleteTruckQualificationByDriverId(driverReturnDto.getId());
+            }
+        }
         return ServiceResult.toResult("车辆id为" + teamId + " :的记录删除成功");
     }
 

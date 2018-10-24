@@ -69,4 +69,11 @@ public interface DriverMapperExt extends DriverMapper {
      * @return
      */
     DriverReturnDto getDriverById(Integer id);
+
+    /**
+     * app登陆时更新司机的注册id gavin
+     * @param phoneNumber
+     * @return
+     */
+    Integer updateDriverRegIdByPhoneNumber(@Param("phoneNumber") String phoneNumber,@Param("registrationId") String registrationId);
 }

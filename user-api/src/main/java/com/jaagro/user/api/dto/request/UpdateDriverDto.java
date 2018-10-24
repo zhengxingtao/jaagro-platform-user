@@ -37,4 +37,8 @@ public class UpdateDriverDto implements Serializable {
      */
     private String expiryDrivingLicense;
 
+    /**
+     * JPush时司机的设备注册id
+     */
+    private String registrationId;
 }
