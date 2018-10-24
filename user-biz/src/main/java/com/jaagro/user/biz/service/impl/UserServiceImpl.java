@@ -4,14 +4,15 @@ import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.biz.mapper.*;
+import com.jaagro.user.biz.mapper.CustomerUserMapperExt;
+import com.jaagro.user.biz.mapper.DriverMapperExt;
+import com.jaagro.user.biz.mapper.EmployeeMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -102,7 +103,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserInfo getCurrentUser() {
         String token = request.getHeader("token");
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<" + token);
         return userClientService.getUserByToken(token);
     }
 }
