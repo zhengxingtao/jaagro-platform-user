@@ -1,5 +1,6 @@
 package com.jaagro.user.web.controller;
 
+import com.jaagro.annotation.RequiredPermission;
 import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
