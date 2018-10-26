@@ -63,7 +63,12 @@ public class DriverServiceImpl implements DriverService {
         Driver dataDriver = new Driver();
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver.setCreateUserId(userService.getCurrentUser().getId());
-        driverMapper.insertSelective(dataDriver);
+        try {
+            driverMapper.insertSelective(dataDriver);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("司机手机号重复"+ex.getMessage());
+        }
         return dataDriver.getId();
     }
 
