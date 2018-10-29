@@ -5,11 +5,8 @@ import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
-import com.jaagro.user.api.service.DriverService;
-import com.jaagro.user.api.service.TruckClientService;
-import com.jaagro.user.api.service.UserService;
+import com.jaagro.user.api.service.*;
 import com.jaagro.user.biz.entity.Driver;
-import com.jaagro.user.biz.mapper.DriverMapper;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
@@ -19,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +35,8 @@ public class DriverServiceImpl implements DriverService {
     private UserService userService;
     @Autowired
     private TruckClientService truckClientService;
+    @Autowired
+    private AccountService accountService;
 
     /**
      * 新增司机
@@ -162,6 +162,8 @@ public class DriverServiceImpl implements DriverService {
         driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
+        //逻辑删除账户
+        accountService.deleteAccount(id,2,1);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -177,6 +179,10 @@ public class DriverServiceImpl implements DriverService {
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
         //逻辑删除司机相关资质
         List<DriverReturnDto> driverReturnDtos = listByTruckId(teamId);
+        List<Integer> userIdList = new ArrayList<Integer>();
+        driverReturnDtos.forEach((driverReturnDto) -> userIdList.add(driverReturnDto.getId()));
+        //批量逻辑删除账户
+        accountService.batchDeleteAccount(userIdList,2,1);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
