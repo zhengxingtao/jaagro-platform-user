@@ -1,18 +1,14 @@
 package com.jaagro.user.web.controller;
 
-import com.jaagro.annotation.RequiredPermission;
 import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
-import com.jaagro.user.biz.mapper.DepartmentMapper;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
-import com.jaagro.user.biz.mapper.EmployeeMapper;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
 import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
-import com.jaagro.utils.ServiceResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -21,10 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Service;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Administrator
