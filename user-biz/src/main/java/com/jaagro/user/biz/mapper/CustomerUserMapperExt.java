@@ -1,6 +1,7 @@
 package com.jaagro.user.biz.mapper;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.dto.response.GetCustomerUserDto;
 
 /**
  * @author tony
