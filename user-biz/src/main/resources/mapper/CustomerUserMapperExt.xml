@@ -24,4 +24,5 @@
     from customer_user
     where id = #{id,jdbcType=INTEGER} and status = 1
   </select>
+
 </mapper>
