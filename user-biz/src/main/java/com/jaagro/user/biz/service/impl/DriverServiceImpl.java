@@ -175,17 +175,17 @@ public class DriverServiceImpl implements DriverService {
     /**
      * 删除车队所有司机
      *
-     * @param teamId
+     * @param truckId
      * @return
      */
     @Override
-    public Map<String, Object> deleteDriverByTruckId(Integer teamId) {
-        //后期扩展如果当前driver有任务未完成，无法删除
-        driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
+    public Map<String, Object> deleteDriverByTruckId(Integer truckId) {
         //逻辑删除司机相关资质
-        List<DriverReturnDto> driverReturnDtos = listByTruckId(teamId);
+        List<DriverReturnDto> driverReturnDtos = listByTruckId(truckId);
         List<Integer> userIdList = new ArrayList<Integer>();
         driverReturnDtos.forEach((driverReturnDto) -> userIdList.add(driverReturnDto.getId()));
+        //后期扩展如果当前driver有任务未完成，无法删除
+        driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, truckId);
         //批量逻辑删除账户
         accountService.batchDeleteAccount(userIdList,2,1);
         if (driverReturnDtos.size() > 0) {
@@ -194,7 +194,7 @@ public class DriverServiceImpl implements DriverService {
                 this.truckClientService.deleteTruckQualificationByDriverId(driverReturnDto.getId());
             }
         }
-        return ServiceResult.toResult("车辆id为" + teamId + " :的记录删除成功");
+        return ServiceResult.toResult("车辆id为" + truckId + " :的记录删除成功");
     }
 
     /**

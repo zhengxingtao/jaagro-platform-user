@@ -80,7 +80,7 @@ public class DriverController {
 
     @DeleteMapping("/driverByTruck/{truckId}")
     public BaseResponse deleteDriverByTruckId(@PathVariable("truckId") Integer truckId) {
-        return BaseResponse.service(driverService.deleteDriver(truckId));
+        return BaseResponse.service(driverService.deleteDriverByTruckId(truckId));
     }
 
     @Ignore
