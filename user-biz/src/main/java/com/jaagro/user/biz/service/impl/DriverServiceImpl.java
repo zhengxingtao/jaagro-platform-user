@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import java.util.Map;
  * @author tony
  */
 @Service
+@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "driver")
 public class DriverServiceImpl implements DriverService {
 
     private static final Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
@@ -44,6 +48,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> createDriver(CreateDriverDto driver) {
         return ServiceResult.toResult(createDriverReturnId(driver));
@@ -55,6 +60,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Integer createDriverReturnId(CreateDriverDto driver) {
         if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
@@ -78,6 +84,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
         System.err.println("-----------司机:" + driver.toString());
@@ -100,6 +107,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver) {
         if (driver.getPhoneNumber() == null) {
@@ -121,6 +129,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> getById(Integer id) {
         DriverReturnDto driver = driverMapper.getDriverById(id);
@@ -136,6 +145,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @Cacheable
     @Override
     public DriverReturnDto getDriverReturnObject(Integer id) {
         return driverMapper.getDriverById(id);
@@ -147,6 +157,7 @@ public class DriverServiceImpl implements DriverService {
      * @param criteria
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListDriverCriteriaDto criteria) {
         return null;
@@ -158,6 +169,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> deleteDriver(Integer id) {
         if (driverMapper.selectByPrimaryKey(id) == null) {
@@ -178,6 +190,7 @@ public class DriverServiceImpl implements DriverService {
      * @param truckId
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> deleteDriverByTruckId(Integer truckId) {
         //逻辑删除司机相关资质
@@ -203,6 +216,7 @@ public class DriverServiceImpl implements DriverService {
      * @param truckId
      * @return
      */
+    @Cacheable
     @Override
     public List<DriverReturnDto> listByTruckId(Integer truckId) {
         return driverMapper.listDriverByTruckId(truckId);
