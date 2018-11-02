@@ -103,6 +103,7 @@ public class DriverServiceImpl implements DriverService {
         if (driver.getPhoneNumber() == null) {
             throw new NullPointerException("手机号不能为空");
         }
+
         if (driver.getRegistrationId() == null) {
             throw new NullPointerException("手机app注册id不能为空");
         }
