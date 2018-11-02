@@ -15,6 +15,16 @@
         <result column="gender" property="gender" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="ReturnInfoMap" type="com.jaagro.constant.UserInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
+        <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="phone" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
     <resultMap id="ReturnMap" type="com.jaagro.user.api.dto.response.employee.ListEmployeeDto">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -57,19 +67,19 @@
         </if>
         order by create_time desc
     </select>
-    <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
+    <select id="getByLoginName" resultMap="ReturnInfoMap">
         select
         <include refid="Info_Column"/>
         from employee
         where login_name = #{loginName,jdbcType=VARCHAR} and status = 1
     </select>
-    <select id="getByPhone" resultType="com.jaagro.constant.UserInfo">
+    <select id="getByPhone" resultMap="ReturnInfoMap">
         select
         <include refid="Info_Column"/>
         from employee
         where phone = #{phone,jdbcType=VARCHAR} and status = 1
     </select>
-    <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
+    <select id="getUserInfoById" resultMap="ReturnInfoMap">
         select
         <include refid="Info_Column"/>
         from employee
@@ -94,7 +104,7 @@
         from employee
         where status != 3
     </select>
-    <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
+    <select id="listUserInfo" resultMap="ReturnInfoMap">
         select
         <include refid="Info_Column" />
         from employee
