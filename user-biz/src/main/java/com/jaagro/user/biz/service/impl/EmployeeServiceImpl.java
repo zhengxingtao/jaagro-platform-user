@@ -20,6 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,6 +37,7 @@ import java.util.Map;
  * @author baiyiran
  */
 @Service
+@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "employee")
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
@@ -64,6 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
+    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> createEmployee(CreateEmpDto dto) {
@@ -95,6 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
+    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateEmployee(UpdateEmpDto dto) {
@@ -133,6 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param newPassword
      * @return
      */
+    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
         Employee emp = this.employeeMapper.selectByPrimaryKey(id);
@@ -199,6 +206,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param notes 注销原因
      * @return
      */
+    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> disableEmployee(DeleteEmployeeDto deleteEmployeeDto) {
         Employee employee = new Employee();
@@ -220,6 +228,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param deptId 需要协作的部门编号，新增到 employee_dept表中
      * @return
      */
+    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId) {
         for (Integer did : deptId) {
@@ -242,6 +251,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param criteriaDto
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto) {
         PageHelper.startPage(criteriaDto.getPageNum(), criteriaDto.getPageSize());
@@ -249,6 +259,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ServiceResult.toResult(new PageInfo<>(emps));
     }
 
+    @Cacheable
     @Override
     public GetEmployeeDto getById(Integer id) {
         GetEmployeeDto employeeDto = this.employeeMapper.getById(id);
