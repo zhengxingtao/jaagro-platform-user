@@ -49,5 +49,14 @@
     <update id="updateDriverRegIdByPhoneNumber" parameterType="java.lang.String">
         update driver set registration_id=#{registrationId},modify_time=now(),modify_user_id=99999999 where phone_number=#{phoneNumber}
     </update>
-
+    <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
+        select
+        <include refid="Info_Column" />
+        from driver
+        where id IN
+        <foreach collection="userIdList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        and status = 1
+    </select>
 </mapper>

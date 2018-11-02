@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -104,6 +105,27 @@ public class UserServiceImpl implements UserService {
     public UserInfo getCurrentUser() {
         String token = request.getHeader("token");
         return userClientService.getUserByToken(token);
+    }
+
+    /**
+     * @param userIdList
+     * @param userType
+     * @return
+     * @author yj
+     * 查询用户信息列表
+     */
+    @Override
+    public List<UserInfo> listUserInfo(List<Integer> userIdList, String userType) {
+        switch (userType){
+            case UserType.CUSTOMER:
+                return customerUserMapper.listUserInfo(userIdList);
+            case UserType.DRIVER:
+                return driverMapper.listUserInfo(userIdList);
+            case UserType.EMPLOYEE:
+                return employeeMapper.listUserInfo(userIdList);
+            default:
+                return null;
+        }
     }
 }
 

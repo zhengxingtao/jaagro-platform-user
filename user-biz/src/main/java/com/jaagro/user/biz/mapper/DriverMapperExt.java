@@ -76,4 +76,11 @@ public interface DriverMapperExt extends DriverMapper {
      * @return
      */
     Integer updateDriverRegIdByPhoneNumber(@Param("phoneNumber") String phoneNumber,@Param("registrationId") String registrationId);
+
+    /**
+     * id列表获取用户信息列表
+     * @param userIdList
+     * @return
+     */
+    List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
 }

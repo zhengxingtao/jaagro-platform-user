@@ -94,4 +94,14 @@
         from employee
         where status != 3
     </select>
+    <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
+        select
+        <include refid="Info_Column" />
+        from employee
+        where id IN
+        <foreach collection="userIdList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        and status = 1
+    </select>
 </mapper>

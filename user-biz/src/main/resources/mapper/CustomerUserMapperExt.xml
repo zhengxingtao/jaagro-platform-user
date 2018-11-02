@@ -24,5 +24,14 @@
     from customer_user
     where id = #{id,jdbcType=INTEGER} and status = 1
   </select>
-
+  <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
+    select
+    <include refid="Info_Column" />
+    from customer_user
+    where id IN
+    <foreach collection="userIdList" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+    and status = 1
+  </select>
 </mapper>

@@ -26,4 +26,12 @@ public interface UserService {
      */
     UserInfo getCurrentUser();
 
+    /**
+     * @author yj
+     * 查询用户信息列表
+     * @param userIdList
+     * @param userType
+     * @return
+     */
+    List<UserInfo> listUserInfo(List<Integer> userIdList, String userType);
 }
