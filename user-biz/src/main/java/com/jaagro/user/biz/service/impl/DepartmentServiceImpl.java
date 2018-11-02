@@ -165,7 +165,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
 
-    @Cacheable
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
