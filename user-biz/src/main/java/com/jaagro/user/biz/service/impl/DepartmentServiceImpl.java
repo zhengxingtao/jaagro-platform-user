@@ -192,7 +192,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {
-        deptIdSet.add(did);
+        if (null != did) {
+            deptIdSet.add(did);
+        }
         //找到所有第一层子部门列表
         List<Integer> deptIds = departmentMapper.getDownDepartmentId(did);
         if (deptIds.size() != 0) {
