@@ -9,6 +9,8 @@ import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.ServiceResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,6 +21,7 @@ import java.util.Map;
  * @author baiyiran
  */
 @Service
+//@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "employee")
 public class EmployeeRoleServiceImpl implements EmployeeRoleService {
 
     @Autowired

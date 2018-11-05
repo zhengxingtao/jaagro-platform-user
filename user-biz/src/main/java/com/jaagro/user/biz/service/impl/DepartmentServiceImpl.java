@@ -19,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +33,7 @@ import java.util.*;
  * @author tony
  */
 @Service
+@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "department")
 public class DepartmentServiceImpl implements DepartmentService {
 
     private static final Logger log = LoggerFactory.getLogger(DepartmentServiceImpl.class);
@@ -51,6 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
+    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> createDepartment(CreateDepartmentDto dto) {
@@ -79,6 +84,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
+    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateById(UpdateDepartmentDto dto) {
@@ -107,6 +113,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param id
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> getById(Integer id) {
 
@@ -129,6 +136,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param id
      * @return
      */
+    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> disableDepartment(Integer id) {
@@ -149,6 +157,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListDepartmentCriteriaDto dto) {
         PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
@@ -156,6 +165,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
 
+    @Cacheable
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
@@ -166,12 +176,11 @@ public class DepartmentServiceImpl implements DepartmentService {
      *
      * @return
      */
+    @Cacheable
     @Override
     public List<Integer> getDownDepartment() {
         String token = request.getHeader("token");
-        System.out.println("token -----" + token);
         UserInfo userInfo = authClientService.getUserByToken(token);
-        System.out.println("userInfo ----" + userInfo);
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         Set<Integer> set = departmentRecursion(deptIdSet, userInfo.getDepartmentId());
         List<Integer> list = new ArrayList<>(set);
