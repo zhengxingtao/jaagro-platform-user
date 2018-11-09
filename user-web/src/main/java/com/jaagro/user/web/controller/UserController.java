@@ -3,11 +3,14 @@ package com.jaagro.user.web.controller;
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,5 +37,13 @@ public class UserController {
         map.put("key", key);
         map.put("userType", userType);
         return userService.getUserInfo(map);
+    }
+
+    @GetMapping("/listUserInfo")
+    public List<UserInfo> listUserInfo(@RequestParam("userIdList") List<Integer> userIdList,@RequestParam("userType") String userType){
+        if (CollectionUtils.isEmpty(userIdList) || StringUtils.isEmpty(userType)){
+            return null;
+        }
+        return userService.listUserInfo(userIdList,userType);
     }
 }

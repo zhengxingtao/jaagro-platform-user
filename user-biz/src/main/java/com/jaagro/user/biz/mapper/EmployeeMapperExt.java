@@ -6,6 +6,7 @@ import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.dto.response.employee.ListEmployeeDto;
 import com.jaagro.user.biz.entity.Employee;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -77,4 +78,10 @@ public interface EmployeeMapperExt extends EmployeeMapper {
      * @return
      */
     List<ListEmployeeDto> listEmployee();
+    /**
+     * id列表获取用户信息列表
+     * @param userIdList
+     * @return
+     */
+    List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
 }

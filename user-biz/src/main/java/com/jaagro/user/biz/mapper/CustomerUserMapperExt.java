@@ -2,6 +2,9 @@ package com.jaagro.user.biz.mapper;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.response.GetCustomerUserDto;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author tony
@@ -30,4 +33,11 @@ public interface CustomerUserMapperExt extends CustomerUserMapper {
      * @return
      */
     UserInfo getUserInfoById(Integer id);
+
+    /**
+     * id列表获取userInfo列表
+     * @param userIdList
+     * @return
+     */
+    List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
 }

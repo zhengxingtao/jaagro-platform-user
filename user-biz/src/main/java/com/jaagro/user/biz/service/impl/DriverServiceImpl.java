@@ -5,11 +5,8 @@ import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
-import com.jaagro.user.api.service.DriverService;
-import com.jaagro.user.api.service.TruckClientService;
-import com.jaagro.user.api.service.UserService;
+import com.jaagro.user.api.service.*;
 import com.jaagro.user.biz.entity.Driver;
-import com.jaagro.user.biz.mapper.DriverMapper;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
@@ -17,8 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author tony
  */
 @Service
+@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "driver")
 public class DriverServiceImpl implements DriverService {
 
     private static final Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
@@ -37,6 +39,8 @@ public class DriverServiceImpl implements DriverService {
     private UserService userService;
     @Autowired
     private TruckClientService truckClientService;
+    @Autowired
+    private AccountService accountService;
 
     /**
      * 新增司机
@@ -44,6 +48,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> createDriver(CreateDriverDto driver) {
         return ServiceResult.toResult(createDriverReturnId(driver));
@@ -55,6 +60,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Integer createDriverReturnId(CreateDriverDto driver) {
         if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
@@ -78,6 +84,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
         System.err.println("-----------司机:" + driver.toString());
@@ -100,11 +107,13 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver) {
         if (driver.getPhoneNumber() == null) {
             throw new NullPointerException("手机号不能为空");
         }
+
         if (driver.getRegistrationId() == null) {
             throw new NullPointerException("手机app注册id不能为空");
         }
@@ -121,6 +130,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> getById(Integer id) {
         DriverReturnDto driver = driverMapper.getDriverById(id);
@@ -136,6 +146,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @Cacheable
     @Override
     public DriverReturnDto getDriverReturnObject(Integer id) {
         return driverMapper.getDriverById(id);
@@ -147,6 +158,7 @@ public class DriverServiceImpl implements DriverService {
      * @param criteria
      * @return
      */
+    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListDriverCriteriaDto criteria) {
         return null;
@@ -158,6 +170,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> deleteDriver(Integer id) {
         if (driverMapper.selectByPrimaryKey(id) == null) {
@@ -167,28 +180,35 @@ public class DriverServiceImpl implements DriverService {
         driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
+        //逻辑删除账户
+        accountService.deleteAccount(id,2,1);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
     /**
      * 删除车队所有司机
      *
-     * @param teamId
+     * @param truckId
      * @return
      */
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
-    public Map<String, Object> deleteDriverByTruckId(Integer teamId) {
-        //后期扩展如果当前driver有任务未完成，无法删除
-        driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, teamId);
+    public Map<String, Object> deleteDriverByTruckId(Integer truckId) {
         //逻辑删除司机相关资质
-        List<DriverReturnDto> driverReturnDtos = listByTruckId(teamId);
+        List<DriverReturnDto> driverReturnDtos = listByTruckId(truckId);
+        List<Integer> userIdList = new ArrayList<Integer>();
+        driverReturnDtos.forEach((driverReturnDto) -> userIdList.add(driverReturnDto.getId()));
+        //后期扩展如果当前driver有任务未完成，无法删除
+        driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, truckId);
+        //批量逻辑删除账户
+        accountService.batchDeleteAccount(userIdList,2,1);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
                 this.truckClientService.deleteTruckQualificationByDriverId(driverReturnDto.getId());
             }
         }
-        return ServiceResult.toResult("车辆id为" + teamId + " :的记录删除成功");
+        return ServiceResult.toResult("车辆id为" + truckId + " :的记录删除成功");
     }
 
     /**
@@ -197,6 +217,7 @@ public class DriverServiceImpl implements DriverService {
      * @param truckId
      * @return
      */
+    @Cacheable
     @Override
     public List<DriverReturnDto> listByTruckId(Integer truckId) {
         return driverMapper.listDriverByTruckId(truckId);
