@@ -33,7 +33,7 @@ import java.util.*;
  * @author tony
  */
 @Service
-@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "department")
+//@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "department")
 public class DepartmentServiceImpl implements DepartmentService {
 
     private static final Logger log = LoggerFactory.getLogger(DepartmentServiceImpl.class);
@@ -55,7 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
-    @CacheEvict(cacheNames = "department", allEntries = true)
+//    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> createDepartment(CreateDepartmentDto dto) {
@@ -84,7 +84,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
-    @CacheEvict(cacheNames = "department", allEntries = true)
+//    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateById(UpdateDepartmentDto dto) {
@@ -113,7 +113,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param id
      * @return
      */
-    @Cacheable
+//    @Cacheable
     @Override
     public Map<String, Object> getById(Integer id) {
 
@@ -136,7 +136,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param id
      * @return
      */
-    @CacheEvict(cacheNames = "department", allEntries = true)
+//    @CacheEvict(cacheNames = "department", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> disableDepartment(Integer id) {
@@ -157,7 +157,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @param dto
      * @return
      */
-    @Cacheable
+//    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListDepartmentCriteriaDto dto) {
         PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
@@ -165,7 +165,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
 
-    @Cacheable
+//    @Cacheable
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
@@ -176,7 +176,7 @@ public class DepartmentServiceImpl implements DepartmentService {
      *
      * @return
      */
-    @Cacheable
+//    @Cacheable
     @Override
     public List<Integer> getDownDepartment() {
         String token = request.getHeader("token");

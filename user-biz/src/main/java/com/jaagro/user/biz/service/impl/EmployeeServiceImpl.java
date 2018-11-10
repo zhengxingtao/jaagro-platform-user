@@ -37,7 +37,7 @@ import java.util.Map;
  * @author baiyiran
  */
 @Service
-@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "employee")
+//@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "employee")
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
@@ -68,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
-    @CacheEvict(cacheNames = "employee", allEntries = true)
+//    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> createEmployee(CreateEmpDto dto) {
@@ -100,7 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param dto
      * @return
      */
-    @CacheEvict(cacheNames = "employee", allEntries = true)
+//    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Map<String, Object> updateEmployee(UpdateEmpDto dto) {
@@ -139,7 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param newPassword
      * @return
      */
-    @CacheEvict(cacheNames = "employee", allEntries = true)
+//    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> updatePassword(Integer id, String oldPassword, String newPassword) {
         Employee emp = this.employeeMapper.selectByPrimaryKey(id);
@@ -206,7 +206,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param notes 注销原因
      * @return
      */
-    @CacheEvict(cacheNames = "employee", allEntries = true)
+//    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> disableEmployee(DeleteEmployeeDto deleteEmployeeDto) {
         Employee employee = new Employee();
@@ -228,7 +228,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param deptId 需要协作的部门编号，新增到 employee_dept表中
      * @return
      */
-    @CacheEvict(cacheNames = "employee", allEntries = true)
+//    @CacheEvict(cacheNames = "employee", allEntries = true)
     @Override
     public Map<String, Object> setDepartmentCooperation(Integer id, Integer[] deptId) {
         for (Integer did : deptId) {
@@ -251,7 +251,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param criteriaDto
      * @return
      */
-    @Cacheable
+//    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListEmpCriteriaDto criteriaDto) {
         PageHelper.startPage(criteriaDto.getPageNum(), criteriaDto.getPageSize());
@@ -259,7 +259,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ServiceResult.toResult(new PageInfo<>(emps));
     }
 
-    @Cacheable
+//    @Cacheable
     @Override
     public GetEmployeeDto getById(Integer id) {
         GetEmployeeDto employeeDto = this.employeeMapper.getById(id);
