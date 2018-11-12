@@ -27,8 +27,8 @@ public interface AccountClientService {
      *@param queryAccountDto
      * @return
      */
-    @PostMapping("/getAccountDto")
-    public AccountReturnDto getAccountDto(@RequestBody QueryAccountDto queryAccountDto);
+    @PostMapping("/getByQueryAccountDto")
+    public AccountReturnDto getByQueryAccountDto(@RequestBody QueryAccountDto queryAccountDto);
 
     /**
      * 逻辑批量删除账户

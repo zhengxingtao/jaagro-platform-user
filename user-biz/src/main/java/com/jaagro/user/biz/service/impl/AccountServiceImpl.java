@@ -32,21 +32,21 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public void deleteAccount(Integer userId, Integer userType, Integer accountType) {
-//        QueryAccountDto queryAccountDto = new QueryAccountDto();
-//        queryAccountDto
-//                .setAccountType(accountType)
-//                .setUserId(userId)
-//                .setUserType(userType);
-//        AccountReturnDto accountDto = accountClientService.getAccountDto(queryAccountDto);
-//        if (accountDto != null && accountDto.getId()!= null){
-//            BaseResponse baseResponse = accountClientService.deleteAccount(accountDto.getId());
-//            if (ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
-//                log.warn("deleteAccount fail,id={}",accountDto.getId());
-//                throw new RuntimeException("删除账户失败");
-//            }
-//        }else{
-//            log.warn("account not exist,{}",queryAccountDto);
-//        }
+        QueryAccountDto queryAccountDto = new QueryAccountDto();
+        queryAccountDto
+                .setAccountType(accountType)
+                .setUserId(userId)
+                .setUserType(userType);
+        AccountReturnDto accountDto = accountClientService.getByQueryAccountDto(queryAccountDto);
+        if (accountDto != null && accountDto.getId()!= null){
+            BaseResponse baseResponse = accountClientService.deleteAccount(accountDto.getId());
+            if (ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
+                log.warn("deleteAccount fail,id={}",accountDto.getId());
+                throw new RuntimeException("删除账户失败");
+            }
+        }else{
+            log.warn("account not exist,{}",queryAccountDto);
+        }
     }
 
     /**
@@ -57,16 +57,17 @@ public class AccountServiceImpl implements AccountService {
      * @param accountType
      */
     @Override
-    public void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType) {
-//        BatchDeleteAccountDto batchDeleteAccountDto = new BatchDeleteAccountDto();
-//        batchDeleteAccountDto
-//                .setAccountType(accountType)
-//                .setUserIdList(userIdList)
-//                .setUserType(userType);
-//        BaseResponse baseResponse = accountClientService.batchDelete(batchDeleteAccountDto);
-//        if(ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
-//            log.warn("batchDeleteAccount fail batchDeleteAccountDto={},baseResponse={}",batchDeleteAccountDto,baseResponse);
-//            throw new RuntimeException("批量逻辑删除账户失败");
-//        }
+    public void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType,Integer modifyUserId) {
+        BatchDeleteAccountDto batchDeleteAccountDto = new BatchDeleteAccountDto();
+        batchDeleteAccountDto
+                .setAccountType(accountType)
+                .setUserIdList(userIdList)
+                .setUserType(userType)
+                .setModifyUserId(modifyUserId);
+        BaseResponse baseResponse = accountClientService.batchDelete(batchDeleteAccountDto);
+        if(ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
+            log.warn("batchDeleteAccount fail batchDeleteAccountDto={},baseResponse={}",batchDeleteAccountDto,baseResponse);
+            throw new RuntimeException("批量逻辑删除账户失败");
+        }
     }
 }

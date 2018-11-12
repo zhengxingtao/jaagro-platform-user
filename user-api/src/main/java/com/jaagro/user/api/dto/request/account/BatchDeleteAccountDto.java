@@ -19,18 +19,17 @@ public class BatchDeleteAccountDto implements Serializable {
     /**
      * 用户id列表
      */
-    @NotNull
     private List<Integer> userIdList;
     /**
      * 用户类型 1-客户,2-司机
      */
-    @NotNull
-    @Min(1)
     private Integer userType;
     /**
      * 账户类型 1-现金,2-保证金
      */
-    @NotNull
-    @Min(1)
     private Integer accountType;
+    /**
+     * 修改人
+     */
+    private Integer modifyUserId;
 }

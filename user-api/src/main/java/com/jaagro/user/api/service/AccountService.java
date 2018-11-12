@@ -20,6 +20,7 @@ public interface AccountService {
      * @param userIdList
      * @param userType
      * @param accountType
+     * @param modifyUserId
      */
-    void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType);
+    void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType,Integer modifyUserId);
 }
