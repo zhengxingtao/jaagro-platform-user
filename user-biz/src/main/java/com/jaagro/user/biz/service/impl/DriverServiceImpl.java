@@ -1,5 +1,8 @@
 package com.jaagro.user.biz.service.impl;
 
+import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.constant.AccountType;
+import com.jaagro.user.api.constant.AccountUserType;
 import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
@@ -181,7 +184,7 @@ public class DriverServiceImpl implements DriverService {
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
         //逻辑删除账户
-        accountService.deleteAccount(id,2,1);
+        accountService.deleteAccount(id,AccountUserType.DRIVER, AccountType.CASH);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -200,8 +203,10 @@ public class DriverServiceImpl implements DriverService {
         driverReturnDtos.forEach((driverReturnDto) -> userIdList.add(driverReturnDto.getId()));
         //后期扩展如果当前driver有任务未完成，无法删除
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, truckId);
+        UserInfo currentUser = userService.getCurrentUser();
+        Integer currentUserId = currentUser == null ? null : currentUser.getId();
         //批量逻辑删除账户
-        accountService.batchDeleteAccount(userIdList,2,1);
+        accountService.batchDeleteAccount(userIdList,AccountUserType.DRIVER,AccountType.CASH,currentUserId);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
