@@ -106,7 +106,7 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation("查询单个部门")
-    @GetMapping("/department/{id}")
+    @GetMapping("/getDepartmentById/{id}")
     public DepartmentReturnDto getDepartmentById(@PathVariable Integer id) {
         return departmentService.getById(id);
     }
