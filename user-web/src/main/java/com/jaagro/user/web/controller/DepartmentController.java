@@ -3,6 +3,7 @@ package com.jaagro.user.web.controller;
 import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
+import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -96,9 +97,19 @@ public class DepartmentController {
         if (this.departmentMapper.selectByPrimaryKey(id) == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "查询不到部门");
         }
-        return BaseResponse.service(departmentService.getById(id));
+        return BaseResponse.successInstance(departmentService.getById(id));
     }
 
+    /**
+     * @Author gavin
+     * @param id
+     * @return
+     */
+    @ApiOperation("查询单个部门")
+    @GetMapping("/department/{id}")
+    public DepartmentReturnDto getDepartmentById(@PathVariable Integer id) {
+        return departmentService.getById(id);
+    }
     @Ignore
     @ApiOperation("查询单个部门名称提供给crm")
     @GetMapping("/getDeptNameById/{id}")

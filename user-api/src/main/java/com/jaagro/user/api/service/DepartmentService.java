@@ -3,6 +3,7 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
+import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +36,7 @@ public interface DepartmentService {
      * @param id
      * @return
      */
-    Map<String, Object> getById(Integer id);
+    DepartmentReturnDto getById(Integer id);
 
     /**
      * 逻辑删除部门

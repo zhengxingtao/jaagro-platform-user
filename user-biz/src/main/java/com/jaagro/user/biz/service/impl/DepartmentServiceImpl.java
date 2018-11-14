@@ -115,10 +115,9 @@ public class DepartmentServiceImpl implements DepartmentService {
      */
 //    @Cacheable
     @Override
-    public Map<String, Object> getById(Integer id) {
-
+    public DepartmentReturnDto getById(Integer id) {
         if (departmentMapper.selectByPrimaryKey(id) == null) {
-            return ServiceResult.error(ResponseStatusCode.ID_VALUE_ERROR.getCode(), "id: " + id + "不存在");
+            throw new NullPointerException("id: " + id + "不存在");
         }
         DepartmentReturnDto departmentReturnDto = departmentMapper.getById(id);
         if (departmentReturnDto != null) {
@@ -127,7 +126,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 departmentReturnDto.setParentLevel(department.getLevel());
             }
         }
-        return ServiceResult.toResult(departmentReturnDto);
+        return departmentReturnDto;
     }
 
     /**
