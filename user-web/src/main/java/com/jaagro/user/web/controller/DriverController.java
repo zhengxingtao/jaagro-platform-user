@@ -51,18 +51,11 @@ public class DriverController {
     @Ignore
     @PostMapping("/updateDriverFeign")
     public BaseResponse updateDriverFeign(@RequestBody UpdateDriverDto driver) {
-        Map<String, Object> result;
-        try {
-            result = driverService.updateDriver(driver);
-        } catch (Exception e) {
-            throw e;
-        }
-        return BaseResponse.service(result);
+        return BaseResponse.service(driverService.updateDriver(driver));
     }
 
     @PostMapping("/driver/{id}")
     public BaseResponse deleteDriver(@PathVariable("id") Integer id) {
-
         return BaseResponse.service(driverService.deleteDriver(id));
     }
 
@@ -74,24 +67,12 @@ public class DriverController {
     @Ignore
     @PostMapping("/updateDriverStatusFeign/{driverId}")
     public BaseResponse updateDriverStatusFeign(@PathVariable("driverId") Integer driverId) {
-        Map<String, Object> result;
-        try {
-            result = driverService.updateDriverStatus(driverId);
-        } catch (Exception e) {
-            throw e;
-        }
-        return BaseResponse.service(result);
+        return BaseResponse.service(driverService.updateDriverStatus(driverId));
     }
 
     @Ignore
     @PostMapping("/updateDriverByPhoneNumber")
     public BaseResponse updateDriverByPhoneNumber(@RequestBody UpdateDriverDto driver) {
-        Map<String, Object> result;
-        try {
-            result = driverService.updateDriverRegIdByPhoneNumber(driver);
-        } catch (Exception e) {
-            throw e;
-        }
-        return BaseResponse.service(result);
+        return BaseResponse.service(driverService.updateDriverRegIdByPhoneNumber(driver));
     }
 }
