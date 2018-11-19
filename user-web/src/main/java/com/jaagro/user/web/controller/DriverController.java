@@ -23,13 +23,7 @@ public class DriverController {
 
     @PostMapping("/driver")
     public BaseResponse createDriver(@RequestBody CreateDriverDto driver) {
-        BaseResponse result;
-        try {
-            result = BaseResponse.service(driverService.createDriver(driver));
-        } catch (Exception e) {
-            throw e;
-        }
-        return result;
+        return BaseResponse.service(driverService.createDriver(driver));
     }
 
     @GetMapping("/listDriverByTruckId/{truckId}")
@@ -51,13 +45,7 @@ public class DriverController {
     @Ignore
     @PostMapping("/driverFeign")
     public Integer createDriverReturnId(@RequestBody CreateDriverDto driver) {
-        Integer result;
-        try {
-            result = driverService.createDriverReturnId(driver);
-        } catch (Exception e) {
-            throw e;
-        }
-        return result;
+        return driverService.createDriverReturnId(driver);
     }
 
     @Ignore
