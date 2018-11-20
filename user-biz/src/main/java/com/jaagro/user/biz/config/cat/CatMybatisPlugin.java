@@ -1,4 +1,4 @@
-package com.jaagro.user.web.config.cat;
+package com.jaagro.user.biz.config.cat;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.dianping.cat.Cat;
