@@ -40,10 +40,10 @@ public class UserController {
     }
 
     @GetMapping("/listUserInfo")
-    public List<UserInfo> listUserInfo(@RequestParam("userIdList") List<Integer> userIdList,@RequestParam("userType") String userType){
-        if (CollectionUtils.isEmpty(userIdList) || StringUtils.isEmpty(userType)){
+    public List<UserInfo> listUserInfo(@RequestParam("userIdList") List<Integer> userIdList, @RequestParam("userType") String userType) {
+        if (CollectionUtils.isEmpty(userIdList) || StringUtils.isEmpty(userType)) {
             return null;
         }
-        return userService.listUserInfo(userIdList,userType);
+        return userService.listUserInfo(userIdList, userType);
     }
 }

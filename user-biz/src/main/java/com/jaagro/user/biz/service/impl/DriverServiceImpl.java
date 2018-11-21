@@ -76,7 +76,7 @@ public class DriverServiceImpl implements DriverService {
             driverMapper.insertSelective(dataDriver);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("司机手机号重复"+ex.getMessage());
+            throw new RuntimeException("司机手机号重复" + ex.getMessage());
         }
         return dataDriver.getId();
     }
@@ -184,7 +184,7 @@ public class DriverServiceImpl implements DriverService {
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
         //逻辑删除账户
-        accountService.deleteAccount(id,AccountUserType.DRIVER, AccountType.CASH);
+        accountService.deleteAccount(id, AccountUserType.DRIVER, AccountType.CASH);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -206,7 +206,7 @@ public class DriverServiceImpl implements DriverService {
         UserInfo currentUser = userService.getCurrentUser();
         Integer currentUserId = currentUser == null ? null : currentUser.getId();
         //批量逻辑删除账户
-        accountService.batchDeleteAccount(userIdList,AccountUserType.DRIVER,AccountType.CASH,currentUserId);
+        accountService.batchDeleteAccount(userIdList, AccountUserType.DRIVER, AccountType.CASH, currentUserId);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * 账户查询, 操作
+ *
  * @author yj
  * @date 2018/10/26
  */
@@ -23,6 +24,7 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountClientService accountClientService;
+
     /**
      * 逻辑删除账户
      *
@@ -38,14 +40,14 @@ public class AccountServiceImpl implements AccountService {
                 .setUserId(userId)
                 .setUserType(userType);
         AccountReturnDto accountDto = accountClientService.getByQueryAccountDto(queryAccountDto);
-        if (accountDto != null && accountDto.getId()!= null){
+        if (accountDto != null && accountDto.getId() != null) {
             BaseResponse baseResponse = accountClientService.deleteAccount(accountDto.getId());
-            if (ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
-                log.warn("deleteAccount fail,id={}",accountDto.getId());
+            if (ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()) {
+                log.warn("deleteAccount fail,id={}", accountDto.getId());
                 throw new RuntimeException("删除账户失败");
             }
-        }else{
-            log.warn("account not exist,{}",queryAccountDto);
+        } else {
+            log.warn("account not exist,{}", queryAccountDto);
         }
     }
 
@@ -57,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
      * @param accountType
      */
     @Override
-    public void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType,Integer modifyUserId) {
+    public void batchDeleteAccount(List<Integer> userIdList, Integer userType, Integer accountType, Integer modifyUserId) {
         BatchDeleteAccountDto batchDeleteAccountDto = new BatchDeleteAccountDto();
         batchDeleteAccountDto
                 .setAccountType(accountType)
@@ -65,8 +67,8 @@ public class AccountServiceImpl implements AccountService {
                 .setUserType(userType)
                 .setModifyUserId(modifyUserId);
         BaseResponse baseResponse = accountClientService.batchDelete(batchDeleteAccountDto);
-        if(ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()){
-            log.warn("batchDeleteAccount fail batchDeleteAccountDto={},baseResponse={}",batchDeleteAccountDto,baseResponse);
+        if (ResponseStatusCode.OPERATION_SUCCESS.getCode() != baseResponse.getStatusCode()) {
+            log.warn("batchDeleteAccount fail batchDeleteAccountDto={},baseResponse={}", batchDeleteAccountDto, baseResponse);
             throw new RuntimeException("批量逻辑删除账户失败");
         }
     }
