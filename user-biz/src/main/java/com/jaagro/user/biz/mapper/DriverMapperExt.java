@@ -83,4 +83,11 @@ public interface DriverMapperExt extends DriverMapper {
      * @return
      */
     List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
+
+    /**
+     * 查询近一个月过期证件
+     * @param expiryDateType
+     * @return
+     */
+    List<DriverReturnDto> listCertificateOverdueNotice(@Param("expiryDateType") Integer expiryDateType);
 }

@@ -73,7 +73,7 @@ public class DriverServiceImpl implements DriverService {
             driverMapper.insertSelective(dataDriver);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("司机手机号重复"+ex.getMessage());
+            throw new RuntimeException("司机手机号重复" + ex.getMessage());
         }
         return dataDriver.getId();
     }
@@ -122,6 +122,17 @@ public class DriverServiceImpl implements DriverService {
             throw new NullPointerException("更新失败，司机未注册或者需要先更新司机的手机号");
         }
         return ServiceResult.toResult("修改成功");
+    }
+
+    /**
+     * 查询近一个月过期证件
+     * Author: @Gao.
+     *
+     * @return
+     */
+    @Override
+    public List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType) {
+        return driverMapper.listCertificateOverdueNotice(expiryDateType);
     }
 
     /**
@@ -181,7 +192,7 @@ public class DriverServiceImpl implements DriverService {
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
         //逻辑删除账户
-        accountService.deleteAccount(id,2,1);
+        accountService.deleteAccount(id, 2, 1);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -201,7 +212,7 @@ public class DriverServiceImpl implements DriverService {
         //后期扩展如果当前driver有任务未完成，无法删除
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, truckId);
         //批量逻辑删除账户
-        accountService.batchDeleteAccount(userIdList,2,1);
+        accountService.batchDeleteAccount(userIdList, 2, 1);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
@@ -236,4 +247,5 @@ public class DriverServiceImpl implements DriverService {
         }
         return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
     }
+
 }
