@@ -128,6 +128,18 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
+     * 查询近一个月过期证件
+     * Author: @Gao.
+     *
+     * @param expiryDateType
+     * @return
+     */
+    @Override
+    public List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType) {
+        return driverMapper.listCertificateOverdueNotice(expiryDateType);
+    }
+
+    /**
      * 获取单个司机
      *
      * @param id
