@@ -51,12 +51,28 @@
     </update>
     <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
         select
-        <include refid="Info_Column" />
+        <include refid="Info_Column"/>
         from driver
         where id IN
         <foreach collection="userIdList" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
         and status = 1
+    </select>
+    <select id="listCertificateOverdueNotice" resultType="com.jaagro.user.api.dto.response.DriverReturnDto" parameterType="java.lang.Integer">
+        select
+        <include refid="Info_Column"/>
+        from driver
+        where status = 1
+        <if test="expiryDateType==5">
+            <![CDATA[
+        and expiry_driving_license > NOW() and expiry_driving_license < DATE_ADD(NOW(),INTERVAL 30 DAY)
+    ]]>
+        </if>
+        <if test="expiryDateType==6">
+            <![CDATA[
+         and expiry_driving_license< NOW()
+    ]]>
+        </if>
     </select>
 </mapper>
