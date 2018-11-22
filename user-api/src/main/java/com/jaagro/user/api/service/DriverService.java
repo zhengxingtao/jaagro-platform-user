@@ -102,8 +102,9 @@ public interface DriverService {
     Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver);
 
     /**
-     * 查询近一个过期驾驶证
-     * @param expiryDateType
+     * 查询近一个月过期证件
+     * Author: @Gao.
+     *
      * @return
      */
     List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType);

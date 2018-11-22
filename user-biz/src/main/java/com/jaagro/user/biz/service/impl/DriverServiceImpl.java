@@ -1,8 +1,5 @@
 package com.jaagro.user.biz.service.impl;
 
-import com.jaagro.constant.UserInfo;
-import com.jaagro.user.api.constant.AccountType;
-import com.jaagro.user.api.constant.AccountUserType;
 import com.jaagro.user.api.constant.AuditStatus;
 import com.jaagro.user.api.dto.request.CreateDriverDto;
 import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
@@ -31,7 +28,7 @@ import java.util.Map;
  * @author tony
  */
 @Service
-//@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "driver")
+@CacheConfig(keyGenerator = "wiselyKeyGenerator", cacheNames = "driver")
 public class DriverServiceImpl implements DriverService {
 
     private static final Logger log = LoggerFactory.getLogger(DriverServiceImpl.class);
@@ -51,7 +48,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> createDriver(CreateDriverDto driver) {
         return ServiceResult.toResult(createDriverReturnId(driver));
@@ -63,7 +60,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Integer createDriverReturnId(CreateDriverDto driver) {
         if (driverMapper.getByPhoneNumber(driver.getPhoneNumber()) != null) {
@@ -76,7 +73,7 @@ public class DriverServiceImpl implements DriverService {
             driverMapper.insertSelective(dataDriver);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("司机手机号重复"+ex.getMessage());
+            throw new RuntimeException("司机手机号重复" + ex.getMessage());
         }
         return dataDriver.getId();
     }
@@ -87,7 +84,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriver(UpdateDriverDto driver) {
         System.err.println("-----------司机:" + driver.toString());
@@ -110,7 +107,7 @@ public class DriverServiceImpl implements DriverService {
      * @param driver
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> updateDriverRegIdByPhoneNumber(UpdateDriverDto driver) {
         if (driver.getPhoneNumber() == null) {
@@ -128,9 +125,9 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
-     * 查询近一个过期驾驶证
+     * 查询近一个月过期证件
+     * Author: @Gao.
      *
-     * @param expiryDateType
      * @return
      */
     @Override
@@ -144,7 +141,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
-//    @Cacheable
+    @Cacheable
     @Override
     public Map<String, Object> getById(Integer id) {
         DriverReturnDto driver = driverMapper.getDriverById(id);
@@ -160,7 +157,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
-//    @Cacheable
+    @Cacheable
     @Override
     public DriverReturnDto getDriverReturnObject(Integer id) {
         return driverMapper.getDriverById(id);
@@ -172,7 +169,7 @@ public class DriverServiceImpl implements DriverService {
      * @param criteria
      * @return
      */
-//    @Cacheable
+    @Cacheable
     @Override
     public Map<String, Object> listByCriteria(ListDriverCriteriaDto criteria) {
         return null;
@@ -184,7 +181,7 @@ public class DriverServiceImpl implements DriverService {
      * @param id
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> deleteDriver(Integer id) {
         if (driverMapper.selectByPrimaryKey(id) == null) {
@@ -195,7 +192,7 @@ public class DriverServiceImpl implements DriverService {
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
         //逻辑删除账户
-        accountService.deleteAccount(id,AccountUserType.DRIVER, AccountType.CASH);
+        accountService.deleteAccount(id, 2, 1);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -205,7 +202,7 @@ public class DriverServiceImpl implements DriverService {
      * @param truckId
      * @return
      */
-//    @CacheEvict(cacheNames = "driver", allEntries = true)
+    @CacheEvict(cacheNames = "driver", allEntries = true)
     @Override
     public Map<String, Object> deleteDriverByTruckId(Integer truckId) {
         //逻辑删除司机相关资质
@@ -214,10 +211,8 @@ public class DriverServiceImpl implements DriverService {
         driverReturnDtos.forEach((driverReturnDto) -> userIdList.add(driverReturnDto.getId()));
         //后期扩展如果当前driver有任务未完成，无法删除
         driverMapper.deleteDriverByTruckId(AuditStatus.STOP_COOPERATION, truckId);
-        UserInfo currentUser = userService.getCurrentUser();
-        Integer currentUserId = currentUser == null ? null : currentUser.getId();
         //批量逻辑删除账户
-        accountService.batchDeleteAccount(userIdList,AccountUserType.DRIVER,AccountType.CASH,currentUserId);
+        accountService.batchDeleteAccount(userIdList, 2, 1);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
@@ -233,7 +228,7 @@ public class DriverServiceImpl implements DriverService {
      * @param truckId
      * @return
      */
-//    @Cacheable
+    @Cacheable
     @Override
     public List<DriverReturnDto> listByTruckId(Integer truckId) {
         return driverMapper.listDriverByTruckId(truckId);
@@ -252,4 +247,5 @@ public class DriverServiceImpl implements DriverService {
         }
         return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
     }
+
 }
