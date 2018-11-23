@@ -48,6 +48,21 @@ public class DepartmentReturnDto implements Serializable {
     private Integer leaderEmployeeId;
 
     /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区县
+     */
+    private String county;
+
+    /**
      * 创建时间
      */
     private Date createTime;

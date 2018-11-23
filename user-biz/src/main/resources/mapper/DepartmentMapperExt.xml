@@ -8,6 +8,9 @@
         <result column="level" jdbcType="INTEGER" property="level"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
         <result column="leader_employee_id" jdbcType="INTEGER" property="leaderEmployeeId"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="county" property="county" jdbcType="VARCHAR"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
@@ -25,7 +28,7 @@
         </collection>
     </resultMap>
     <sql id="Return_List">
-        id, department_name, level
+        id, department_name, level,netpoint
      </sql>
 
     <select id="getById" parameterType="java.lang.Integer" resultMap="DetailInfo">

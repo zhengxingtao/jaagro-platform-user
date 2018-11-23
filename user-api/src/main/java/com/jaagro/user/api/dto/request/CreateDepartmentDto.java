@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author liqiangping
@@ -31,5 +30,20 @@ public class CreateDepartmentDto implements Serializable {
      * 等级
      */
     private Integer level;
+
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区县
+     */
+    private String county;
 
 }

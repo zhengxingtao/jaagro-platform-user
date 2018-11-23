@@ -43,6 +43,21 @@ public class UpdateDepartmentDto implements Serializable {
     private Integer leaderEmployeeId;
 
     /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区县
+     */
+    private String county;
+
+    /**
      * 是否可用(0 不可用 1 可用)
      */
     private Boolean enabled;

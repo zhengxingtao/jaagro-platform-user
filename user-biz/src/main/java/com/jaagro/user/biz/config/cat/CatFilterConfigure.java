@@ -1,4 +1,4 @@
-package com.jaagro.user.biz.cat;
+package com.jaagro.user.biz.config.cat;
 
 import com.dianping.cat.servlet.CatFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
