@@ -67,6 +67,13 @@ public interface DepartmentService {
     List<Integer> getDownDepartment();
 
     /**
+     * 获取指定部门id及下属部门id数组
+     *
+     * @return
+     */
+    List<Integer> getDownDepartmentByDeptId(Integer deptId);
+
+    /**
      * 查询当前用户的本部门及本部门以下的部门
      *
      * @return

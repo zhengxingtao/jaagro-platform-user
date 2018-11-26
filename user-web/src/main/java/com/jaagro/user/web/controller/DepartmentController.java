@@ -167,9 +167,20 @@ public class DepartmentController {
     }
 
     /**
-     * 查询当前用户的本部门及本部门以下的部门
+     * 获取指定部门id及下属部门
      *
      * @return
+     */
+    @ApiOperation("获取指定部门id及下属部门id数组")
+    @PostMapping("/getDownDepartmentByDeptId/{deptId}")
+    public List<Integer> getDownDepartmentByDeptId(@PathVariable("deptId") Integer deptId) {
+        return departmentService.getDownDepartmentByDeptId(deptId);
+    }
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @returns
      */
     @ApiOperation("查询当前用户下属部门及其本身部门树")
     @PostMapping("/getDownDepartmentByCurrentUser")

@@ -189,6 +189,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     /**
+     * 获取指定部门id及下属部门id数组
+     *
+     * @return
+     */
+    @Override
+    public List<Integer> getDownDepartmentByDeptId(Integer deptId) {
+        Set<Integer> deptIdSet = new LinkedHashSet<>();
+        Set<Integer> set = departmentRecursion(deptIdSet, deptId);
+        List<Integer> list = new ArrayList<>(set);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        } else {
+            return list;
+        }
+    }
+
+    /**
      * 查询当前用户的本部门及本部门以下的部门
      *
      * @return
