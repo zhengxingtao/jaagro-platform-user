@@ -63,7 +63,7 @@
         select
         <include refid="Base_Column_List"/>
         from driver
-        where status = 3
+        where status != 3
         <if test="expiryDateType==5">
             <![CDATA[
     and expiry_driving_license > NOW() and expiry_driving_license < DATE_ADD(NOW(),INTERVAL 30 DAY);

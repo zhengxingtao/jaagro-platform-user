@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author tony
@@ -77,7 +76,7 @@ public class DriverController {
     }
 
     @GetMapping("/listDriverCertificateOverdueNotice/{expiryDateType}")
-    public BaseResponse<List<DriverReturnDto>> listDriverCertificateOverdueNotice(@PathVariable("expiryDateType") Integer expiryDateType) {
+    public BaseResponse listDriverCertificateOverdueNotice(@PathVariable("expiryDateType") Integer expiryDateType) {
         return BaseResponse.successInstance(driverService.listCertificateOverdueNotice(expiryDateType));
     }
 }

@@ -46,4 +46,14 @@ public class CreateDepartmentDto implements Serializable {
      */
     private String county;
 
+    /**
+     * 是否可用(0 不可用 1 可用)
+     */
+    private Boolean enabled;
+
+    /**
+     * 0-不是，1-是网点
+     */
+    private Boolean netpoint;
+
 }

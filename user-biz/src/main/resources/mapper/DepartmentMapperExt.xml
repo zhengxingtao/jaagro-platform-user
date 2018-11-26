@@ -65,6 +65,14 @@
         </if>
         order by sort
     </select>
+    <select id="listDepartmentByIds" resultMap="ReturnInfo" parameterType="java.lang.Integer">
+        select
+        <include refid="Return_List"/>
+        from department
+        where enabled = 1
+        and id = #{deptId}
+        order by sort
+    </select>
     <select id="listByParentId" parameterType="java.lang.Integer" resultMap="ReturnInfo">
         select
         <include refid="Return_List"/>
