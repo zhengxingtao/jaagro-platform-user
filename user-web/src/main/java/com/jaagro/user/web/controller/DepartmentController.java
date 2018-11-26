@@ -145,7 +145,7 @@ public class DepartmentController {
 
     @ApiOperation("查询部门")
     @PostMapping("/listDeparment")
-    public BaseResponse listDeparment(@RequestParam(required = false) Boolean netpoint) {
+    public BaseResponse listDepartment(@RequestParam(required = false) Boolean netpoint) {
         return BaseResponse.service(this.departmentService.listDepartment(netpoint));
     }
 
