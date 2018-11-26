@@ -7,6 +7,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.AuthClientService;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.api.service.UserService;
@@ -19,9 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -164,7 +162,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
 
-//    @Cacheable
+    //    @Cacheable
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
@@ -188,6 +186,25 @@ public class DepartmentServiceImpl implements DepartmentService {
         } else {
             return list;
         }
+    }
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Object> getDownDepartmentByCurrentUser() {
+        String token = request.getHeader("token");
+        UserInfo userInfo = authClientService.getUserByToken(token);
+        if (userInfo == null) {
+            return ServiceResult.toResult(null);
+        }
+        List<ListDepartmentDto> departmentDtoList = departmentMapper.listDepartmentByIds(userInfo.getDepartmentId());
+        if (CollectionUtils.isEmpty(departmentDtoList)) {
+            return ServiceResult.toResult(null);
+        }
+        return ServiceResult.toResult(departmentDtoList);
     }
 
     private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {

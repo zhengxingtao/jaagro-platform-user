@@ -101,15 +101,16 @@ public class DepartmentController {
     }
 
     /**
-     * @Author gavin
      * @param id
      * @return
+     * @Author gavin
      */
     @ApiOperation("查询单个部门")
     @GetMapping("/getDepartmentById/{id}")
     public DepartmentReturnDto getDepartmentById(@PathVariable Integer id) {
         return departmentService.getById(id);
     }
+
     @Ignore
     @ApiOperation("查询单个部门名称提供给crm")
     @GetMapping("/getDeptNameById/{id}")
@@ -163,6 +164,17 @@ public class DepartmentController {
     @PostMapping("/getDownDepartment")
     public List<Integer> getDownDepartment() {
         return departmentService.getDownDepartment();
+    }
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @return
+     */
+    @ApiOperation("查询当前用户下属部门及其本身部门树")
+    @PostMapping("/getDownDepartmentByCurrentUser")
+    public BaseResponse<Map<String, Object>> getDownDepartmentByCurrentUser() {
+        return BaseResponse.service(departmentService.getDownDepartmentByCurrentUser());
     }
 
 }

@@ -5,10 +5,8 @@ import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author tony
@@ -67,4 +65,11 @@ public interface DepartmentService {
      * @return
      */
     List<Integer> getDownDepartment();
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @return
+     */
+    Map<String, Object> getDownDepartmentByCurrentUser();
 }
