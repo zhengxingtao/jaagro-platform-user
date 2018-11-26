@@ -51,4 +51,9 @@ public class CreateDepartmentDto implements Serializable {
      */
     private Boolean enabled;
 
+    /**
+     * 0-不是，1-是网点
+     */
+    private Boolean netpoint;
+
 }
