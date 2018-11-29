@@ -46,6 +46,16 @@
         from driver
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <select id="listDriverByIds" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where id in
+        <foreach collection="driverIdList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <update id="updateDriverRegIdByPhoneNumber" parameterType="java.lang.String">
         update driver set registration_id=#{registrationId},modify_time=now(),modify_user_id=99999999 where phone_number=#{phoneNumber}
     </update>

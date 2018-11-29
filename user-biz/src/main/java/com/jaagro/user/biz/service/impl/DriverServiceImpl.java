@@ -140,6 +140,18 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
+     * 批量查询司机信息
+     *
+     * @param driverIdList
+     * @return
+     * @author yj
+     */
+    @Override
+    public List<DriverReturnDto> listDriverByIds(List<Integer> driverIdList) {
+        return driverMapper.listDriverByIds(driverIdList);
+    }
+
+    /**
      * 获取单个司机
      *
      * @param id

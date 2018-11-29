@@ -80,4 +80,8 @@ public class DriverController {
         return BaseResponse.successInstance(driverService.listCertificateOverdueNotice(expiryDateType));
 
     }
+    @GetMapping("/listDriverByIds")
+    public BaseResponse<DriverReturnDto> listDriverByIds(@RequestParam List<Integer> driverIdList){
+        return BaseResponse.successInstance(driverService.listDriverByIds(driverIdList));
+    }
 }
