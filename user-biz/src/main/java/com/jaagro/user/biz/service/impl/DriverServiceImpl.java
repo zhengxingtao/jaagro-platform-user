@@ -140,7 +140,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     /**
-     * 批量查询司机信息
+     * 批量查询司机信息 不区分状态
      *
      * @param driverIdList
      * @return

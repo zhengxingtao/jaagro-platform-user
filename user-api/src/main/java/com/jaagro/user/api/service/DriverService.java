@@ -110,7 +110,7 @@ public interface DriverService {
     List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType);
 
     /**
-     * 批量查询司机信息
+     * 批量查询司机信息 不区分状态
      * @author yj
      * @param driverIdList
      * @return

@@ -95,7 +95,7 @@ public interface DriverMapperExt extends DriverMapper {
     List<DriverReturnDto> listCertificateOverdueNotice(@Param("expiryDateType") Integer expiryDateType);
 
     /**
-     * 批量查询司机信息
+     * 批量查询司机信息 不区分状态
      * @author yj
      * @param driverIdList
      * @return
