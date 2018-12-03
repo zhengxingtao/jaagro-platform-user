@@ -108,4 +108,12 @@ public interface DriverService {
      * @return
      */
     List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType);
+
+    /**
+     * 批量查询司机信息 不区分状态
+     * @author yj
+     * @param driverIdList
+     * @return
+     */
+    List<DriverReturnDto> listDriverByIds(List<Integer> driverIdList);
 }

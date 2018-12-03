@@ -79,4 +79,8 @@ public class DriverController {
     public BaseResponse listDriverCertificateOverdueNotice(@PathVariable("expiryDateType") Integer expiryDateType) {
         return BaseResponse.successInstance(driverService.listCertificateOverdueNotice(expiryDateType));
     }
+    @GetMapping("/listDriverByIds")
+    public BaseResponse<List<DriverReturnDto>> listDriverByIds(@RequestParam("driverIdList") List<Integer> driverIdList){
+        return BaseResponse.successInstance(driverService.listDriverByIds(driverIdList));
+    }
 }
