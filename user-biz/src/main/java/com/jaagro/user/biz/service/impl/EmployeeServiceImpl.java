@@ -11,6 +11,7 @@ import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.config.IdGeneratorFactory;
 import com.jaagro.user.biz.entity.*;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.MD5Utils;
@@ -58,6 +59,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RoleMapperExt roleMapper;
     @Autowired
     private OssSignUrlClientService ossSignUrlClientService;
+    @Autowired
+    private IdGeneratorFactory idGeneratorFactory;
 
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
@@ -76,6 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("密码不能为空");
         }
         Employee employee = new Employee();
+        employee.setId(idGeneratorFactory.getNextId());
         BeanUtils.copyProperties(dto, employee);
         Map<String, String> stringMap = PasswordEncoder.encodePassword(dto.getPassword());
         if (stringMap.size() > 0) {
