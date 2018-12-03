@@ -93,8 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
             return ServiceResult.toResult("员工创建成功");
         } else {
-            log.error("密码加密失败");
-            throw new RuntimeException("密码加密失败");
+            throw new RuntimeException("employee creation failed：" + employee);
         }
     }
 
