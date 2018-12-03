@@ -238,4 +238,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.info("当前用户可查询的部门id： " + deptIdSet);
         return deptIdSet;
     }
+
+    /**
+     * 获取所有部门 供其它系统使用
+     *
+     * @return
+     * @Author gavin 20181203
+     */
+    @Override
+    public List<DepartmentReturnDto> getAllDepartments() {
+        return departmentMapper.getAllDepartments();
+    }
 }

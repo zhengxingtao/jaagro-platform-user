@@ -79,4 +79,10 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> getDownDepartmentByCurrentUser();
+    /**
+     * 获取所有部门 供其它系统使用
+     * @Author gavin 20181203
+     * @return
+     */
+     List<DepartmentReturnDto> getAllDepartments();
 }
