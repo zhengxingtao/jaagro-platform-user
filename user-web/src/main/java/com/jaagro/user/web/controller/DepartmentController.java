@@ -192,6 +192,8 @@ public class DepartmentController {
      * @Author gavin 20181203
      * @return
      */
+    @ApiOperation("查询所有部门")
+    @PostMapping("/getAllDepartments")
     public List<DepartmentReturnDto> getAllDepartments(){
         return departmentService.getAllDepartments();
     }
