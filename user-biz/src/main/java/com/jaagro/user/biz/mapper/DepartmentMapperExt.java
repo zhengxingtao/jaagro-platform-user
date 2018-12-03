@@ -57,4 +57,11 @@ public interface DepartmentMapperExt extends DepartmentMapper {
      * @return
      */
     List<Integer> getDownDepartmentId(@Param("id") Integer id);
+
+    /**
+     * 获取所有部门 供其它系统使用
+     * @Author gavin 20181203
+     * @return
+     */
+    List<DepartmentReturnDto> getAllDepartments();
 }

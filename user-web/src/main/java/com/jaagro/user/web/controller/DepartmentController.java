@@ -187,5 +187,12 @@ public class DepartmentController {
     public BaseResponse<Map<String, Object>> getDownDepartmentByCurrentUser() {
         return BaseResponse.service(departmentService.getDownDepartmentByCurrentUser());
     }
-
+    /**
+     * 获取所有部门 供其它系统使用
+     * @Author gavin 20181203
+     * @return
+     */
+    public List<DepartmentReturnDto> getAllDepartments(){
+        return departmentService.getAllDepartments();
+    }
 }
