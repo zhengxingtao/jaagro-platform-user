@@ -9,6 +9,7 @@ import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.config.IdGeneratorFactory;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
@@ -44,6 +45,8 @@ public class DriverServiceImpl implements DriverService {
     private TruckClientService truckClientService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private IdGeneratorFactory idGeneratorFactory;
 
     /**
      * 新增司机
@@ -70,6 +73,7 @@ public class DriverServiceImpl implements DriverService {
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
+        dataDriver.setId(idGeneratorFactory.getNextId());
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver.setCreateUserId(userService.getCurrentUser().getId());
         try {

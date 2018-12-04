@@ -65,6 +65,15 @@
         </if>
         order by sort
     </select>
+    <select id="listNetPointDepartment" resultMap="DetailInfo">
+        select
+        <include refid="Return_List"/>
+        from department
+        where enabled = 1
+        <if test="netpoint != null">
+            and netpoint = #{netpoint}
+        </if>
+    </select>
     <select id="listDepartmentByIds" resultMap="ReturnInfo" parameterType="java.lang.Integer">
         select
         <include refid="Return_List"/>
