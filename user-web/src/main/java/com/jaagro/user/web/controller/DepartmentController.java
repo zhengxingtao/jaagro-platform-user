@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,8 +166,17 @@ public class DepartmentController {
 
     @ApiOperation("查询网点部门")
     @PostMapping("/listNetPointDepartment")
-    public List<ListDepartmentDto> listNetPointDepartment(@RequestParam(required = false) Boolean netpoint) {
-        return  departmentService.listNetPointDepartment(netpoint);
+    public List<Map<String,String>> listNetPointDepartment(@RequestParam(required = false) Boolean netpoint) {
+        List<Map<String,String>> mapList = new ArrayList<>();
+        List<ListDepartmentDto> deptDtos = departmentService.listNetPointDepartment(netpoint);
+        for (ListDepartmentDto deptDto : deptDtos) {
+            Map<String,String> map = new HashMap<>();
+            map.put("id",deptDto.getId().toString());
+            map.put("departmentName",deptDto.getDepartmentName());
+            mapList.add(map);
+        }
+
+        return  mapList;
     }
 
     @PostMapping("/getDownDepartment")
