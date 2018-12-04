@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -159,6 +160,12 @@ public class DepartmentController {
     @PostMapping("/listDeparment")
     public BaseResponse listDepartment(@RequestParam(required = false) Boolean netpoint) {
         return BaseResponse.service(this.departmentService.listDepartment(netpoint));
+    }
+
+    @ApiOperation("查询网点部门")
+    @PostMapping("/listNetPointDepartment")
+    public List<ListDepartmentDto> listNetPointDepartment(@RequestParam(required = false) Boolean netpoint) {
+        return  departmentService.listNetPointDepartment(netpoint);
     }
 
     @PostMapping("/getDownDepartment")

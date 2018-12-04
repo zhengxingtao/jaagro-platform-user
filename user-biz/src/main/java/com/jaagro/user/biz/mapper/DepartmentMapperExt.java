@@ -36,6 +36,12 @@ public interface DepartmentMapperExt extends DepartmentMapper {
     List<ListDepartmentDto> listDepartment(@Param("netpoint") Boolean netpoint);
 
     /**
+     * 查询网点
+     * @param netpoint
+     * @return
+     */
+    List<ListDepartmentDto> listNetPointDepartment(@Param("netpoint") Boolean netpoint);
+    /**
      * 查询当前用户的本部门及以下的部门列表树
      *
      * @return

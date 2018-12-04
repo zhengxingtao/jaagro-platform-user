@@ -169,6 +169,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     /**
+     * 获取网点部门
+     * @param netpoint
+     * @return
+     */
+    @Override
+    public List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint){
+        return departmentMapper.listNetPointDepartment(netpoint);
+    }
+    /**
      * 获取下级部门的数组
      *
      * @return
