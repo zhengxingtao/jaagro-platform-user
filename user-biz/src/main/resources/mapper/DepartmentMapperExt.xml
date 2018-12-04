@@ -65,7 +65,7 @@
         </if>
         order by sort
     </select>
-    <select id="listNetPointDepartment" resultType="com.jaagro.user.api.dto.response.department.ListDepartmentSonDto">
+    <select id="listNetPointDepartment" resultType="com.jaagro.user.api.dto.response.department.ListDepartmentDto">
         select
         <include refid="Base_Column_List"/>
         from department
