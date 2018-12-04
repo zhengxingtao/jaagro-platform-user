@@ -65,9 +65,9 @@
         </if>
         order by sort
     </select>
-    <select id="listNetPointDepartment" resultMap="DetailInfo">
+    <select id="listNetPointDepartment" resultType="com.jaagro.user.api.dto.response.department.ListDepartmentSonDto">
         select
-        <include refid="Return_List"/>
+        <include refid="Base_Column_List"/>
         from department
         where enabled = 1
         <if test="netpoint != null">
