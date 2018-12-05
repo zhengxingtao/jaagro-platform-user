@@ -4,11 +4,10 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author tony
@@ -67,4 +66,31 @@ public interface DepartmentService {
      * @return
      */
     List<Integer> getDownDepartment();
+
+    /**
+     * 获取指定部门id及下属部门id数组
+     *
+     * @return
+     */
+    List<Integer> getDownDepartmentByDeptId(Integer deptId);
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @return
+     */
+    Map<String, Object> getDownDepartmentByCurrentUser();
+    /**
+     * 获取所有部门 供其它系统使用
+     * @Author gavin 20181203
+     * @return
+     */
+     List<DepartmentReturnDto> getAllDepartments();
+
+    /**
+     * 获取网点部门
+     * @param netpoint
+     * @return
+     */
+    List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint);
 }

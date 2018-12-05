@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -18,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -101,15 +104,16 @@ public class DepartmentController {
     }
 
     /**
-     * @Author gavin
      * @param id
      * @return
+     * @Author gavin
      */
     @ApiOperation("查询单个部门")
     @GetMapping("/getDepartmentById/{id}")
     public DepartmentReturnDto getDepartmentById(@PathVariable Integer id) {
         return departmentService.getById(id);
     }
+
     @Ignore
     @ApiOperation("查询单个部门名称提供给crm")
     @GetMapping("/getDeptNameById/{id}")
@@ -156,8 +160,23 @@ public class DepartmentController {
 
     @ApiOperation("查询部门")
     @PostMapping("/listDeparment")
-    public BaseResponse listDeparment(@RequestParam(required = false) Boolean netpoint) {
+    public BaseResponse listDepartment(@RequestParam(required = false) Boolean netpoint) {
         return BaseResponse.service(this.departmentService.listDepartment(netpoint));
+    }
+
+    @ApiOperation("查询网点部门")
+    @PostMapping("/listNetPointDepartment")
+    public List<Map<String,String>> listNetPointDepartment(@RequestParam(required = false) Boolean netpoint) {
+        List<Map<String,String>> mapList = new ArrayList<>();
+        List<ListDepartmentDto> deptDtos = departmentService.listNetPointDepartment(netpoint);
+        for (ListDepartmentDto deptDto : deptDtos) {
+            Map<String,String> map = new HashMap<>();
+            map.put("id",deptDto.getId().toString());
+            map.put("departmentName",deptDto.getDepartmentName());
+            mapList.add(map);
+        }
+
+        return  mapList;
     }
 
     @PostMapping("/getDownDepartment")
@@ -165,4 +184,37 @@ public class DepartmentController {
         return departmentService.getDownDepartment();
     }
 
+    /**
+     * 获取指定部门id及下属部门
+     *
+     * @return
+     */
+    @ApiOperation("获取指定部门id及下属部门id数组")
+    @PostMapping("/getDownDepartmentByDeptId/{deptId}")
+    public List<Integer> getDownDepartmentByDeptId(@PathVariable("deptId") Integer deptId) {
+        return departmentService.getDownDepartmentByDeptId(deptId);
+    }
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @returns
+     */
+    @ApiOperation("查询当前用户下属部门及其本身部门树")
+    @PostMapping("/getDownDepartmentByCurrentUser")
+    public BaseResponse<Map<String, Object>> getDownDepartmentByCurrentUser() {
+        return BaseResponse.service(departmentService.getDownDepartmentByCurrentUser());
+    }
+
+    /**
+     * 获取所有部门 供其它系统使用
+     *
+     * @return
+     * @Author gavin 20181203
+     */
+    @ApiOperation("查询所有部门")
+    @PostMapping("/getAllDepartments")
+    public List<DepartmentReturnDto> getAllDepartments() {
+        return departmentService.getAllDepartments();
+    }
 }

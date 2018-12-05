@@ -70,7 +70,7 @@ public class Driver implements Serializable {
     private String expiryDrivingLicense;
 
     /**
-     * 驾驶员帐号状态(0；未审核  1；审核未通过 2－停止合作，3－正常合作)
+     * 驾驶员帐号状态
      */
     private Integer status;
 
