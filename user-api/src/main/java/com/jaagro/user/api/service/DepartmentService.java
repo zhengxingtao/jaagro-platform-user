@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 
 import java.util.List;
 import java.util.Map;
@@ -79,4 +80,17 @@ public interface DepartmentService {
      * @return
      */
     Map<String, Object> getDownDepartmentByCurrentUser();
+    /**
+     * 获取所有部门 供其它系统使用
+     * @Author gavin 20181203
+     * @return
+     */
+     List<DepartmentReturnDto> getAllDepartments();
+
+    /**
+     * 获取网点部门
+     * @param netpoint
+     * @return
+     */
+    List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint);
 }

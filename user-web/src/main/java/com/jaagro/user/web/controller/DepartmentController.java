@@ -4,6 +4,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.biz.entity.Department;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -18,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,6 +164,21 @@ public class DepartmentController {
         return BaseResponse.service(this.departmentService.listDepartment(netpoint));
     }
 
+    @ApiOperation("查询网点部门")
+    @PostMapping("/listNetPointDepartment")
+    public List<Map<String,String>> listNetPointDepartment(@RequestParam(required = false) Boolean netpoint) {
+        List<Map<String,String>> mapList = new ArrayList<>();
+        List<ListDepartmentDto> deptDtos = departmentService.listNetPointDepartment(netpoint);
+        for (ListDepartmentDto deptDto : deptDtos) {
+            Map<String,String> map = new HashMap<>();
+            map.put("id",deptDto.getId().toString());
+            map.put("departmentName",deptDto.getDepartmentName());
+            mapList.add(map);
+        }
+
+        return  mapList;
+    }
+
     @PostMapping("/getDownDepartment")
     public List<Integer> getDownDepartment() {
         return departmentService.getDownDepartment();
@@ -188,4 +206,15 @@ public class DepartmentController {
         return BaseResponse.service(departmentService.getDownDepartmentByCurrentUser());
     }
 
+    /**
+     * 获取所有部门 供其它系统使用
+     *
+     * @return
+     * @Author gavin 20181203
+     */
+    @ApiOperation("查询所有部门")
+    @PostMapping("/getAllDepartments")
+    public List<DepartmentReturnDto> getAllDepartments() {
+        return departmentService.getAllDepartments();
+    }
 }

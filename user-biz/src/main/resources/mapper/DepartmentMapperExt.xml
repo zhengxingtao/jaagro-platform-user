@@ -65,6 +65,15 @@
         </if>
         order by sort
     </select>
+    <select id="listNetPointDepartment" resultType="com.jaagro.user.api.dto.response.department.ListDepartmentDto">
+        select
+        <include refid="Base_Column_List"/>
+        from department
+        where enabled = 1
+        <if test="netpoint != null">
+            and netpoint = #{netpoint}
+        </if>
+    </select>
     <select id="listDepartmentByIds" resultMap="ReturnInfo" parameterType="java.lang.Integer">
         select
         <include refid="Return_List"/>
@@ -86,5 +95,12 @@
         from department
         where enabled = 1
         and parent_id = #{id}
+    </select>
+
+    <select id="getAllDepartments" resultType="com.jaagro.user.api.dto.response.DepartmentReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from department
+        where enabled = 1
     </select>
 </mapper>
