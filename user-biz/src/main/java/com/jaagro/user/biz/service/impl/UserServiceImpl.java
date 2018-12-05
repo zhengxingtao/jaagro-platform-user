@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService {
     private HttpServletRequest request;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Override
     public UserInfo getUserInfo(Map<String, Object> map) {
         String userTypeTrim = map.get(USER_TYPE).toString().replaceAll(" ", "");
@@ -118,7 +117,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserInfo> listUserInfo(List<Integer> userIdList, String userType) {
-        switch (userType){
+        switch (userType) {
             case UserType.CUSTOMER:
                 return customerUserMapper.listUserInfo(userIdList);
             case UserType.DRIVER:
