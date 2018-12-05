@@ -25,7 +25,7 @@
         select
         <include refid="Info_Column"/>
         from driver
-        where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status in (0,1)
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status in (0,1)
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
@@ -59,7 +59,7 @@
         select
         <include refid="Base_Column_List"/>
         from driver
-        where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status in (0,1)
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status in (0,1)
     </select>
     <update id="updateDriverRegIdByPhoneNumber" parameterType="java.lang.String">
         update driver set registration_id=#{registrationId},modify_time=now(),modify_user_id=99999999 where phone_number=#{phoneNumber}
