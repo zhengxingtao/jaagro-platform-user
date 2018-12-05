@@ -269,4 +269,14 @@ public class DriverServiceImpl implements DriverService {
         }
         return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
     }
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    @Override
+    public DriverReturnDto getByPhoneNumber(String phoneNumber){
+        return driverMapper.selectByPhoneNumber(phoneNumber);
+    }
 }

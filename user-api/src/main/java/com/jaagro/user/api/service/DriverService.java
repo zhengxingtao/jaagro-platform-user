@@ -116,4 +116,11 @@ public interface DriverService {
      * @return
      */
     List<DriverReturnDto> listDriverByIds(List<Integer> driverIdList);
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    DriverReturnDto getByPhoneNumber(String phoneNumber);
 }

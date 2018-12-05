@@ -101,4 +101,11 @@ public interface DriverMapperExt extends DriverMapper {
      * @return
      */
     List<DriverReturnDto> listDriverByIds(@Param("driverIdList") List<Integer> driverIdList);
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    DriverReturnDto selectByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 }
