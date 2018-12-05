@@ -2,6 +2,8 @@ package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
+import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
+import com.jaagro.user.api.service.CrmClientService;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapperExt;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,15 +46,17 @@ public class UserServiceImpl implements UserService {
     private UserClientService userClientService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private CrmClientService crmClientService;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Override
     public UserInfo getUserInfo(Map<String, Object> map) {
         String userTypeTrim = map.get(USER_TYPE).toString().replaceAll(" ", "");
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
         if (UserType.CUSTOMER.equals(userTypeTrim)) {
-
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = customerUserMapper.getByLoginName(parseKey(map));
             }
@@ -79,19 +84,37 @@ public class UserServiceImpl implements UserService {
             }
             if (PHONE_NUMBER.equals(loginType)) {
                 userInfo = driverMapper.getByPhoneNumber(parseKey(map));
+                //游客身份
+                if (null == userInfo) {
+                    SocialDriverRegisterPurposeDto sdr = crmClientService.getByPhoneNumber(parseKey(map)).getData();
+                    if (null != sdr) {
+                        userInfo = new UserInfo();
+                        userInfo.setName(sdr.getName());
+                        userInfo.setId(sdr.getId());
+                        userInfo.setPhoneNumber(sdr.getPhoneNumber());
+                        userInfo.setUserType(UserType.VISITOR_DRIVER);
+                    }
+                }
             }
             if (ID.equals(loginType)) {
                 userInfo = driverMapper.getUserInfoById(parseKey(map));
+                //游客身份
+                if (null == userInfo) {
+                    SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
+                    userInfo.setId(sdr.getId());
+                    userInfo.setUserType(UserType.VISITOR_DRIVER);
+                    userInfo.setPhoneNumber(sdr.getPhoneNumber());
+                    userInfo.setName(sdr.getName());
+                }
             }
         }
-
-        if (userInfo != null) {
+        if (userInfo != null && StringUtils.isEmpty(userInfo.getUserType())) {
             userInfo.setUserType(userTypeTrim);
-            log.debug(String.valueOf(userInfo));
-            return userInfo;
+            if (UserType.VISITOR_DRIVER.equals(userInfo.getUserType())) {
+                log.info("O getUserInfo: The current driver is a visitor：{}", userInfo);
+            }
         }
-
-        return null;
+        return userInfo;
     }
 
     private <T> T parseKey(Map<String, Object> map) {
