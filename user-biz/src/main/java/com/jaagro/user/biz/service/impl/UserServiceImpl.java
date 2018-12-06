@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = employeeMapper.getUserInfoById(parseKey(map));
             }
         }
-        if (UserType.DRIVER.equals(userTypeTrim)) {
+        if (UserType.DRIVER.equals(userTypeTrim) || UserType.VISITOR_DRIVER.equals(userTypeTrim)) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = driverMapper.getByLoginName(parseKey(map));
             }
@@ -108,12 +108,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取游客身份司机
+     *
      * @param map
      * @return
      */
-    private UserInfo getSocialDriverRegisterPurpose(Map<String, Object> map){
+    private UserInfo getSocialDriverRegisterPurpose(Map<String, Object> map) {
         SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
-        if(null != sdr){
+        if (null != sdr) {
             UserInfo userInfo = new UserInfo();
             userInfo.setName(sdr.getName());
             userInfo.setId(sdr.getId());
