@@ -113,7 +113,12 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private UserInfo getSocialDriverRegisterPurpose(Map<String, Object> map) {
-        SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
+        SocialDriverRegisterPurposeDto sdr;
+        if (ID.equals(map.get(LOGIN_TYPE).toString())) {
+            sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
+        } else {
+            sdr = crmClientService.getByPhoneNumber(parseKey(map)).getData();
+        }
         if (null != sdr) {
             UserInfo userInfo = new UserInfo();
             userInfo.setName(sdr.getName());
