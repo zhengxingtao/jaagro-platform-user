@@ -86,25 +86,14 @@ public class UserServiceImpl implements UserService {
                 userInfo = driverMapper.getByPhoneNumber(parseKey(map));
                 //游客身份
                 if (null == userInfo) {
-                    SocialDriverRegisterPurposeDto sdr = crmClientService.getByPhoneNumber(parseKey(map)).getData();
-                    if (null != sdr) {
-                        userInfo = new UserInfo();
-                        userInfo.setName(sdr.getName());
-                        userInfo.setId(sdr.getId());
-                        userInfo.setPhoneNumber(sdr.getPhoneNumber());
-                        userInfo.setUserType(UserType.VISITOR_DRIVER);
-                    }
+                    userInfo = this.getSocialDriverRegisterPurpose(map);
                 }
             }
             if (ID.equals(loginType)) {
                 userInfo = driverMapper.getUserInfoById(parseKey(map));
                 //游客身份
                 if (null == userInfo) {
-                    SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
-                    userInfo.setId(sdr.getId());
-                    userInfo.setUserType(UserType.VISITOR_DRIVER);
-                    userInfo.setPhoneNumber(sdr.getPhoneNumber());
-                    userInfo.setName(sdr.getName());
+                    userInfo = this.getSocialDriverRegisterPurpose(map);
                 }
             }
         }
@@ -115,6 +104,24 @@ public class UserServiceImpl implements UserService {
             }
         }
         return userInfo;
+    }
+
+    /**
+     * 获取游客身份司机
+     * @param map
+     * @return
+     */
+    private UserInfo getSocialDriverRegisterPurpose(Map<String, Object> map){
+        SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
+        if(null != sdr){
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName(sdr.getName());
+            userInfo.setId(sdr.getId());
+            userInfo.setPhoneNumber(sdr.getPhoneNumber());
+            userInfo.setUserType(UserType.VISITOR_DRIVER);
+            return userInfo;
+        }
+        return null;
     }
 
     private <T> T parseKey(Map<String, Object> map) {
