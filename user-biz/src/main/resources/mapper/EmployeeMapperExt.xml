@@ -89,7 +89,7 @@
         select
         <include refid="Base_Column_List"/>
         from employee
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and status = 1
     </select>
     <select id="listByDeptId" resultMap="BaseResultMap">
         select

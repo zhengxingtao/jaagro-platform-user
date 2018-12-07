@@ -170,13 +170,41 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     /**
      * 获取网点部门
+     *
      * @param netpoint
      * @return
      */
     @Override
-    public List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint){
+    public List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint) {
         return departmentMapper.listNetPointDepartment(netpoint);
     }
+
+    /**
+     * 获取用户所在部门
+     *
+     * @param userIds
+     * @return
+     */
+    @Override
+    public List<DepartmentReturnDto> listDepartmentByUserId(int[] userIds) {
+
+//        int[] deptIds = new int[1];
+//        if (deptIds.length > 0) {
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for (int i = 0; i < deptIds.length; i++) {
+//                if (i == deptIds.length - 1) {
+//                    stringBuilder = stringBuilder.append(deptIds[i]);
+//                }
+//                stringBuilder = stringBuilder.append(deptIds[i]).append(",");
+//            }
+//            String deptIdStr = stringBuilder.toString();
+//            System.out.println(deptIdStr);
+//            return departmentMapper.listDepartmentByIdList(deptIdStr);
+//        }
+//        log.info("O listDepartmentByUserId: ");
+        return null;
+    }
+
     /**
      * 获取下级部门的数组
      *

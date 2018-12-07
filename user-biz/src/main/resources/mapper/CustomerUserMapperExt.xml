@@ -34,4 +34,10 @@
     </foreach>
     and status = 1
   </select>
+  <select id="getCustomerUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from customer_user
+    where id = #{id,jdbcType=INTEGER} and status = 1
+  </select>
 </mapper>

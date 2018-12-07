@@ -217,4 +217,13 @@ public class DepartmentController {
     public List<DepartmentReturnDto> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
+
+    /**
+     * 批量获取部门
+     * @param ids
+     * @return
+     */
+    public BaseResponse<List<DepartmentReturnDto>> listDepartmentByIdList(int[] ids){
+        return BaseResponse.successInstance(departmentService.listDepartmentByUserId(ids));
+    }
 }

@@ -44,7 +44,7 @@
         select
         <include refid="Base_Column_List"/>
         from driver
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and status = 1
     </select>
     <select id="listDriverByIds" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
         select

@@ -103,4 +103,10 @@
         from department
         where enabled = 1
     </select>
+    <select id="listDepartmentByIdList" resultType="com.jaagro.user.api.dto.response.DepartmentReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from department
+        where enabled = 1 and id in(#{ids})
+    </select>
 </mapper>

@@ -70,4 +70,11 @@ public interface DepartmentMapperExt extends DepartmentMapper {
      * @return
      */
     List<DepartmentReturnDto> getAllDepartments();
+
+    /**
+     * 批量通过userId获取dept
+     * @param ids
+     * @return
+     */
+    List<DepartmentReturnDto> listDepartmentByIdList(String ids);
 }

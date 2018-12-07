@@ -93,4 +93,11 @@ public interface DepartmentService {
      * @return
      */
     List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint);
+
+    /**
+     * 获取用户所在部门
+     * @param userIds
+     * @return
+     */
+    List<DepartmentReturnDto> listDepartmentByUserId(int[] userIds);
 }
