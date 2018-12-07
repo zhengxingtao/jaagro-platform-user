@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/getGlobalUser/{userId}")
-    public BaseResponse<UserInfo> getGlobalUser(@PathVariable("userId") int userId){
+    public BaseResponse<UserInfo> getGlobalUser(@PathVariable("userId") int userId) {
         return BaseResponse.successInstance(userService.getGlobalUser(userId));
     }
 }

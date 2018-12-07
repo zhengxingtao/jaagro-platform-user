@@ -9,7 +9,7 @@ import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.*;
-import com.jaagro.user.biz.config.IdGeneratorFactory;
+import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
@@ -18,9 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,7 +43,7 @@ public class DriverServiceImpl implements DriverService {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private IdGeneratorFactory idGeneratorFactory;
+    private UserIdGeneratorFactory userIdGeneratorFactory;
 
     /**
      * 新增司机
@@ -73,7 +70,7 @@ public class DriverServiceImpl implements DriverService {
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
-        dataDriver.setId(idGeneratorFactory.getNextId());
+        dataDriver.setId(userIdGeneratorFactory.getNextId());
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver.setCreateUserId(userService.getCurrentUser().getId());
         try {

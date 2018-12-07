@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/12/3
  */
 @Component
-public class IdGeneratorFactory {
+public class UserIdGeneratorFactory {
 
     @Autowired
     private IdGeneratorMapperExt idGeneratorMapper;

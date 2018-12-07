@@ -3,7 +3,7 @@ package com.jaagro.user.web.controller;
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.biz.config.IdGeneratorFactory;
+import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +31,10 @@ public class TestController {
     }
 
     @Autowired
-    IdGeneratorFactory idGeneratorFactory;
+    UserIdGeneratorFactory userIdGeneratorFactory;
 
     @GetMapping("/test3")
     public int test3(){
-        return idGeneratorFactory.getNextId();
+        return userIdGeneratorFactory.getNextId();
     }
 }
