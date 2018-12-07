@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
                 if (null == customerUser) {
                     SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(userId).getData();
                     if (null == sdr) {
-                        return null;
+                        throw new NullPointerException("not record");
                     } else {
                         userInfo.setId(sdr.getId());
                         userInfo.setName(sdr.getName());
