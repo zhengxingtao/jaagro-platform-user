@@ -9,6 +9,7 @@ import com.jaagro.user.api.dto.request.ListDriverCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDriverDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
@@ -17,9 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,6 +42,8 @@ public class DriverServiceImpl implements DriverService {
     private TruckClientService truckClientService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private UserIdGeneratorFactory userIdGeneratorFactory;
 
     /**
      * 新增司机
@@ -70,13 +70,14 @@ public class DriverServiceImpl implements DriverService {
             throw new RuntimeException(driver.getPhoneNumber() + ": 当前手机号已被注册");
         }
         Driver dataDriver = new Driver();
+        dataDriver.setId(userIdGeneratorFactory.getNextId());
         BeanUtils.copyProperties(driver, dataDriver);
         dataDriver.setCreateUserId(userService.getCurrentUser().getId());
         try {
             driverMapper.insertSelective(dataDriver);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("司机手机号重复"+ex.getMessage());
+            throw new RuntimeException("司机手机号重复" + ex.getMessage());
         }
         return dataDriver.getId();
     }
@@ -125,6 +126,30 @@ public class DriverServiceImpl implements DriverService {
             throw new NullPointerException("更新失败，司机未注册或者需要先更新司机的手机号");
         }
         return ServiceResult.toResult("修改成功");
+    }
+
+    /**
+     * 查询近一个月过期证件
+     * Author: @Gao.
+     *
+     * @param expiryDateType
+     * @return
+     */
+    @Override
+    public List<DriverReturnDto> listCertificateOverdueNotice(Integer expiryDateType) {
+        return driverMapper.listCertificateOverdueNotice(expiryDateType);
+    }
+
+    /**
+     * 批量查询司机信息 不区分状态
+     *
+     * @param driverIdList
+     * @return
+     * @author yj
+     */
+    @Override
+    public List<DriverReturnDto> listDriverByIds(List<Integer> driverIdList) {
+        return driverMapper.listDriverByIds(driverIdList);
     }
 
     /**
@@ -184,7 +209,7 @@ public class DriverServiceImpl implements DriverService {
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
         //逻辑删除账户
-        accountService.deleteAccount(id,AccountUserType.DRIVER, AccountType.CASH);
+        accountService.deleteAccount(id, AccountUserType.DRIVER, AccountType.CASH);
         return ServiceResult.toResult(id + " :删除成功");
     }
 
@@ -206,7 +231,7 @@ public class DriverServiceImpl implements DriverService {
         UserInfo currentUser = userService.getCurrentUser();
         Integer currentUserId = currentUser == null ? null : currentUser.getId();
         //批量逻辑删除账户
-        accountService.batchDeleteAccount(userIdList,AccountUserType.DRIVER,AccountType.CASH,currentUserId);
+        accountService.batchDeleteAccount(userIdList, AccountUserType.DRIVER, AccountType.CASH, currentUserId);
         if (driverReturnDtos.size() > 0) {
             for (DriverReturnDto driverReturnDto : driverReturnDtos
             ) {
@@ -240,5 +265,15 @@ public class DriverServiceImpl implements DriverService {
             return ServiceResult.toResult("审核司机通过成功");
         }
         return ServiceResult.error(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "司机不存在");
+    }
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    @Override
+    public DriverReturnDto getByPhoneNumber(String phoneNumber){
+        return driverMapper.selectByPhoneNumber(phoneNumber);
     }
 }

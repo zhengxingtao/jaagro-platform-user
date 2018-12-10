@@ -2,10 +2,12 @@ package com.jaagro.user.web.controller;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.service.UserService;
+import com.jaagro.utils.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,10 +42,15 @@ public class UserController {
     }
 
     @GetMapping("/listUserInfo")
-    public List<UserInfo> listUserInfo(@RequestParam("userIdList") List<Integer> userIdList,@RequestParam("userType") String userType){
-        if (CollectionUtils.isEmpty(userIdList) || StringUtils.isEmpty(userType)){
+    public List<UserInfo> listUserInfo(@RequestParam("userIdList") List<Integer> userIdList, @RequestParam("userType") String userType) {
+        if (CollectionUtils.isEmpty(userIdList) || StringUtils.isEmpty(userType)) {
             return null;
         }
-        return userService.listUserInfo(userIdList,userType);
+        return userService.listUserInfo(userIdList, userType);
+    }
+
+    @GetMapping("/getGlobalUser/{userId}")
+    public BaseResponse<UserInfo> getGlobalUser(@PathVariable("userId") int userId) {
+        return BaseResponse.successInstance(userService.getGlobalUser(userId));
     }
 }

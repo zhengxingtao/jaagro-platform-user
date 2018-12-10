@@ -11,6 +11,7 @@ import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.service.*;
+import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.entity.*;
 import com.jaagro.user.biz.mapper.*;
 import com.jaagro.utils.MD5Utils;
@@ -20,9 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -58,6 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RoleMapperExt roleMapper;
     @Autowired
     private OssSignUrlClientService ossSignUrlClientService;
+    @Autowired
+    private UserIdGeneratorFactory userIdGeneratorFactory;
 
 
     private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
@@ -76,6 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("密码不能为空");
         }
         Employee employee = new Employee();
+        employee.setId(userIdGeneratorFactory.getNextId());
         BeanUtils.copyProperties(dto, employee);
         Map<String, String> stringMap = PasswordEncoder.encodePassword(dto.getPassword());
         if (stringMap.size() > 0) {
@@ -89,8 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
             return ServiceResult.toResult("员工创建成功");
         } else {
-            log.error("密码加密失败");
-            throw new RuntimeException("密码加密失败");
+            throw new RuntimeException("employee creation failed：" + employee);
         }
     }
 

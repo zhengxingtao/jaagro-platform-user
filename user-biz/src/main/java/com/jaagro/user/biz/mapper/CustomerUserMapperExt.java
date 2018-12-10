@@ -40,4 +40,11 @@ public interface CustomerUserMapperExt extends CustomerUserMapper {
      * @return
      */
     List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
+
+    /**
+     * 获取单条有效客户user
+     * @param id
+     * @return
+     */
+    GetCustomerUserDto getCustomerUserById(int id);
 }

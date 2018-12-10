@@ -2,17 +2,27 @@ package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
+import com.jaagro.user.api.dto.response.DriverReturnDto;
+import com.jaagro.user.api.dto.response.GetCustomerUserDto;
+import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
+import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
+import com.jaagro.user.api.service.CrmClientService;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
+import com.jaagro.user.biz.entity.CustomerUser;
+import com.jaagro.user.biz.entity.Driver;
+import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.CustomerUserMapperExt;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,6 +53,8 @@ public class UserServiceImpl implements UserService {
     private UserClientService userClientService;
     @Autowired
     private HttpServletRequest request;
+    @Autowired
+    private CrmClientService crmClientService;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -52,7 +64,6 @@ public class UserServiceImpl implements UserService {
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
         if (UserType.CUSTOMER.equals(userTypeTrim)) {
-
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = customerUserMapper.getByLoginName(parseKey(map));
             }
@@ -74,24 +85,106 @@ public class UserServiceImpl implements UserService {
                 userInfo = employeeMapper.getUserInfoById(parseKey(map));
             }
         }
-        if (UserType.DRIVER.equals(userTypeTrim)) {
+        if (UserType.DRIVER.equals(userTypeTrim) || UserType.VISITOR_DRIVER.equals(userTypeTrim)) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = driverMapper.getByLoginName(parseKey(map));
             }
             if (PHONE_NUMBER.equals(loginType)) {
                 userInfo = driverMapper.getByPhoneNumber(parseKey(map));
+                if (null == userInfo) {
+                    userInfo = this.getSocialDriverRegisterPurpose(map);
+                }
             }
             if (ID.equals(loginType)) {
                 userInfo = driverMapper.getUserInfoById(parseKey(map));
+                if (null == userInfo) {
+                    userInfo = this.getSocialDriverRegisterPurpose(map);
+                }
             }
         }
-
-        if (userInfo != null) {
+        if (userInfo != null && StringUtils.isEmpty(userInfo.getUserType())) {
             userInfo.setUserType(userTypeTrim);
-            log.debug(String.valueOf(userInfo));
+            if (UserType.VISITOR_DRIVER.equals(userInfo.getUserType())) {
+                log.info("O getUserInfo: The current driver is a visitor：{}", userInfo);
+            }
+        }
+        return userInfo;
+    }
+
+    /**
+     * 全局获取user
+     *
+     * @param userId
+     * @return
+     * @author tony
+     */
+    @Override
+    public UserInfo getGlobalUser(int userId) {
+        UserInfo userInfo = new UserInfo();
+        GetEmployeeDto employee = employeeMapper.getById(userId);
+        if (null == employee) {
+            DriverReturnDto driver = driverMapper.getDriverById(userId);
+            if (null == driver) {
+                GetCustomerUserDto customerUser = customerUserMapper.getCustomerUserById(userId);
+                if (null == customerUser) {
+                    SocialDriverRegisterPurposeDto sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(userId).getData();
+                    if (null == sdr) {
+                        throw new NullPointerException("not record");
+                    } else {
+                        userInfo.setId(sdr.getId());
+                        userInfo.setName(sdr.getName());
+                        userInfo.setPhoneNumber(sdr.getPhoneNumber());
+                        userInfo.setUserType(UserType.VISITOR_DRIVER);
+                    }
+                } else {
+                    BeanUtils.copyProperties(customerUser, userInfo);
+                    userInfo.setUserType(UserType.CUSTOMER);
+                }
+            } else {
+                BeanUtils.copyProperties(driver, userInfo);
+                userInfo.setUserType(UserType.DRIVER);
+            }
+        } else {
+            BeanUtils.copyProperties(employee, userInfo);
+            userInfo.setPhoneNumber(employee.getPhone());
+            userInfo.setUserType(UserType.EMPLOYEE);
+        }
+        return userInfo;
+    }
+
+    /**
+     * 批量获取全局user
+     *
+     * @param userIds
+     * @return
+     * @author tony
+     */
+    @Override
+    public List<UserInfo> listGlobalUser(int[] userIds) {
+        return null;
+    }
+
+    /**
+     * 获取游客身份司机
+     *
+     * @param map
+     * @return
+     */
+    private UserInfo getSocialDriverRegisterPurpose(Map<String, Object> map) {
+        SocialDriverRegisterPurposeDto sdr;
+        if (ID.equals(map.get(LOGIN_TYPE).toString())) {
+            sdr = crmClientService.getSocialDriverRegisterPurposeDtoById(parseKey(map)).getData();
+        } else {
+            sdr = crmClientService.getByPhoneNumber(parseKey(map)).getData();
+        }
+        if (null != sdr) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName(sdr.getName());
+            userInfo.setId(sdr.getId());
+            userInfo.setPhoneNumber(sdr.getPhoneNumber());
+            userInfo.setUserType(UserType.VISITOR_DRIVER);
             return userInfo;
         }
-
         return null;
     }
 
@@ -118,7 +211,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserInfo> listUserInfo(List<Integer> userIdList, String userType) {
-        switch (userType){
+        switch (userType) {
             case UserType.CUSTOMER:
                 return customerUserMapper.listUserInfo(userIdList);
             case UserType.DRIVER:

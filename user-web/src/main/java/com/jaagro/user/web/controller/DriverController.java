@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author tony
@@ -74,5 +73,20 @@ public class DriverController {
     @PostMapping("/updateDriverByPhoneNumber")
     public BaseResponse updateDriverByPhoneNumber(@RequestBody UpdateDriverDto driver) {
         return BaseResponse.service(driverService.updateDriverRegIdByPhoneNumber(driver));
+    }
+
+    @GetMapping("/listDriverCertificateOverdueNotice/{expiryDateType}")
+    public BaseResponse listDriverCertificateOverdueNotice(@PathVariable("expiryDateType") Integer expiryDateType) {
+        return BaseResponse.successInstance(driverService.listCertificateOverdueNotice(expiryDateType));
+    }
+
+    @GetMapping("/listDriverByIds")
+    public BaseResponse<List<DriverReturnDto>> listDriverByIds(@RequestParam("driverIdList") List<Integer> driverIdList) {
+        return BaseResponse.successInstance(driverService.listDriverByIds(driverIdList));
+    }
+
+    @GetMapping("/getByPhoneNumber")
+    public BaseResponse<DriverReturnDto> getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber){
+        return BaseResponse.successInstance(driverService.getByPhoneNumber(phoneNumber));
     }
 }

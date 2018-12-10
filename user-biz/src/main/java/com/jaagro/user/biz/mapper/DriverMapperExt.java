@@ -72,15 +72,41 @@ public interface DriverMapperExt extends DriverMapper {
 
     /**
      * app登陆时更新司机的注册id gavin
+     *
      * @param phoneNumber
      * @return
      */
-    Integer updateDriverRegIdByPhoneNumber(@Param("phoneNumber") String phoneNumber,@Param("registrationId") String registrationId);
+    Integer updateDriverRegIdByPhoneNumber(@Param("phoneNumber") String phoneNumber, @Param("registrationId") String registrationId);
 
     /**
      * id列表获取用户信息列表
+     *
      * @param userIdList
      * @return
      */
     List<UserInfo> listUserInfo(@Param("userIdList") List<Integer> userIdList);
+
+    /**
+     * 查询近一个月过期证件
+     *
+     * @param expiryDateType
+     * @return
+     */
+    List<DriverReturnDto> listCertificateOverdueNotice(@Param("expiryDateType") Integer expiryDateType);
+
+    /**
+     * 批量查询司机信息 不区分状态
+     * @author yj
+     * @param driverIdList
+     * @return
+     */
+    List<DriverReturnDto> listDriverByIds(@Param("driverIdList") List<Integer> driverIdList);
+
+    /**
+     * 根据手机号查询
+     * @author yj
+     * @param phoneNumber
+     * @return
+     */
+    DriverReturnDto selectByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 }

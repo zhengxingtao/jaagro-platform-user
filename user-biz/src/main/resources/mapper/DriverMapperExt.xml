@@ -25,7 +25,7 @@
         select
         <include refid="Info_Column"/>
         from driver
-        where phone_number = #{phoneNubmer,jdbcType=VARCHAR} and status in (0,1)
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status in (0,1)
     </select>
     <select id="getUserInfoById" resultType="com.jaagro.constant.UserInfo">
         select
@@ -44,19 +44,50 @@
         select
         <include refid="Base_Column_List"/>
         from driver
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER} and status = 1
+    </select>
+    <select id="listDriverByIds" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where id in
+        <foreach collection="driverIdList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="selectByPhoneNumber" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status in (0,1)
     </select>
     <update id="updateDriverRegIdByPhoneNumber" parameterType="java.lang.String">
         update driver set registration_id=#{registrationId},modify_time=now(),modify_user_id=99999999 where phone_number=#{phoneNumber}
     </update>
     <select id="listUserInfo" resultType="com.jaagro.constant.UserInfo">
         select
-        <include refid="Info_Column" />
+        <include refid="Info_Column"/>
         from driver
         where id IN
         <foreach collection="userIdList" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
         and status = 1
+    </select>
+    <select id="listCertificateOverdueNotice" resultType="com.jaagro.user.api.dto.response.DriverReturnDto">
+        select
+        <include refid="Base_Column_List"/>
+        from driver
+        where status != 3
+        <if test="expiryDateType==5">
+            <![CDATA[
+    and expiry_driving_license > NOW() and expiry_driving_license < DATE_ADD(NOW(),INTERVAL 30 DAY);
+     ]]>
+        </if>
+        <if test="expiryDateType==6">
+            <![CDATA[
+     and expiry_driving_license < NOW()
+     ]]>
+        </if>
     </select>
 </mapper>

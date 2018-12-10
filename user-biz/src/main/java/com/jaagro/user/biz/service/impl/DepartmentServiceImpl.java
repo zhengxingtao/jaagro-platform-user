@@ -7,6 +7,7 @@ import com.jaagro.user.api.dto.request.CreateDepartmentDto;
 import com.jaagro.user.api.dto.request.ListDepartmentCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateDepartmentDto;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.AuthClientService;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.api.service.UserService;
@@ -19,9 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -164,10 +162,47 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(new PageInfo<>(departmentReturnDtos));
     }
 
-//    @Cacheable
+    //    @Cacheable
     @Override
     public Map<String, Object> listDepartment(Boolean netpoint) {
         return ServiceResult.toResult(this.departmentMapper.listDepartment(netpoint));
+    }
+
+    /**
+     * 获取网点部门
+     *
+     * @param netpoint
+     * @return
+     */
+    @Override
+    public List<ListDepartmentDto> listNetPointDepartment(Boolean netpoint) {
+        return departmentMapper.listNetPointDepartment(netpoint);
+    }
+
+    /**
+     * 获取用户所在部门
+     *
+     * @param userIds
+     * @return
+     */
+    @Override
+    public List<DepartmentReturnDto> listDepartmentByUserId(int[] userIds) {
+
+//        int[] deptIds = new int[1];
+//        if (deptIds.length > 0) {
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for (int i = 0; i < deptIds.length; i++) {
+//                if (i == deptIds.length - 1) {
+//                    stringBuilder = stringBuilder.append(deptIds[i]);
+//                }
+//                stringBuilder = stringBuilder.append(deptIds[i]).append(",");
+//            }
+//            String deptIdStr = stringBuilder.toString();
+//            System.out.println(deptIdStr);
+//            return departmentMapper.listDepartmentByIdList(deptIdStr);
+//        }
+//        log.info("O listDepartmentByUserId: ");
+        return null;
     }
 
     /**
@@ -190,6 +225,42 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
+    /**
+     * 获取指定部门id及下属部门id数组
+     *
+     * @return
+     */
+    @Override
+    public List<Integer> getDownDepartmentByDeptId(Integer deptId) {
+        Set<Integer> deptIdSet = new LinkedHashSet<>();
+        Set<Integer> set = departmentRecursion(deptIdSet, deptId);
+        List<Integer> list = new ArrayList<>(set);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        } else {
+            return list;
+        }
+    }
+
+    /**
+     * 查询当前用户的本部门及本部门以下的部门
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Object> getDownDepartmentByCurrentUser() {
+        String token = request.getHeader("token");
+        UserInfo userInfo = authClientService.getUserByToken(token);
+        if (userInfo == null) {
+            return ServiceResult.toResult(null);
+        }
+        List<ListDepartmentDto> departmentDtoList = departmentMapper.listDepartmentByIds(userInfo.getDepartmentId());
+        if (CollectionUtils.isEmpty(departmentDtoList)) {
+            return ServiceResult.toResult(null);
+        }
+        return ServiceResult.toResult(departmentDtoList);
+    }
+
     private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {
         if (null != did) {
             deptIdSet.add(did);
@@ -203,5 +274,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         log.info("当前用户可查询的部门id： " + deptIdSet);
         return deptIdSet;
+    }
+
+    /**
+     * 获取所有部门 供其它系统使用
+     *
+     * @return
+     * @Author gavin 20181203
+     */
+    @Override
+    public List<DepartmentReturnDto> getAllDepartments() {
+        return departmentMapper.getAllDepartments();
     }
 }

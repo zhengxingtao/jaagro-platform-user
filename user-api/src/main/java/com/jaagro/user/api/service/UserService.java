@@ -20,6 +20,20 @@ public interface UserService {
     UserInfo getUserInfo(Map<String, Object> map);
 
     /**
+     * 全局获取user
+     * @param userId
+     * @return
+     */
+    UserInfo getGlobalUser(int userId);
+
+    /**
+     * 批量获取全局user
+     * @param userIds
+     * @return
+     */
+    List<UserInfo> listGlobalUser(int[] userIds);
+
+    /**
      * 获取当前user
      *
      * @return
