@@ -269,11 +269,29 @@ public class DriverServiceImpl implements DriverService {
 
     /**
      * 根据手机号查询
+     *
      * @param phoneNumber
      * @return
      */
     @Override
-    public DriverReturnDto getByPhoneNumber(String phoneNumber){
+    public DriverReturnDto getByPhoneNumber(String phoneNumber) {
         return driverMapper.selectByPhoneNumber(phoneNumber);
+    }
+
+    /**
+     * 获取司机
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public DriverReturnDto getDriverById(Integer id) {
+        Driver driver = driverMapper.selectByPrimaryKey(id);
+        if (driver != null) {
+            DriverReturnDto returnDto = new DriverReturnDto();
+            BeanUtils.copyProperties(driver, returnDto);
+            return returnDto;
+        }
+        return null;
     }
 }

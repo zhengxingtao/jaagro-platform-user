@@ -42,6 +42,12 @@ public class DriverController {
     }
 
     @Ignore
+    @GetMapping("/getDriverByIdFeign/{id}")
+    public DriverReturnDto getDriverByIdFeign(@PathVariable("id") Integer id) {
+        return driverService.getDriverById(id);
+    }
+
+    @Ignore
     @PostMapping("/driverFeign")
     public Integer createDriverReturnId(@RequestBody CreateDriverDto driver) {
         return driverService.createDriverReturnId(driver);
@@ -86,7 +92,7 @@ public class DriverController {
     }
 
     @GetMapping("/getByPhoneNumber")
-    public BaseResponse<DriverReturnDto> getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber){
+    public BaseResponse<DriverReturnDto> getByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber) {
         return BaseResponse.successInstance(driverService.getByPhoneNumber(phoneNumber));
     }
 }
