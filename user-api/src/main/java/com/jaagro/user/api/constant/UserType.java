@@ -24,4 +24,9 @@ public final class UserType {
      * 游客身份司机
      */
     public static final String VISITOR_DRIVER = "visitorDriver";
+
+    /**
+     * 游客身份客户
+     */
+    public static final String VISITOR_CUSTOMER = "visitorCustomer";
 }

@@ -1,5 +1,6 @@
 package com.jaagro.user.api.service;
 
+import com.jaagro.user.api.dto.response.CustomerRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
 import com.jaagro.utils.BaseResponse;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -30,4 +31,20 @@ public interface CrmClientService {
      */
     @GetMapping("/socialDriverRegisterPurpose/{id}")
     BaseResponse<SocialDriverRegisterPurposeDto> getSocialDriverRegisterPurposeDtoById(@PathVariable(value = "id") Integer id);
+
+    /**
+     * 根据手机号获取游客身份客户
+     * @param phoneNumber
+     * @return
+     */
+    @GetMapping("/getCustomerRegisterPurposeByPhoneNumber")
+    BaseResponse<CustomerRegisterPurposeDto> getCustomerRegisterPurposeByPhoneNumber(@RequestParam("phoneNumber") String phoneNumber);
+
+    /**
+     * 根据id获取游客身份客户
+     * @param id
+     * @return
+     */
+    @GetMapping("/customerRegisterPurpose/{id}")
+    BaseResponse<CustomerRegisterPurposeDto> getCustomerRegisterPurposeDtoById(@PathVariable(value = "id") Integer id);
 }

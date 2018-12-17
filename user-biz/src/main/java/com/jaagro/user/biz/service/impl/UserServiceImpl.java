@@ -2,6 +2,7 @@ package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.constant.UserType;
+import com.jaagro.user.api.dto.response.CustomerRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.dto.response.GetCustomerUserDto;
 import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
@@ -69,6 +70,9 @@ public class UserServiceImpl implements UserService {
             }
             if (PHONE_NUMBER.equals(loginType)) {
                 userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));
+                if (userInfo == null){
+                    userInfo = this.getCustomerRegisterPurpose(map);
+                }
             }
             if (ID.equals(loginType)) {
                 userInfo = customerUserMapper.getUserInfoById(parseKey(map));
@@ -183,6 +187,30 @@ public class UserServiceImpl implements UserService {
             userInfo.setId(sdr.getId());
             userInfo.setPhoneNumber(sdr.getPhoneNumber());
             userInfo.setUserType(UserType.VISITOR_DRIVER);
+            return userInfo;
+        }
+        return null;
+    }
+
+    /**
+     * 获取游客身份司机
+     *
+     * @param map
+     * @return
+     */
+    private UserInfo getCustomerRegisterPurpose(Map<String, Object> map) {
+        CustomerRegisterPurposeDto sdr;
+        if (ID.equals(map.get(LOGIN_TYPE).toString())) {
+            sdr = crmClientService.getCustomerRegisterPurposeDtoById(parseKey(map)).getData();
+        } else {
+            sdr = crmClientService.getCustomerRegisterPurposeByPhoneNumber(parseKey(map)).getData();
+        }
+        if (null != sdr) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName(sdr.getName());
+            userInfo.setId(sdr.getId());
+            userInfo.setPhoneNumber(sdr.getPhoneNumber());
+            userInfo.setUserType(UserType.VISITOR_CUSTOMER);
             return userInfo;
         }
         return null;
