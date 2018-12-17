@@ -20,4 +20,11 @@ public interface CustomerUserService {
      * @return
      */
     GetCustomerUserDto getByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据关联客户id查询
+     * @param relevanceId
+     * @return
+     */
+    GetCustomerUserDto getCustomerUserByRelevanceId(Integer relevanceId);
 }

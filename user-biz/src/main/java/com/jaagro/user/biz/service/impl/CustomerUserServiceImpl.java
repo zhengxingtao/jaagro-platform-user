@@ -43,6 +43,22 @@ public class CustomerUserServiceImpl implements CustomerUserService {
     @Override
     public GetCustomerUserDto getByPhoneNumber(String phoneNumber) {
         CustomerUser customerUser = customerUserMapperExt.selectByPhoneNumber(phoneNumber);
+        return convertToDto(customerUser);
+    }
+
+    /**
+     * 根据关联客户id查询
+     *
+     * @param relevanceId
+     * @return
+     */
+    @Override
+    public GetCustomerUserDto getCustomerUserByRelevanceId(Integer relevanceId) {
+        CustomerUser customerUser = customerUserMapperExt.selectByRelevanceId(relevanceId);
+        return convertToDto(customerUser);
+    }
+
+    private GetCustomerUserDto convertToDto(CustomerUser customerUser){
         if (customerUser != null){
             GetCustomerUserDto customerUserReturnDto = new GetCustomerUserDto();
             BeanUtils.copyProperties(customerUser,customerUserReturnDto);
@@ -50,4 +66,5 @@ public class CustomerUserServiceImpl implements CustomerUserService {
         }
         return null;
     }
+
 }

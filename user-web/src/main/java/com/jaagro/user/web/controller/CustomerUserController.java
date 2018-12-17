@@ -31,4 +31,13 @@ public class CustomerUserController {
         }
         return BaseResponse.queryDataEmpty();
     }
+
+    @GetMapping("/getCustomerUserByRelevanceId/{relevanceId}")
+    public BaseResponse<GetCustomerUserDto> getCustomerUserByRelevanceId(@PathVariable("relevanceId") Integer relevanceId){
+        GetCustomerUserDto getCustomerUserDto = customerUserService.getCustomerUserByRelevanceId(relevanceId);
+        if (getCustomerUserDto != null){
+            return BaseResponse.successInstance(getCustomerUserDto);
+        }
+        return BaseResponse.idError();
+    }
 }

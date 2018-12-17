@@ -55,4 +55,11 @@ public interface CustomerUserMapperExt extends CustomerUserMapper {
      * @return
      */
     CustomerUser selectByPhoneNumber(String phoneNumber);
+
+    /**
+     * 根据关联客户id查询
+     * @param relevanceId
+     * @return
+     */
+    CustomerUser selectByRelevanceId(Integer relevanceId);
 }
