@@ -13,4 +13,11 @@ public interface CustomerUserService {
      * @return
      */
     GetCustomerUserDto getCustomerUserById(Integer id);
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    GetCustomerUserDto getByPhoneNumber(String phoneNumber);
 }

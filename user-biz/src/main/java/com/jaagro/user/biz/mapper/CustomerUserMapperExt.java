@@ -2,6 +2,7 @@ package com.jaagro.user.biz.mapper;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.response.GetCustomerUserDto;
+import com.jaagro.user.biz.entity.CustomerUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -47,4 +48,11 @@ public interface CustomerUserMapperExt extends CustomerUserMapper {
      * @return
      */
     GetCustomerUserDto getCustomerUserById(int id);
+
+    /**
+     * 根据手机号查询
+     * @param phoneNumber
+     * @return
+     */
+    CustomerUser selectByPhoneNumber(String phoneNumber);
 }
