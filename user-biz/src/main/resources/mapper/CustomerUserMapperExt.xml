@@ -50,6 +50,6 @@
     SELECT
     <include refid="Base_Column_List"/>
     FROM customer_user
-    WHERE where relevance_id = #{relevanceId,jdbcType==INTEGER} and status = 1
+    WHERE where relevance_id = #{relevanceId,jdbcType=INTEGER} and status = 1
   </select>
 </mapper>
