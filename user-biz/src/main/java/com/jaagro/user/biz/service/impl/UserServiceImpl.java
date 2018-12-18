@@ -71,6 +71,9 @@ public class UserServiceImpl implements UserService {
             }
             if (ID.equals(loginType)) {
                 userInfo = customerUserMapper.getUserInfoById(parseKey(map));
+                if (userInfo == null) {
+                    userInfo = this.getCustomerRegisterPurpose(map);
+                }
             }
         }
         if (UserType.EMPLOYEE.equals(userTypeTrim)) {
