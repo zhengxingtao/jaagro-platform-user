@@ -1,13 +1,16 @@
 package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.constant.CustomerType;
 import com.jaagro.user.api.constant.UserType;
+import com.jaagro.user.api.dto.base.ShowSiteDto;
 import com.jaagro.user.api.dto.response.CustomerRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.dto.response.GetCustomerUserDto;
 import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.service.CrmClientService;
+import com.jaagro.user.api.service.CustomerUserService;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.mapper.CustomerUserMapperExt;
@@ -51,6 +54,8 @@ public class UserServiceImpl implements UserService {
     private HttpServletRequest request;
     @Autowired
     private CrmClientService crmClientService;
+    @Autowired
+    private CustomerUserService customerUserService;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -59,19 +64,27 @@ public class UserServiceImpl implements UserService {
         String userTypeTrim = map.get(USER_TYPE).toString().replaceAll(" ", "");
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
-        if (UserType.CUSTOMER.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_P.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_U.equals(userTypeTrim)) {
+        boolean isCustomer = UserType.CUSTOMER.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_P.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_U.equals(userTypeTrim) || UserType.LOAD_SITE.equals(userTypeTrim) || UserType.UNLOAD_SITE.equals(userTypeTrim);
+        if (isCustomer) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = customerUserMapper.getByLoginName(parseKey(map));
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                }
             }
             if (PHONE_NUMBER.equals(loginType)) {
                 userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));
-                if (userInfo == null) {
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                } else {
                     userInfo = this.getCustomerRegisterPurpose(map);
                 }
             }
             if (ID.equals(loginType)) {
                 userInfo = customerUserMapper.getUserInfoById(parseKey(map));
-                if (userInfo == null) {
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                } else {
                     userInfo = this.getCustomerRegisterPurpose(map);
                 }
             }
@@ -111,6 +124,9 @@ public class UserServiceImpl implements UserService {
             }
             if (UserType.VISITOR_CUSTOMER_P.equals(userInfo.getUserType()) || UserType.VISITOR_CUSTOMER_U.equals(userInfo.getUserType())) {
                 log.info("O getUserInfo: The current customer is a visitor：{}", userInfo);
+            }
+            if (UserType.LOAD_SITE.equals(userInfo.getUserType()) || UserType.UNLOAD_SITE.equals(userInfo.getUserType())) {
+                log.info("O getUserInfo: The current site customer is a visitor：{}", userInfo);
             }
         }
         return userInfo;
@@ -211,6 +227,31 @@ public class UserServiceImpl implements UserService {
             return userInfo;
         }
         return null;
+    }
+
+    private UserInfo differentiateCustomer(UserInfo userInfo) {
+        //装货地用户
+        if (userInfo != null) {
+            GetCustomerUserDto customerUserDto = customerUserService.getCustomerUserById(userInfo.getId());
+            if (customerUserDto != null) {
+                ShowSiteDto showSiteDto = crmClientService.getShowSiteById(customerUserDto.getRelevanceId());
+                if (showSiteDto != null) {
+                    userInfo.setId(showSiteDto.getId());
+                    userInfo.setName(showSiteDto.getSiteName());
+                    userInfo.setPhoneNumber(showSiteDto.getPhone());
+                    //1-装货点，2-卸货点
+                    if (showSiteDto.getSiteType() != null && showSiteDto.getSiteType().equals(1)) {
+                        userInfo.setUserType(UserType.LOAD_SITE);
+                        userInfo.setDepartmentId(showSiteDto.getDeptId());
+                    } else {
+                        userInfo.setUserType(UserType.UNLOAD_SITE);
+                    }
+                }
+                return userInfo;
+            }
+            return null;
+        }
+        return userInfo;
     }
 
     /**

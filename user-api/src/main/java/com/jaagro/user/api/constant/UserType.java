@@ -11,6 +11,16 @@ public final class UserType {
     public static final String CUSTOMER = "customer";
 
     /**
+     * 装货地客户
+     */
+    public static final String LOAD_SITE = "load_site";
+
+    /**
+     * 卸货地客户
+     */
+    public static final String UNLOAD_SITE = "unload_site";
+
+    /**
      * 员工
      */
     public static final String EMPLOYEE = "employee";

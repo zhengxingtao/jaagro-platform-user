@@ -1,5 +1,7 @@
 package com.jaagro.user.api.service;
 
+import com.jaagro.user.api.dto.base.ShowCustomerDto;
+import com.jaagro.user.api.dto.base.ShowSiteDto;
 import com.jaagro.user.api.dto.response.CustomerRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
 import com.jaagro.utils.BaseResponse;
@@ -34,6 +36,7 @@ public interface CrmClientService {
 
     /**
      * 根据手机号获取游客身份客户
+     *
      * @param phoneNumber
      * @return
      */
@@ -42,9 +45,28 @@ public interface CrmClientService {
 
     /**
      * 根据id获取游客身份客户
+     *
      * @param id
      * @return
      */
     @GetMapping("/customerRegisterPurpose/{id}")
     BaseResponse<CustomerRegisterPurposeDto> getCustomerRegisterPurposeDtoById(@PathVariable(value = "id") Integer id);
+
+    /**
+     * 从crm项目获取显示客户对象
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/getShowCustomer/{id}")
+    ShowCustomerDto getShowCustomerById(@PathVariable("id") Integer id);
+
+    /**
+     * 获取装卸货地显示对象
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/getShowSite/{id}")
+    ShowSiteDto getShowSiteById(@PathVariable("id") Integer id);
 }
