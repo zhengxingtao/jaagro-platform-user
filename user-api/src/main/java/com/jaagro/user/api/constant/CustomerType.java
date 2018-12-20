@@ -9,7 +9,7 @@ public final class CustomerType {
     /**
      * 签约客户
      */
-    public final static Integer CUSTOER = 1;
+    public final static Integer CUSTOMER = 1;
 
     /**
      * 装货地客户
