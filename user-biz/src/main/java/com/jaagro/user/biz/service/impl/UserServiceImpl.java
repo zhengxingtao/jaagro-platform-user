@@ -232,31 +232,13 @@ public class UserServiceImpl implements UserService {
     private UserInfo differentiateCustomer(UserInfo userInfo) {
         if (userInfo != null){
             // CUSTOMER
-            if (CustomerType.CUSTOMER.equals(userInfo.getUserType())) {
+            if (CustomerType.CUSTOMER.toString().equals(userInfo.getUserType())) {
                 userInfo.setUserType(UserType.CUSTOMER);
-            }else if(CustomerType.LOAD_SITE.equals(userInfo.getUserType())){
+            }else if(CustomerType.LOAD_SITE.toString().equals(userInfo.getUserType())){
                 userInfo.setUserType(UserType.LOAD_SITE);
             }else{
                 userInfo.setUserType(UserType.UNLOAD_SITE);
             }
-            // 装卸货地用户
-//            GetCustomerUserDto customerUserDto = customerUserService.getCustomerUserById(userInfo.getId());
-//            if (customerUserDto != null) {
-//                ShowSiteDto showSiteDto = crmClientService.getShowSiteById(customerUserDto.getRelevanceId());
-//                if (showSiteDto != null) {
-//                    userInfo.setId(showSiteDto.getId());
-//                    userInfo.setName(showSiteDto.getSiteName());
-//                    userInfo.setPhoneNumber(showSiteDto.getPhone());
-//                    //1-装货点，2-卸货点
-//                    if (showSiteDto.getSiteType() != null && showSiteDto.getSiteType().equals(1)) {
-//                        userInfo.setUserType(UserType.LOAD_SITE);
-//                        userInfo.setDepartmentId(showSiteDto.getDeptId());
-//                    } else {
-//                        userInfo.setUserType(UserType.UNLOAD_SITE);
-//                    }
-//                }
-//                return userInfo;
-//            }
             return userInfo;
         }
         return null;
