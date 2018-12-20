@@ -13,12 +13,12 @@ public final class UserType {
     /**
      * 装货地客户
      */
-    public static final String LOAD_SITE = "load_site";
+    public static final String LOAD_SITE = "loadSite";
 
     /**
      * 卸货地客户
      */
-    public static final String UNLOAD_SITE = "unload_site";
+    public static final String UNLOAD_SITE = "unloadSite";
 
     /**
      * 员工
