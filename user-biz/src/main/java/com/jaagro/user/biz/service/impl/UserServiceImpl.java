@@ -239,24 +239,6 @@ public class UserServiceImpl implements UserService {
             }else{
                 userInfo.setUserType(UserType.UNLOAD_SITE);
             }
-            // 装卸货地用户
-//            GetCustomerUserDto customerUserDto = customerUserService.getCustomerUserById(userInfo.getId());
-//            if (customerUserDto != null) {
-//                ShowSiteDto showSiteDto = crmClientService.getShowSiteById(customerUserDto.getRelevanceId());
-//                if (showSiteDto != null) {
-//                    userInfo.setId(showSiteDto.getId());
-//                    userInfo.setName(showSiteDto.getSiteName());
-//                    userInfo.setPhoneNumber(showSiteDto.getPhone());
-//                    //1-装货点，2-卸货点
-//                    if (showSiteDto.getSiteType() != null && showSiteDto.getSiteType().equals(1)) {
-//                        userInfo.setUserType(UserType.LOAD_SITE);
-//                        userInfo.setDepartmentId(showSiteDto.getDeptId());
-//                    } else {
-//                        userInfo.setUserType(UserType.UNLOAD_SITE);
-//                    }
-//                }
-//                return userInfo;
-//            }
             return userInfo;
         }
         return null;
