@@ -230,7 +230,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserInfo differentiateCustomer(UserInfo userInfo) {
-        //装货地用户
+        // CUSTOMER
+        if (userInfo.getUserType().equals(CustomerType.CUSTOER)) {
+            userInfo.setUserType(UserType.CUSTOMER);
+            return userInfo;
+        }
+        // 装卸货地用户
         if (userInfo != null) {
             GetCustomerUserDto customerUserDto = customerUserService.getCustomerUserById(userInfo.getId());
             if (customerUserDto != null) {
