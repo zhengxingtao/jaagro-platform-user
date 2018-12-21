@@ -1,17 +1,18 @@
 package com.jaagro.user.biz.service.impl;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.constant.CustomerType;
 import com.jaagro.user.api.constant.UserType;
+import com.jaagro.user.api.dto.base.ShowSiteDto;
+import com.jaagro.user.api.dto.response.CustomerRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.DriverReturnDto;
 import com.jaagro.user.api.dto.response.GetCustomerUserDto;
 import com.jaagro.user.api.dto.response.SocialDriverRegisterPurposeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 import com.jaagro.user.api.service.CrmClientService;
+import com.jaagro.user.api.service.CustomerUserService;
 import com.jaagro.user.api.service.UserClientService;
 import com.jaagro.user.api.service.UserService;
-import com.jaagro.user.biz.entity.CustomerUser;
-import com.jaagro.user.biz.entity.Driver;
-import com.jaagro.user.biz.entity.Employee;
 import com.jaagro.user.biz.mapper.CustomerUserMapperExt;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
@@ -19,8 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -57,6 +56,8 @@ public class UserServiceImpl implements UserService {
     private HttpServletRequest request;
     @Autowired
     private CrmClientService crmClientService;
+    @Autowired
+    private CustomerUserService customerUserService;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -65,15 +66,29 @@ public class UserServiceImpl implements UserService {
         String userTypeTrim = map.get(USER_TYPE).toString().replaceAll(" ", "");
         String loginType = (String) map.get(LOGIN_TYPE);
         UserInfo userInfo = null;
-        if (UserType.CUSTOMER.equals(userTypeTrim)) {
+        boolean isCustomer = UserType.CUSTOMER.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_P.equals(userTypeTrim) || UserType.VISITOR_CUSTOMER_U.equals(userTypeTrim) || UserType.LOAD_SITE.equals(userTypeTrim) || UserType.UNLOAD_SITE.equals(userTypeTrim);
+        if (isCustomer) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = customerUserMapper.getByLoginName(parseKey(map));
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                }
             }
             if (PHONE_NUMBER.equals(loginType)) {
                 userInfo = customerUserMapper.getByPhoneNumber(parseKey(map));
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                } else {
+                    userInfo = this.getCustomerRegisterPurpose(map);
+                }
             }
             if (ID.equals(loginType)) {
                 userInfo = customerUserMapper.getUserInfoById(parseKey(map));
+                if (userInfo != null) {
+                    userInfo = this.differentiateCustomer(userInfo);
+                } else {
+                    userInfo = this.getCustomerRegisterPurpose(map);
+                }
             }
         }
         if (UserType.EMPLOYEE.equals(userTypeTrim)) {
@@ -87,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 userInfo = employeeMapper.getUserInfoById(parseKey(map));
             }
         }
-        if (UserType.DRIVER.equals(userTypeTrim) || UserType.VISITOR_DRIVER.equals(userTypeTrim)) {
+        if (UserType.DRIVER.equals(userTypeTrim) || UserType.VISITOR_DRIVER_P.equals(userTypeTrim) || UserType.VISITOR_DRIVER_U.equals(userTypeTrim)) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = driverMapper.getByLoginName(parseKey(map));
             }
@@ -106,8 +121,14 @@ public class UserServiceImpl implements UserService {
         }
         if (null != userInfo && StringUtils.isEmpty(userInfo.getUserType())) {
             userInfo.setUserType(userTypeTrim);
-            if (UserType.VISITOR_DRIVER.equals(userInfo.getUserType())) {
+            if (UserType.VISITOR_DRIVER_P.equals(userInfo.getUserType()) || UserType.VISITOR_DRIVER_U.equals(userInfo.getUserType())) {
                 log.info("O getUserInfo: The current driver is a visitor：{}", userInfo);
+            }
+            if (UserType.VISITOR_CUSTOMER_P.equals(userInfo.getUserType()) || UserType.VISITOR_CUSTOMER_U.equals(userInfo.getUserType())) {
+                log.info("O getUserInfo: The current customer is a visitor：{}", userInfo);
+            }
+            if (UserType.LOAD_SITE.equals(userInfo.getUserType()) || UserType.UNLOAD_SITE.equals(userInfo.getUserType())) {
+                log.info("O getUserInfo: The current site customer is a visitor：{}", userInfo);
             }
         }
         return userInfo;
@@ -136,11 +157,27 @@ public class UserServiceImpl implements UserService {
                         userInfo.setId(sdr.getId());
                         userInfo.setName(sdr.getName());
                         userInfo.setPhoneNumber(sdr.getPhoneNumber());
-                        userInfo.setUserType(UserType.VISITOR_DRIVER);
+                        if (sdr.getUploadFlag() != null && sdr.getUploadFlag().equals(Boolean.TRUE)) {
+                            userInfo.setUserType(UserType.VISITOR_DRIVER_U);
+                        } else {
+                            userInfo.setUserType(UserType.VISITOR_DRIVER_P);
+                        }
                     }
                 } else {
-                    BeanUtils.copyProperties(customerUser, userInfo);
-                    userInfo.setUserType(UserType.CUSTOMER);
+                    CustomerRegisterPurposeDto sdr = crmClientService.getCustomerRegisterPurposeDtoById(userId).getData();
+                    if (sdr != null) {
+                        userInfo.setName(sdr.getName());
+                        userInfo.setId(sdr.getId());
+                        userInfo.setPhoneNumber(sdr.getPhoneNumber());
+                        if (sdr.getUploadFlag() != null && sdr.getUploadFlag().equals(Boolean.TRUE)) {
+                            userInfo.setUserType(UserType.VISITOR_CUSTOMER_U);
+                        } else {
+                            userInfo.setUserType(UserType.VISITOR_CUSTOMER_P);
+                        }
+                    } else {
+                        BeanUtils.copyProperties(customerUser, userInfo);
+                        userInfo.setUserType(UserType.CUSTOMER);
+                    }
                 }
             } else {
                 BeanUtils.copyProperties(driver, userInfo);
@@ -197,7 +234,54 @@ public class UserServiceImpl implements UserService {
             userInfo.setName(sdr.getName());
             userInfo.setId(sdr.getId());
             userInfo.setPhoneNumber(sdr.getPhoneNumber());
-            userInfo.setUserType(UserType.VISITOR_DRIVER);
+            if (sdr.getUploadFlag() != null && sdr.getUploadFlag().equals(Boolean.TRUE)) {
+                userInfo.setUserType(UserType.VISITOR_DRIVER_U);
+            } else {
+                userInfo.setUserType(UserType.VISITOR_DRIVER_P);
+            }
+            return userInfo;
+        }
+        return null;
+    }
+
+    private UserInfo differentiateCustomer(UserInfo userInfo) {
+        if (userInfo != null){
+            // CUSTOMER
+            if (CustomerType.CUSTOMER.toString().equals(userInfo.getUserType())) {
+                userInfo.setUserType(UserType.CUSTOMER);
+            }else if(CustomerType.LOAD_SITE.toString().equals(userInfo.getUserType())){
+                userInfo.setUserType(UserType.LOAD_SITE);
+            }else{
+                userInfo.setUserType(UserType.UNLOAD_SITE);
+            }
+            return userInfo;
+        }
+        return null;
+    }
+
+    /**
+     * 获取游客身份司机
+     *
+     * @param map
+     * @return
+     */
+    private UserInfo getCustomerRegisterPurpose(Map<String, Object> map) {
+        CustomerRegisterPurposeDto sdr;
+        if (ID.equals(map.get(LOGIN_TYPE).toString())) {
+            sdr = crmClientService.getCustomerRegisterPurposeDtoById(parseKey(map)).getData();
+        } else {
+            sdr = crmClientService.getCustomerRegisterPurposeByPhoneNumber(parseKey(map)).getData();
+        }
+        if (null != sdr) {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setName(sdr.getName());
+            userInfo.setId(sdr.getId());
+            userInfo.setPhoneNumber(sdr.getPhoneNumber());
+            if (sdr.getUploadFlag() != null && sdr.getUploadFlag().equals(Boolean.TRUE)) {
+                userInfo.setUserType(UserType.VISITOR_CUSTOMER_U);
+            } else {
+                userInfo.setUserType(UserType.VISITOR_CUSTOMER_P);
+            }
             return userInfo;
         }
         return null;

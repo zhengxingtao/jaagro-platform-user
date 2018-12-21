@@ -104,6 +104,7 @@ public interface DriverService {
     /**
      * 查询近一个月过期证件
      * Author: @Gao.
+     *
      * @param expiryDateType
      * @return
      */
@@ -111,16 +112,26 @@ public interface DriverService {
 
     /**
      * 批量查询司机信息 不区分状态
-     * @author yj
+     *
      * @param driverIdList
      * @return
+     * @author yj
      */
     List<DriverReturnDto> listDriverByIds(List<Integer> driverIdList);
 
     /**
      * 根据手机号查询
+     *
      * @param phoneNumber
      * @return
      */
     DriverReturnDto getByPhoneNumber(String phoneNumber);
+
+    /**
+     * 获取司机
+     *
+     * @param id
+     * @return
+     */
+    DriverReturnDto getDriverById(Integer id);
 }
