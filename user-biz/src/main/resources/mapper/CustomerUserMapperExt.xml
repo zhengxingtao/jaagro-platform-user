@@ -3,7 +3,7 @@
 <mapper namespace="com.jaagro.user.biz.mapper.CustomerUserMapperExt" >
 
   <sql id="Info_Column">
-    id, login_name, password, phone_number, salt, status, name
+    id, login_name, password, phone_number, salt, status, name, customer_type as user_type
   </sql>
 
   <select id="getByLoginName" resultType="com.jaagro.constant.UserInfo">
@@ -39,5 +39,17 @@
     <include refid="Base_Column_List" />
     from customer_user
     where id = #{id,jdbcType=INTEGER} and status = 1
+  </select>
+  <select id="selectByPhoneNumber" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM customer_user
+    WHERE where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 1
+  </select>
+  <select id="selectByRelevanceId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM customer_user
+    WHERE where relevance_id = #{relevanceId,jdbcType=INTEGER} and status = 1
   </select>
 </mapper>
