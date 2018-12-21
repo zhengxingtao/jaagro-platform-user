@@ -22,9 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,7 +104,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        if (userInfo != null && StringUtils.isEmpty(userInfo.getUserType())) {
+        if (null != userInfo && StringUtils.isEmpty(userInfo.getUserType())) {
             userInfo.setUserType(userTypeTrim);
             if (UserType.VISITOR_DRIVER.equals(userInfo.getUserType())) {
                 log.info("O getUserInfo: The current driver is a visitor：{}", userInfo);
@@ -160,8 +162,21 @@ public class UserServiceImpl implements UserService {
      * @author tony
      */
     @Override
-    public List<UserInfo> listGlobalUser(int[] userIds) {
-        return null;
+    public List<UserInfo> listGlobalUser(List<Integer> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            throw new NullPointerException("userIds must not be null");
+        }
+        if (userIds.size() > 30) {
+            throw new RuntimeException(userIds.size() + " :The maximum number of queries is 30");
+        }
+        List<UserInfo> userInfoList = new ArrayList<>();
+        for (int id : userIds) {
+            UserInfo userInfo = this.getGlobalUser(id);
+            if (null != userInfo) {
+                userInfoList.add(userInfo);
+            }
+        }
+        return userInfoList;
     }
 
     /**
