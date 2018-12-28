@@ -31,7 +31,7 @@ public interface UserService {
      * @param userIds
      * @return
      */
-    List<UserInfo> listGlobalUser(int[] userIds);
+    List<UserInfo> listGlobalUser(List<Integer> userIds);
 
     /**
      * 获取当前user
