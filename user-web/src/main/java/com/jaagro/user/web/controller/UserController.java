@@ -6,14 +6,9 @@ import com.jaagro.utils.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author tony
@@ -52,5 +47,11 @@ public class UserController {
     @GetMapping("/getGlobalUser/{userId}")
     public BaseResponse<UserInfo> getGlobalUser(@PathVariable("userId") int userId) {
         return BaseResponse.successInstance(userService.getGlobalUser(userId));
+    }
+
+    @PostMapping("/listGlobalUser")
+    public BaseResponse<List<UserInfo>> listGlobalUser(Integer[] userIds) {
+        List<Integer> userIdList = new ArrayList<>(Arrays.asList(userIds));
+        return BaseResponse.successInstance(userService.listGlobalUser(userIdList));
     }
 }

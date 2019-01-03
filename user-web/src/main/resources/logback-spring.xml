@@ -16,8 +16,10 @@
 
     <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
     <springProfile name="dev">
+        <appender name="CatAppender" class="com.jaagro.user.biz.config.cat.CatLogbackAppender"></appender>
         <logger name="com.jaagro.user" level="info" />
         <root level="info">
+            <appender-ref ref="CatAppender" />
             <appender-ref ref="console" />
         </root>
     </springProfile>
