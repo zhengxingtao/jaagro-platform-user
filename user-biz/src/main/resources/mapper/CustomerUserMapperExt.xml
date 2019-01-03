@@ -44,7 +44,7 @@
     SELECT
     <include refid="Base_Column_List"/>
     FROM customer_user
-    WHERE where phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 1
+    WHERE phone_number = #{phoneNumber,jdbcType=VARCHAR} and status = 1
   </select>
   <select id="selectByRelevanceId" resultMap="BaseResultMap">
     SELECT
