@@ -12,6 +12,7 @@ import com.jaagro.user.api.service.*;
 import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.entity.Driver;
 import com.jaagro.user.biz.mapper.DriverMapperExt;
+import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import com.jaagro.utils.ServiceResult;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +46,8 @@ public class DriverServiceImpl implements DriverService {
     private AccountService accountService;
     @Autowired
     private UserIdGeneratorFactory userIdGeneratorFactory;
+    @Autowired
+    private WaybillClientService waybillClientService;
 
     /**
      * 新增司机
@@ -204,7 +208,13 @@ public class DriverServiceImpl implements DriverService {
         if (driverMapper.selectByPrimaryKey(id) == null) {
             throw new NullPointerException(id + " :不正确");
         }
-        //后期扩展如果当前driver有任务未完成，无法删除
+        //当前driver有任务未完成，无法删除
+        BaseResponse<Integer> result = waybillClientService.countUnFinishWaybillByDriver(id);
+        if (!StringUtils.isEmpty(result)) {
+            if (result.getData() > 0) {
+                throw new RuntimeException("司机有未完成的任务,不得删除");
+            }
+        }
         driverMapper.deleteDriverLogic(AuditStatus.STOP_COOPERATION, id);
         //逻辑删除司机相关资质
         this.truckClientService.deleteTruckQualificationByDriverId(id);
