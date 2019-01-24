@@ -3,7 +3,7 @@
 <mapper namespace="com.jaagro.user.biz.mapper.EmployeeRoleMapperExt">
 
     <sql id="role_base">
-      id, name, notes, create_time, create_user_id, modify_time, modify_user_id, enabled
+      r.id, r.name, r.notes, r.create_time, r.create_user_id, r.modify_time, r.modify_user_id, r.enabled
     </sql>
 
     <select id="listByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -23,7 +23,7 @@
         select
         <include refid="role_base"/>
         from employee_role er left join role r on er.role_id = r.id
-        where employee_id = #{employeeId,jdbcType=INTEGER}
+        where er.employee_id = #{employeeId,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteByEmpId" parameterType="java.lang.Integer">
