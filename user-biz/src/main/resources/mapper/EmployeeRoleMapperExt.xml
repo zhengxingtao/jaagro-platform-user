@@ -22,7 +22,7 @@
         select
         <include refid="Base_Column_List"/>
         from role
-        where employee_id = #{id,jdbcType=INTEGER}
+        where employee_id = #{employeeId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByEmpId" parameterType="java.lang.Integer">
         delete from employee_role
