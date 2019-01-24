@@ -5,6 +5,7 @@ import com.jaagro.user.api.dto.request.CheckCodeDto;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -304,4 +306,8 @@ public class EmployeeController {
         return BaseResponse.successInstance(this.employeeMapper.listEmployee());
     }
 
+    @GetMapping("/listRoleByEmployeeId/{employeeId}")
+    public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable Integer employeeId) {
+        return BaseResponse.successInstance(employeeService.listRoleByEmployeeId(employeeId));
+    }
 }

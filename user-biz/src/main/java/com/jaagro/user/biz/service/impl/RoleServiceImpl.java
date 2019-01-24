@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.ReturnPermissionDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.api.service.UserService;
@@ -151,5 +152,4 @@ public class RoleServiceImpl implements RoleService {
     public List<ReturnPermissionDto> listPermissionByRoleId(Integer roleId) {
         return rolePermissionMapper.listByRoleId(roleId);
     }
-
 }

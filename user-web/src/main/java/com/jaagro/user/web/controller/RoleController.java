@@ -192,7 +192,7 @@ public class RoleController {
     public BaseResponse<List<PermissionVo>> listPermissionByRoleId(@PathVariable int roleId) {
         List<ReturnPermissionDto> permissionDtoList = roleService.listPermissionByRoleId(roleId);
         if(CollectionUtils.isEmpty(permissionDtoList)){
-            BaseResponse.queryDataEmpty();
+            return BaseResponse.queryDataEmpty();
         }
         List<PermissionVo> permissionVoList = DtoToVoUtils.INSTANCE.toPermissionList(permissionDtoList);
         return BaseResponse.successInstance(permissionVoList);

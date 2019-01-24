@@ -3,6 +3,7 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.ReturnPermissionDto;
 
 import java.util.List;
@@ -63,4 +64,5 @@ public interface RoleService {
      * @return
      */
     List<ReturnPermissionDto> listPermissionByRoleId(Integer roleId);
+
 }

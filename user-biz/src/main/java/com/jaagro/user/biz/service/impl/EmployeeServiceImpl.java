@@ -14,6 +14,7 @@ import com.jaagro.user.api.service.*;
 import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.entity.*;
 import com.jaagro.user.biz.mapper.*;
+import com.jaagro.user.biz.service.impl.utils.DoToDtoUtils;
 import com.jaagro.utils.MD5Utils;
 import com.jaagro.utils.PasswordEncoder;
 import com.jaagro.utils.ServiceResult;
@@ -292,5 +293,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
         return employeeDto;
+    }
+
+    @Override
+    public List<GetRoleDto> listRoleByEmployeeId(Integer employeeId) {
+        List<Role> roleList = employeeRoleMapper.listRoleByEmployeeId(employeeId);
+        return DoToDtoUtils.INSTANCE.toGetRoleDtoList(roleList);
     }
 }
