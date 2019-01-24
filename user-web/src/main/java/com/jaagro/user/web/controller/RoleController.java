@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -190,6 +191,9 @@ public class RoleController {
     @GetMapping("/listPermissionByRoleId/{roleId}")
     public BaseResponse<List<PermissionVo>> listPermissionByRoleId(@PathVariable int roleId) {
         List<ReturnPermissionDto> permissionDtoList = roleService.listPermissionByRoleId(roleId);
+        if(CollectionUtils.isEmpty(permissionDtoList)){
+            BaseResponse.queryDataEmpty();
+        }
         List<PermissionVo> permissionVoList = DtoToVoUtils.INSTANCE.toPermissionList(permissionDtoList);
         return BaseResponse.successInstance(permissionVoList);
     }
