@@ -28,6 +28,7 @@
             p.permission_number,
             p.permission_name,
             p.LEVEL,
+            p.parent,
             p.create_user_id,
             p.create_time,
             p.modify_user_id,
