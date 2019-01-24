@@ -5,6 +5,7 @@
         <id column="permission_number" property="permissionNumber" jdbcType="VARCHAR" />
         <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
         <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="parent" property="parent" jdbcType="VARCHAR" />
         <result column="notes" property="notes" jdbcType="VARCHAR" />
         <result column="enabled" property="enabled" jdbcType="TINYINT" />
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
