@@ -15,7 +15,7 @@
 
         <!-- 数据库链接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://139.196.144.63:3306/userserver"
+                        connectionURL="jdbc:mysql://192.168.3.98:3306/userserver"
                         userId="root"
                         password="123456">
         </jdbcConnection>
@@ -45,7 +45,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 对应数据库表名 不生成example实体类-->
-        <table tableName="id_generator" domainObjectName="IdGenerator" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--<table tableName="id_generator" domainObjectName="IdGenerator" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="contract" domainObjectName="Contract" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="contract_log" domainObjectName="ContractLog" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="contract_price" domainObjectName="ContractPrice" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
