@@ -99,19 +99,6 @@
             <version>3.0.0</version>
         </dependency>
 
-        <!--mapStruct依赖-->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- ====================================data注解依赖===================================== -->
         <dependency>
             <groupId>org.projectlombok</groupId>

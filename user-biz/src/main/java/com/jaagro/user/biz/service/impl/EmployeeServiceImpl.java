@@ -297,7 +297,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<GetRoleDto> listRoleByEmployeeId(Integer employeeId) {
-        List<Role> roleList = employeeRoleMapper.listRoleByEmployeeId(employeeId);
-        return DoToDtoUtils.INSTANCE.toGetRoleDtoList(roleList);
+        return  employeeRoleMapper.listRoleByEmployeeId(employeeId);
     }
 }

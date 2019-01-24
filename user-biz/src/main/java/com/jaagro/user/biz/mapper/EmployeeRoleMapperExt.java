@@ -1,5 +1,6 @@
 package com.jaagro.user.biz.mapper;
 
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.biz.entity.EmployeeRole;
 import com.jaagro.user.biz.entity.Role;
 import org.apache.ibatis.annotations.Param;
@@ -47,5 +48,5 @@ public interface EmployeeRoleMapperExt extends EmployeeRoleMapper {
      * @param employeeId
      * @return
      */
-    List<Role> listRoleByEmployeeId(@Param("employeeId") Integer employeeId);
+    List<GetRoleDto> listRoleByEmployeeId(@Param("employeeId") Integer employeeId);
 }

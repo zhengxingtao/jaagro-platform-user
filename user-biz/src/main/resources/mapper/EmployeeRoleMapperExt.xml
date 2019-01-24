@@ -19,7 +19,7 @@
         where employee_id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="listRoleByEmployeeId" resultType="com.jaagro.user.biz.entity.Role" parameterType="java.lang.Integer">
+    <select id="listRoleByEmployeeId" resultType="com.jaagro.user.api.dto.response.GetRoleDto" parameterType="java.lang.Integer">
         select
         <include refid="role_base"/>
         from employee_role er left join role r on er.role_id = r.id
