@@ -32,7 +32,8 @@
             p.create_user_id,
             p.create_time,
             p.modify_user_id,
-            p.modify_time
+            p.modify_time,
+            p.notes
         FROM
             role_permission rp
             LEFT JOIN role r ON r.id = rp.role_id
