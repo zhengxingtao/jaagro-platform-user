@@ -5,4 +5,5 @@ package com.jaagro.user.biz.mapper;
  * @date 2019-01-24
  */
 public interface PermissionMapperExt extends PermissionMapper {
+
 }

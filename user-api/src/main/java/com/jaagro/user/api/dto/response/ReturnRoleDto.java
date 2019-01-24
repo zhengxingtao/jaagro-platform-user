@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class ReturnRoleDto implements Serializable {
+    private static final long serialVersionUID = 4842530808352589593L;
     /**
      * 角色表主键
      */
