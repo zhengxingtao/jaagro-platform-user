@@ -30,6 +30,8 @@ public class ReturnPermissionDto implements Serializable {
      */
     private Integer level;
 
+    private String parent;
+
     /**
      * 权限说明
      */

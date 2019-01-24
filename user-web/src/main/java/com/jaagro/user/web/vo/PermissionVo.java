@@ -31,6 +31,11 @@ public class PermissionVo implements Serializable {
     private Integer level;
 
     /**
+     *
+     */
+    private String parent;
+
+    /**
      * 权限说明
      */
     private String notes;
