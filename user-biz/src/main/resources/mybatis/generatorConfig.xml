@@ -30,18 +30,18 @@
         -->
         <!-- entity class -->
         <javaModelGenerator targetPackage="com.jaagro.user.biz.entity"
-                            targetProject="/Users/tony/Documents/jaagro_repository/jaagro-platform-user/user-biz/src/main/java">
+                            targetProject="E:\git\jaagro-platform-user\user-biz\src\main\java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
         <!-- 生成 mapper.xml文件路径 -->
-        <sqlMapGenerator targetPackage="mapper"  targetProject="/Users/tony/Documents/jaagro_repository/jaagro-platform-user/user-biz/src/main/resources">
+        <sqlMapGenerator targetPackage="mapper"  targetProject="E:\git\jaagro-platform-user\user-biz\src\main\resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
         <!-- 生成 dao 接口的包路径 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jaagro.user.biz.mapper"  targetProject="/Users/tony/Documents/jaagro_repository/jaagro-platform-user/user-biz/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jaagro.user.biz.mapper"  targetProject="E:\git\jaagro-platform-user\user-biz\src\main\java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 对应数据库表名 不生成example实体类-->
@@ -54,8 +54,8 @@
         <!--<table tableName="employee_cooperation" domainObjectName="EmployeeCooperation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="employee_role" domainObjectName="EmployeeRole" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <!--<table tableName="role" domainObjectName="Role" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="role_permission" domainObjectName="RolePermission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="role_permission" domainObjectName="RolePermission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <!--<table tableName="department" domainObjectName="Department" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="permission" domainObjectName="Permission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="permission" domainObjectName="Permission" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

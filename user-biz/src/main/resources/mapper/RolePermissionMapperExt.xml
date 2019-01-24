@@ -1,4 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jaagro.user.biz.mapper.RolePermissionMapperExt" >
+<mapper namespace="com.jaagro.user.biz.mapper.RolePermissionMapperExt">
+    <resultMap id="ReturnMap" type="com.jaagro.user.api.dto.response.ReturnPermissionDto">
+        <id column="permission_number" property="permissionNumber" jdbcType="VARCHAR" />
+        <result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="notes" property="notes" jdbcType="VARCHAR" />
+        <result column="enabled" property="enabled" jdbcType="TINYINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+        <result column="modify_user_id" property="modifyUserId" jdbcType="INTEGER" />
+        <result column="request_uri" property="requestUri" jdbcType="VARCHAR" />
+    </resultMap>
+    <update id="disableByRoleId" parameterType="java.lang.Integer">
+    update role_permission
+    set enabled = 0
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        delete from role_permission
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+    <select id="listByRoleId" resultMap="ReturnMap" parameterType="java.lang.Integer">
+        SELECT
+            p.permission_number,
+            p.permission_name,
+            p.LEVEL,
+            p.create_user_id,
+            p.create_time,
+            p.modify_user_id,
+            p.modify_time
+        FROM
+            role_permission rp
+            LEFT JOIN role r ON r.id = rp.role_id
+            LEFT JOIN permission p ON p.permission_number = rp.permission_id
+        WHERE
+        rp.role_id = #{roleId,jdbcType=INTEGER}
+    </select>
 </mapper>

@@ -1,17 +1,14 @@
 package com.jaagro.user.biz.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author tony
- */
 @Data
+@Accessors(chain = true)
 public class Permission implements Serializable {
-
-    private static final long serialVersionUID = 1836086823437790004L;
     /**
      * 权限编号
      */
@@ -61,4 +58,5 @@ public class Permission implements Serializable {
      *
      */
     private String requestUri;
+
 }

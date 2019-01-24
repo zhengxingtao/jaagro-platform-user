@@ -55,7 +55,7 @@ public class RoleServiceImpl implements RoleService {
                 .setCreateTime(new Date())
                 .setCreateUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.insertSelective(role);
-        Integer[] permissionDtos = dto.getPermissionDtos();
+        String[] permissionDtos = dto.getPermissionDtos();
         //新增角色权限
         for (int i = 0; i < permissionDtos.length; i++) {
             RolePermission rolePermission = new RolePermission();
