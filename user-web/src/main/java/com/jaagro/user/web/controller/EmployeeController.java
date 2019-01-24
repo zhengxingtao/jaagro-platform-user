@@ -307,7 +307,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/listRoleByEmployeeId/{employeeId}")
-    public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable Integer employeeId) {
+    public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable("employeeId") Integer employeeId) {
         return BaseResponse.successInstance(employeeService.listRoleByEmployeeId(employeeId));
     }
 }
