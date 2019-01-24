@@ -1,16 +1,14 @@
 package com.jaagro.user.biz.entity;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-/**
- * @author tony
- */
-@Data
-public class RolePermission implements Serializable {
 
-    private static final long serialVersionUID = -565329361210098173L;
+@Data
+@Accessors(chain = true)
+public class RolePermission implements Serializable {
     /**
      * 角色权限表
      */
@@ -39,7 +37,7 @@ public class RolePermission implements Serializable {
     /**
      * 创建人
      */
-    private Long createUserId;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -49,5 +47,6 @@ public class RolePermission implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUserId;
+    private Integer modifyUserId;
+
 }

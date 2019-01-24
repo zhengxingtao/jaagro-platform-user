@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
+import com.jaagro.user.api.dto.response.ReturnPermissionDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.entity.Role;
@@ -55,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
                 .setCreateTime(new Date())
                 .setCreateUserId(this.userService.getCurrentUser().getId());
         this.roleMapper.insertSelective(role);
-        Integer[] permissionDtos = dto.getPermissionDtos();
+        String[] permissionDtos = dto.getPermissionDtos();
         //新增角色权限
         for (int i = 0; i < permissionDtos.length; i++) {
             RolePermission rolePermission = new RolePermission();
@@ -144,6 +145,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Map<String, Object> listAllRole() {
         return ServiceResult.toResult(this.roleMapper.listAll());
+    }
+
+    @Override
+    public List<ReturnPermissionDto> listPermissionByRoleId(Integer roleId) {
+        return rolePermissionMapper.listByRoleId(roleId);
     }
 
 }
