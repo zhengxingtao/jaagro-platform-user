@@ -4,32 +4,38 @@ import com.jaagro.user.biz.entity.Permission;
 
 public interface PermissionMapper {
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String permissionNumber);
 
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
     int insert(Permission record);
 
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
     int insertSelective(Permission record);
 
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
-    Permission selectByPrimaryKey(Integer id);
+    Permission selectByPrimaryKey(String permissionNumber);
 
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
     int updateByPrimaryKeySelective(Permission record);
 
     /**
-     * @mbggenerated 2018-08-22
+     *
+     * @mbggenerated 2019-01-24
      */
     int updateByPrimaryKey(Permission record);
 }

@@ -2,8 +2,10 @@ package com.jaagro.user.biz.mapper;
 
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.ReturnRoleDto;
 import com.jaagro.user.biz.entity.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -41,4 +43,5 @@ public interface RoleMapperExt extends RoleMapper {
      * @return
      */
     ReturnRoleDto getRoleDetailById(Integer id);
+
 }

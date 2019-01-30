@@ -6,15 +6,16 @@ import java.util.List;
 
 /**
  * @author tony
+ * @date 2019-01-24
  */
 public interface PermissionMapperExt extends PermissionMapper {
     /**
      * 根据权限编号查询
      *
-     * @param accessNumber
+     * @param permissionNumber
      * @return
      */
-    List<Permission> getByNumber(String accessNumber);
+    List<Permission> getByNumber(String permissionNumber);
 
     /**
      * 获取全部的权限

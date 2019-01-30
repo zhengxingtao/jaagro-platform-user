@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author baiyiran
@@ -12,20 +13,34 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 public class ReturnPermissionDto implements Serializable {
-    /**
-     * 权限表
-     */
-    private Integer id;
 
+    private static final long serialVersionUID = -3861994973197584331L;
     /**
      * 权限编号
      */
-    private String accessNumber;
+    private String permissionNumber;
+
+    /**
+     * 权限名称
+     */
+    private String permissionName;
+
+    /**
+     *
+     */
+    private Integer level;
+
+    private String parent;
 
     /**
      * 权限说明
      */
-    private String accessIllustrate;
+    private String notes;
+
+    /**
+     * 是否可用(0 不可用 1 可用)
+     */
+    private Boolean enabled;
 
     /**
      * 创建时间
@@ -35,7 +50,7 @@ public class ReturnPermissionDto implements Serializable {
     /**
      * 创建人
      */
-    private Long createUser;
+    private Integer createUserId;
 
     /**
      * 修改时间
@@ -45,10 +60,10 @@ public class ReturnPermissionDto implements Serializable {
     /**
      * 修改人
      */
-    private Long modifyUser;
+    private Integer modifyUserId;
 
     /**
-     * 是否可用(0 不可用 1 可用)
+     *
      */
-    private Boolean enabled;
+    private String requestUri;
 }

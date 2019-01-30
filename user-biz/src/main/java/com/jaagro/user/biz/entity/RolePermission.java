@@ -6,9 +6,6 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author liqiangping
- */
 @Data
 @Accessors(chain = true)
 public class RolePermission implements Serializable {
@@ -25,7 +22,7 @@ public class RolePermission implements Serializable {
     /**
      * 关联权限ID
      */
-    private Integer permissionId;
+    private String permissionId;
 
     /**
      * 是否可用(0 不可用 1 可用)
@@ -51,4 +48,5 @@ public class RolePermission implements Serializable {
      * 修改人
      */
     private Integer modifyUserId;
+
 }

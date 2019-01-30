@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.jaagro.user.biz.mapper.EmployeeRoleMapperExt">
 
+    <sql id="role_base">
+      r.id, r.name, r.notes, r.create_time, r.create_user_id, r.modify_time, r.modify_user_id, r.enabled
+    </sql>
+
     <select id="listByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -14,6 +18,14 @@
         from employee_role
         where employee_id = #{id,jdbcType=INTEGER}
     </select>
+
+    <select id="listRoleByEmployeeId" resultType="com.jaagro.user.api.dto.response.GetRoleDto" parameterType="java.lang.Integer">
+        select
+        <include refid="role_base"/>
+        from employee_role er left join role r on er.role_id = r.id
+        where er.employee_id = #{employeeId,jdbcType=INTEGER}
+    </select>
+
     <delete id="deleteByEmpId" parameterType="java.lang.Integer">
         delete from employee_role
         where employee_id = #{empId,jdbcType=INTEGER}

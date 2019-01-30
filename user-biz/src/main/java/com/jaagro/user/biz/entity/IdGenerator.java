@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 public class IdGenerator implements Serializable {
+    private static final long serialVersionUID = -7052374608493077779L;
     /**
      * 
      */

@@ -3,8 +3,11 @@ package com.jaagro.user.web.controller;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
+import com.jaagro.user.api.dto.response.ReturnPermissionDto;
 import com.jaagro.user.api.service.RoleService;
 import com.jaagro.user.biz.mapper.*;
+import com.jaagro.user.web.mapper.DtoToVoUtils;
+import com.jaagro.user.web.vo.PermissionVo;
 import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import io.swagger.annotations.Api;
@@ -12,10 +15,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author baiyiran
@@ -145,7 +149,6 @@ public class RoleController {
     /**
      * 查询全部角色
      *
-     * @param criteriaDto
      * @return
      */
     @ApiOperation("查询全部角色")
@@ -170,12 +173,28 @@ public class RoleController {
     /**
      * 查询全部权限
      *
-     * @param criteriaDto
      * @return
      */
     @ApiOperation("查询全部权限")
     @PostMapping("/listAllPermission")
     public BaseResponse listAllPermission() {
         return BaseResponse.successInstance(this.permissionMapper.listAll());
+    }
+
+    /**
+     * 根据roleId获取permission列表
+     *
+     * @param roleId
+     * @return
+     * @author tonyZheng
+     */
+    @GetMapping("/listPermissionByRoleId/{roleId}")
+    public BaseResponse<List<PermissionVo>> listPermissionByRoleId(@PathVariable int roleId) {
+        List<ReturnPermissionDto> permissionDtoList = roleService.listPermissionByRoleId(roleId);
+        if(CollectionUtils.isEmpty(permissionDtoList)){
+            return BaseResponse.queryDataEmpty();
+        }
+        List<PermissionVo> permissionVoList = DtoToVoUtils.INSTANCE.toPermissionList(permissionDtoList);
+        return BaseResponse.successInstance(permissionVoList);
     }
 }

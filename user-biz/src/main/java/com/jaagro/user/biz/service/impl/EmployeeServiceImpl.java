@@ -293,4 +293,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return employeeDto;
     }
+
+    @Override
+    public List<GetRoleDto> listRoleByEmployeeId(Integer employeeId) {
+        return  employeeRoleMapper.listRoleByEmployeeId(employeeId);
+    }
 }

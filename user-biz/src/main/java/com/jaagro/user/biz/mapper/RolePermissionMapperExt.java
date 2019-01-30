@@ -1,15 +1,13 @@
 package com.jaagro.user.biz.mapper;
 
 import com.jaagro.user.api.dto.response.ReturnPermissionDto;
-import com.jaagro.user.biz.entity.RolePermission;
 
 import java.util.List;
 
 /**
  * @author tony
  */
-public interface RolePermissionMapperExt extends RolePermissionMapper {
-
+public interface RolePermissionMapperExt extends RolePermissionMapper{
     /**
      * 根据角色查询
      *

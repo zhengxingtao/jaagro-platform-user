@@ -3,9 +3,11 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateEmpDto;
 import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
+import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
 import com.jaagro.user.api.dto.response.employee.GetEmployeeDto;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -91,4 +93,17 @@ public interface EmployeeService {
      * @return
      */
     GetEmployeeDto getById(Integer id);
+
+    /**
+     * 通过userId获取角色列表
+     * @param userId
+     * @return
+     */
+
+    /**
+     * 通过employeeId获取role列表
+     * @param employeeId
+     * @return
+     */
+    List<GetRoleDto> listRoleByEmployeeId(Integer employeeId);
 }
