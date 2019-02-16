@@ -190,12 +190,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NullPointerException("员工不存在");
         }
         Employee employee = new Employee();
+        Map<String, String> result = PasswordEncoder.encodePassword(newPassword);
         employee
                 .setId(id)
                 .setModifyUserId(id)
                 .setModifyTime(new Date())
-                .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
-                .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"));
+                .setSalt(result.get("salt"))
+                .setPassword(result.get("password"));
+        employeeMapper.updateByPrimaryKeySelective(employee);
         return ServiceResult.toResult("员工修改密码成功");
     }
 
@@ -259,7 +261,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return ServiceResult.toResult(new PageInfo<>(emps));
     }
 
-//    @Cacheable
+    //    @Cacheable
     @Override
     public GetEmployeeDto getById(Integer id) {
         GetEmployeeDto employeeDto = this.employeeMapper.getById(id);
@@ -296,6 +298,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<GetRoleDto> listRoleByEmployeeId(Integer employeeId) {
-        return  employeeRoleMapper.listRoleByEmployeeId(employeeId);
+        return employeeRoleMapper.listRoleByEmployeeId(employeeId);
     }
 }

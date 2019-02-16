@@ -5,9 +5,13 @@ import com.jaagro.user.api.dto.response.DepartmentReturnDto;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
+import com.jaagro.utils.MD5Utils;
+import com.jaagro.utils.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @author tony
@@ -36,5 +40,14 @@ public class TestController {
     @GetMapping("/test3")
     public int test3(){
         return userIdGeneratorFactory.getNextId();
+    }
+
+    public static void main(String args[]){
+//        Map<String, String> stringMap = PasswordEncoder.encodePassword("123");
+//        System.err.println(PasswordEncoder.encodePassword("123").get("salt"));
+//        System.err.println(PasswordEncoder.encodePassword("123").get("password"));
+//        System.err.println(MD5Utils.encode("123", "24558"));
+        String encodePassword = MD5Utils.encode("456", "11675");
+        System.err.println(encodePassword);
     }
 }
