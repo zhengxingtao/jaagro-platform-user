@@ -190,12 +190,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NullPointerException("员工不存在");
         }
         Employee employee = new Employee();
+        Map<String, String> result = PasswordEncoder.encodePassword(newPassword);
         employee
                 .setId(id)
                 .setModifyUserId(id)
                 .setModifyTime(new Date())
-                .setSalt(PasswordEncoder.encodePassword(newPassword).get("salt"))
-                .setPassword(PasswordEncoder.encodePassword(newPassword).get("password"));
+                .setSalt(result.get("salt"))
+                .setPassword(result.get("password"));
         employeeMapper.updateByPrimaryKeySelective(employee);
         return ServiceResult.toResult("员工修改密码成功");
     }
