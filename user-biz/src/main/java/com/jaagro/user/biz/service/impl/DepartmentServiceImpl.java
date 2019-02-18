@@ -227,13 +227,8 @@ public class DepartmentServiceImpl implements DepartmentService {
             Set<Integer> rd = departmentRecursion(deptResultSet, userInfo.getDepartmentId());
             deptResultSet.addAll(rd);
         } else {
-            Set<Integer> deptSourceSet = new LinkedHashSet<>();
-            deptSourceSet.add(userInfo.getDepartmentId());
             for (BusinessSupport bs : supports) {
-                deptSourceSet.add(bs.getDepartmentId());
-            }
-            for (int ds : deptSourceSet) {
-                Set<Integer> set = departmentRecursion(deptResultSet, ds);
+                Set<Integer> set = departmentRecursion(deptResultSet, bs.getDepartmentId());
                 deptResultSet.addAll(set);
             }
         }
