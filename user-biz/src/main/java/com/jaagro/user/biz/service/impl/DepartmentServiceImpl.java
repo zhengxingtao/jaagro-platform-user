@@ -232,7 +232,11 @@ public class DepartmentServiceImpl implements DepartmentService {
                 deptResultSet.addAll(set);
             }
         }
-        return new ArrayList<>(deptResultSet);
+        if (CollectionUtils.isEmpty(deptResultSet)) {
+            return null;
+        } else {
+            return new ArrayList<>(deptResultSet);
+        }
     }
 
     /**
@@ -244,7 +248,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Integer> getDownDepartmentByDeptId(Integer deptId) {
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         Set<Integer> set = departmentRecursion(deptIdSet, deptId);
-        return new ArrayList<>(set);
+        if (CollectionUtils.isEmpty(set)) {
+            return null;
+        } else {
+            return new ArrayList<>(set);
+        }
     }
 
     /**
