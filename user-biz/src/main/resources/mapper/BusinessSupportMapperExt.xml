@@ -4,7 +4,7 @@
     <select id="listBusinessSupportByEmpId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
-        from business_supports
+        from business_support
         where employee_id = #{employeeId}
     </select>
 </mapper>

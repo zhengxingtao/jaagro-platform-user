@@ -221,25 +221,23 @@ public class DepartmentServiceImpl implements DepartmentService {
         UserInfo userInfo = authClientService.getUserByToken(token);
         //当前user专管列表
         List<BusinessSupport> supports = businessSupportMapper.listBusinessSupportByEmpId(userInfo.getId());
-        Set<Integer> deptSourceSet = new LinkedHashSet<>();
-        deptSourceSet.add(userInfo.getDepartmentId());
-        if(!CollectionUtils.isEmpty(supports)){
+        Set<Integer> deptResultSet = new LinkedHashSet<>();
+        //当未设置专管列表时，默认只查询出当前user所属网点及下级
+        if (CollectionUtils.isEmpty(supports)) {
+            Set<Integer> rd = departmentRecursion(deptResultSet, userInfo.getDepartmentId());
+            deptResultSet.addAll(rd);
+        } else {
+            Set<Integer> deptSourceSet = new LinkedHashSet<>();
+            deptSourceSet.add(userInfo.getDepartmentId());
             for (BusinessSupport bs : supports) {
                 deptSourceSet.add(bs.getDepartmentId());
             }
+            for (int ds : deptSourceSet) {
+                Set<Integer> set = departmentRecursion(deptResultSet, ds);
+                deptResultSet.addAll(set);
+            }
         }
-        Set<Integer> deptResultSet = new LinkedHashSet<>();
-        for(int ds : deptSourceSet){
-            Set<Integer> set = departmentRecursion(deptResultSet, ds);
-            deptResultSet.addAll(set);
-            System.out.println(deptResultSet);
-        }
-        List<Integer> resultList = new ArrayList<>(deptResultSet);
-        if (CollectionUtils.isEmpty(resultList)) {
-            return null;
-        } else {
-            return resultList;
-        }
+        return new ArrayList<>(deptResultSet);
     }
 
     /**
@@ -251,12 +249,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Integer> getDownDepartmentByDeptId(Integer deptId) {
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         Set<Integer> set = departmentRecursion(deptIdSet, deptId);
-        List<Integer> list = new ArrayList<>(set);
-        if (CollectionUtils.isEmpty(list)) {
-            return null;
-        } else {
-            return list;
-        }
+        return new ArrayList<>(set);
     }
 
     /**
