@@ -211,6 +211,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     /**
      * 获取下级部门的数组
+     * 用于系统的数据隔离使用
      *
      * @return
      */
