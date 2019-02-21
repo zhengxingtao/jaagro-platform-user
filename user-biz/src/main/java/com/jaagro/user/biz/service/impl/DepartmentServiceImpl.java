@@ -11,7 +11,9 @@ import com.jaagro.user.api.dto.response.department.ListDepartmentDto;
 import com.jaagro.user.api.service.AuthClientService;
 import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.api.service.UserService;
+import com.jaagro.user.biz.entity.BusinessSupport;
 import com.jaagro.user.biz.entity.Department;
+import com.jaagro.user.biz.mapper.BusinessSupportMapperExt;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
 import com.jaagro.user.biz.mapper.EmployeeMapperExt;
 import com.jaagro.utils.ResponseStatusCode;
@@ -46,6 +48,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private HttpServletRequest request;
     @Autowired
     private AuthClientService authClientService;
+    @Autowired
+    private BusinessSupportMapperExt businessSupportMapper;
 
     /**
      * 创建部门
@@ -207,6 +211,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     /**
      * 获取下级部门的数组
+     * 用于系统的数据隔离使用
      *
      * @return
      */
@@ -215,13 +220,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Integer> getDownDepartment() {
         String token = request.getHeader("token");
         UserInfo userInfo = authClientService.getUserByToken(token);
-        Set<Integer> deptIdSet = new LinkedHashSet<>();
-        Set<Integer> set = departmentRecursion(deptIdSet, userInfo.getDepartmentId());
-        List<Integer> list = new ArrayList<>(set);
-        if (CollectionUtils.isEmpty(list)) {
+        //当前user专管列表
+        List<BusinessSupport> supports = businessSupportMapper.listBusinessSupportByEmpId(userInfo.getId());
+        Set<Integer> deptResultSet = new LinkedHashSet<>();
+        //当未设置专管列表时，默认只查询出当前user所属网点及下级
+        if (CollectionUtils.isEmpty(supports)) {
+            Set<Integer> rd = departmentRecursion(deptResultSet, userInfo.getDepartmentId());
+            deptResultSet.addAll(rd);
+        } else {
+            for (BusinessSupport bs : supports) {
+                Set<Integer> set = departmentRecursion(deptResultSet, bs.getDepartmentId());
+                deptResultSet.addAll(set);
+            }
+        }
+        if (CollectionUtils.isEmpty(deptResultSet)) {
             return null;
         } else {
-            return list;
+            return new ArrayList<>(deptResultSet);
         }
     }
 
@@ -234,11 +249,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Integer> getDownDepartmentByDeptId(Integer deptId) {
         Set<Integer> deptIdSet = new LinkedHashSet<>();
         Set<Integer> set = departmentRecursion(deptIdSet, deptId);
-        List<Integer> list = new ArrayList<>(set);
-        if (CollectionUtils.isEmpty(list)) {
+        if (CollectionUtils.isEmpty(set)) {
             return null;
         } else {
-            return list;
+            return new ArrayList<>(set);
         }
     }
 
@@ -261,19 +275,19 @@ public class DepartmentServiceImpl implements DepartmentService {
         return ServiceResult.toResult(departmentDtoList);
     }
 
-    private Set<Integer> departmentRecursion(Set<Integer> deptIdSet, Integer did) {
+    private Set<Integer> departmentRecursion(Set<Integer> deptResultSet, Integer did) {
         if (null != did) {
-            deptIdSet.add(did);
+            deptResultSet.add(did);
         }
         //找到所有第一层子部门列表
         List<Integer> deptIds = departmentMapper.getDownDepartmentId(did);
         if (deptIds.size() != 0) {
             for (Integer deptId : deptIds) {
-                departmentRecursion(deptIdSet, deptId);
+                departmentRecursion(deptResultSet, deptId);
             }
         }
-        log.info("当前用户可查询的部门id： " + deptIdSet);
-        return deptIdSet;
+        log.info("当前用户可查询的部门id： " + deptResultSet);
+        return deptResultSet;
     }
 
     /**

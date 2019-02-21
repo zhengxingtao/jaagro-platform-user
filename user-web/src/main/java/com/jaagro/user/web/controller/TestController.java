@@ -2,6 +2,7 @@ package com.jaagro.user.web.controller;
 
 import com.jaagro.constant.UserInfo;
 import com.jaagro.user.api.dto.response.DepartmentReturnDto;
+import com.jaagro.user.api.service.DepartmentService;
 import com.jaagro.user.api.service.UserService;
 import com.jaagro.user.biz.config.UserIdGeneratorFactory;
 import com.jaagro.user.biz.mapper.DepartmentMapperExt;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +25,8 @@ public class TestController {
     UserService userService;
     @Autowired
     DepartmentMapperExt departmentMapper;
+    @Autowired
+    DepartmentService departmentService;
 
     @GetMapping("/test")
     public UserInfo test(){
@@ -40,6 +44,11 @@ public class TestController {
     @GetMapping("/test3")
     public int test3(){
         return userIdGeneratorFactory.getNextId();
+    }
+
+    @GetMapping("/test4")
+    public List<Integer> test4(){
+        return departmentService.getDownDepartment();
     }
 
     public static void main(String args[]){
