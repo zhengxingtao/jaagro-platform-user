@@ -30,7 +30,7 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Info_Column">
-        id, login_name, password, phone, salt, status, name, department_id
+        id, login_name, password, phone, salt, status, name, department_id, tenant_id
     </sql>
     <sql id="Return_List">
         id, name
