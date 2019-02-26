@@ -275,7 +275,7 @@ public class EmployeeController {
      */
     @ApiOperation("根据部门id查询员工列表")
     @GetMapping("/listEmpByDeptId/{deptId}")
-    public BaseResponse getEmpByDeptId(@PathVariable Integer deptId) {
+    public BaseResponse<List<Employee>> getEmpByDeptId(@PathVariable Integer deptId) {
         if (this.departmentMapper.selectByPrimaryKey(deptId) == null) {
             return BaseResponse.errorInstance(ResponseStatusCode.QUERY_DATA_ERROR.getCode(), "部门不存在");
         }
