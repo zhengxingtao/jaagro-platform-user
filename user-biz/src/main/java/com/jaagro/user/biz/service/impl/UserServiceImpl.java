@@ -285,6 +285,9 @@ public class UserServiceImpl implements UserService {
         }
         BaseResponse<GetTenantDto> baseResponse = crmClientService.getCurrentTenant();
         GetTenantDto tenantDto = baseResponse.getData();
+        if(null == tenantDto){
+            return userInfo;
+        }
         userInfo.setBusinessType(tenantDto.getTenantType());
         return userInfo;
     }
