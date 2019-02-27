@@ -71,7 +71,8 @@ public class UserServiceImpl implements UserService {
                 UserType.VISITOR_CUSTOMER_P.equals(userTypeTrim) ||
                 UserType.VISITOR_CUSTOMER_U.equals(userTypeTrim) ||
                 UserType.LOAD_SITE.equals(userTypeTrim) ||
-                UserType.UNLOAD_SITE.equals(userTypeTrim);
+                UserType.UNLOAD_SITE.equals(userTypeTrim) ||
+                UserType.FARMERS.equals(userTypeTrim);
         if (isCustomer) {
             if (LOGIN_NAME.equals(loginType)) {
                 userInfo = customerUserMapper.getByLoginName(parseKey(map));
@@ -266,10 +267,8 @@ public class UserServiceImpl implements UserService {
             userInfo.setUserType(UserType.CUSTOMER);
         } else if (CustomerType.LOAD_SITE.toString().equals(userInfo.getUserType())) {
             userInfo.setUserType(UserType.LOAD_SITE);
-        } else if (CustomerType.UNLOAD_SITE.toString().equals(userInfo.getUserType())) {
+        } else {
             userInfo.setUserType(UserType.UNLOAD_SITE);
-        }else if(CustomerType.FARMERS.toString().equals(userInfo.getUserType())){
-            userInfo.setUserType(UserType.FARMERS);
         }
         return userInfo;
     }
