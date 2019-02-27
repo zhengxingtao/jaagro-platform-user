@@ -59,8 +59,6 @@ public class UserServiceImpl implements UserService {
     private HttpServletRequest request;
     @Autowired
     private CrmClientService crmClientService;
-    @Autowired
-    private CustomerUserService customerUserService;
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
