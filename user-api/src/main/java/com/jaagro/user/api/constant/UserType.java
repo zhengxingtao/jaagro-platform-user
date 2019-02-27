@@ -31,6 +31,11 @@ public final class UserType {
     public static final String DRIVER = "driver";
 
     /**
+     * 养殖农户
+     */
+    public static final String FARMERS = "farmers";
+
+    /**
      * 游客身份司机(仅填写手机号)
      */
     public static final String VISITOR_DRIVER_P = "visitorDriver_p";
