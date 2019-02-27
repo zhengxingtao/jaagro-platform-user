@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
             if (ID.equals(loginType)) {
                 userInfo = customerUserMapper.getUserInfoById(parseKey(map));
                 if (userInfo != null) {
-                    userInfo = this.updateUserInfoUserType(this.updateUserInfoUserType(userInfo));
+                    userInfo = this.updateUserInfoBusinessType(this.updateUserInfoUserType(userInfo));
                 } else {
                     //游客暂不支持tenant，但是稍后需要调整游客表并加入tenantId
                     userInfo = this.getCustomerRegisterPurpose(map);
