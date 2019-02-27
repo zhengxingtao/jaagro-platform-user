@@ -73,8 +73,9 @@ public interface CrmClientService {
 
     /**
      * 获取当前tenant对象详情
+     * @param id
      * @return
      */
-    @GetMapping("/getCurrentTenant")
-    BaseResponse<GetTenantDto> getCurrentTenant();
+    @GetMapping("/getTenantById/{id}")
+    BaseResponse<GetTenantDto> getTenantById(@PathVariable("id") int id);
 }

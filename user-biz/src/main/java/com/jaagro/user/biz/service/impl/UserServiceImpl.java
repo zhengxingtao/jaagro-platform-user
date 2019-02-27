@@ -261,7 +261,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     private UserInfo updateUserInfoUserType(UserInfo userInfo) {
-        if(null == userInfo){
+        if (null == userInfo) {
             return null;
         }
         if (CustomerType.CUSTOMER.toString().equals(userInfo.getUserType())) {
@@ -276,16 +276,17 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 填充userInfo的 BusinessType 字段， 适用于user 全局
+     *
      * @param userInfo
      * @return
      */
     private UserInfo updateUserInfoBusinessType(UserInfo userInfo) {
-        if(null == userInfo){
+        if (null == userInfo) {
             return null;
         }
-        BaseResponse<GetTenantDto> baseResponse = crmClientService.getCurrentTenant();
+        BaseResponse<GetTenantDto> baseResponse = crmClientService.getTenantById(userInfo.getTenantId());
         GetTenantDto tenantDto = baseResponse.getData();
-        if(null == tenantDto){
+        if (null == tenantDto) {
             return userInfo;
         }
         userInfo.setBusinessType(tenantDto.getTenantType());
