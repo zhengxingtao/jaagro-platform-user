@@ -267,8 +267,10 @@ public class UserServiceImpl implements UserService {
             userInfo.setUserType(UserType.CUSTOMER);
         } else if (CustomerType.LOAD_SITE.toString().equals(userInfo.getUserType())) {
             userInfo.setUserType(UserType.LOAD_SITE);
-        } else {
+        } else if (CustomerType.UNLOAD_SITE.toString().equals(userInfo.getUserType())) {
             userInfo.setUserType(UserType.UNLOAD_SITE);
+        } else if (CustomerType.FARMERS.toString().equals(userInfo.getUserType())) {
+            userInfo.setUserType(UserType.FARMERS);
         }
         return userInfo;
     }
