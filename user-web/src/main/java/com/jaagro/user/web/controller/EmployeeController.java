@@ -7,6 +7,7 @@ import com.jaagro.user.api.dto.request.ListEmpCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateEmpDto;
 import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.employee.DeleteEmployeeDto;
+import com.jaagro.user.api.dto.response.employee.ListEmployeeDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
@@ -309,5 +310,16 @@ public class EmployeeController {
     @GetMapping("/listRoleByEmployeeId/{employeeId}")
     public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable("employeeId") Integer employeeId) {
         return BaseResponse.successInstance(employeeService.listRoleByEmployeeId(employeeId));
+    }
+
+    /**
+     * 获取技术员列表
+     * @author yj
+     * @return
+     */
+    @ApiOperation("获取技术员列表")
+    @GetMapping("/listTechnician")
+    public BaseResponse<List<ListEmployeeDto>> listTechnician(){
+        return BaseResponse.successInstance(employeeMapper.listTechnician());
     }
 }
