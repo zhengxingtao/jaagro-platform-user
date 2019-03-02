@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -309,7 +310,11 @@ public class EmployeeController {
 
     @GetMapping("/listRoleByEmployeeId/{employeeId}")
     public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable("employeeId") Integer employeeId) {
-        return BaseResponse.successInstance(employeeService.listRoleByEmployeeId(employeeId));
+        List<GetRoleDto> getRoleDtoList = employeeService.listRoleByEmployeeId(employeeId);
+        if (CollectionUtils.isEmpty(getRoleDtoList)){
+            return BaseResponse.queryDataEmpty();
+        }
+        return BaseResponse.successInstance(getRoleDtoList);
     }
 
     /**
@@ -320,6 +325,10 @@ public class EmployeeController {
     @ApiOperation("获取技术员列表")
     @GetMapping("/listTechnician")
     public BaseResponse<List<ListEmployeeDto>> listTechnician(){
-        return BaseResponse.successInstance(employeeMapper.listTechnician());
+        List<ListEmployeeDto> listEmployeeDtoList = employeeMapper.listTechnician();
+        if (CollectionUtils.isEmpty(listEmployeeDtoList)){
+            return BaseResponse.queryDataEmpty();
+        }
+        return BaseResponse.successInstance(listEmployeeDtoList);
     }
 }
