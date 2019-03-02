@@ -11,11 +11,15 @@ import com.jaagro.user.api.dto.response.employee.ListEmployeeDto;
 import com.jaagro.user.api.service.EmployeeRoleService;
 import com.jaagro.user.api.service.EmployeeService;
 import com.jaagro.user.biz.entity.Employee;
-import com.jaagro.user.biz.mapper.*;
+import com.jaagro.user.biz.mapper.DepartmentMapperExt;
+import com.jaagro.user.biz.mapper.EmployeeMapperExt;
+import com.jaagro.user.biz.mapper.EmployeeRoleMapperExt;
+import com.jaagro.user.biz.mapper.RoleMapperExt;
 import com.jaagro.utils.BaseResponse;
 import com.jaagro.utils.ResponseStatusCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +35,7 @@ import java.util.Map;
  */
 @RestController
 @Api(value = "employee", description = "员工管理", produces = MediaType.APPLICATION_JSON_VALUE)
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -311,7 +316,8 @@ public class EmployeeController {
     @GetMapping("/listRoleByEmployeeId/{employeeId}")
     public BaseResponse<List<GetRoleDto>> listRoleByEmployeeId(@PathVariable("employeeId") Integer employeeId) {
         List<GetRoleDto> getRoleDtoList = employeeService.listRoleByEmployeeId(employeeId);
-        if (CollectionUtils.isEmpty(getRoleDtoList)){
+        log.info("O listRoleByEmployeeId employeeId={},getRoleDtoList={}", employeeId, getRoleDtoList);
+        if (CollectionUtils.isEmpty(getRoleDtoList)) {
             return BaseResponse.queryDataEmpty();
         }
         return BaseResponse.successInstance(getRoleDtoList);
@@ -319,14 +325,15 @@ public class EmployeeController {
 
     /**
      * 获取技术员列表
-     * @author yj
+     *
      * @return
+     * @author yj
      */
     @ApiOperation("获取技术员列表")
     @GetMapping("/listTechnician")
-    public BaseResponse<List<ListEmployeeDto>> listTechnician(){
+    public BaseResponse<List<ListEmployeeDto>> listTechnician() {
         List<ListEmployeeDto> listEmployeeDtoList = employeeMapper.listTechnician();
-        if (CollectionUtils.isEmpty(listEmployeeDtoList)){
+        if (CollectionUtils.isEmpty(listEmployeeDtoList)) {
             return BaseResponse.queryDataEmpty();
         }
         return BaseResponse.successInstance(listEmployeeDtoList);
