@@ -51,4 +51,15 @@
         role r
         where r.id = #{id,jdbcType=INTEGER}
     </select>
+
+    <!--List<RoleReturnDto> listRoleByUserId(int userId);-->
+
+    <select id="listRoleByUserId" resultType="com.jaagro.user.api.dto.response.RoleReturnDto" parameterType="java.lang.Integer">
+        select
+        r.id, r.name, r.notes, r.create_time, r.create_user_id, r.modify_time, r.modify_user_id, r.enabled
+        from
+        role r inner join user_role ur on r.id = ur.role_id
+        where
+        ur.user_id = #{userId}
+    </select>
 </mapper>

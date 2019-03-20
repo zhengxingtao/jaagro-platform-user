@@ -1,7 +1,10 @@
 package com.jaagro.user.web.controller;
 
 import com.jaagro.constant.UserInfo;
+import com.jaagro.user.api.dto.response.MenuReturnDto;
+import com.jaagro.user.api.service.PermissionsService;
 import com.jaagro.user.api.service.UserService;
+import com.jaagro.user.biz.mapper.PermissionsMapperExt;
 import com.jaagro.utils.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PermissionsService permissionsService;
 
     /**
      * 提供给feign调用
@@ -53,5 +58,10 @@ public class UserController {
     public BaseResponse<List<UserInfo>> listGlobalUser(Integer[] userIds) {
         List<Integer> userIdList = new ArrayList<>(Arrays.asList(userIds));
         return BaseResponse.successInstance(userService.listGlobalUser(userIdList));
+    }
+
+    @PostMapping("/listMenuByCurrentUser")
+    public BaseResponse<List<MenuReturnDto>> listMenuByCurrentUser(){
+        return BaseResponse.successInstance(permissionsService.listMenuByCurrentUser());
     }
 }

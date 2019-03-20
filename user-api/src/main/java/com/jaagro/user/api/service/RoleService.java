@@ -3,8 +3,8 @@ package com.jaagro.user.api.service;
 import com.jaagro.user.api.dto.request.CreateRoleDto;
 import com.jaagro.user.api.dto.request.ListRoleCriteriaDto;
 import com.jaagro.user.api.dto.request.UpdateRoleDto;
-import com.jaagro.user.api.dto.response.GetRoleDto;
 import com.jaagro.user.api.dto.response.ReturnPermissionDto;
+import com.jaagro.user.api.dto.response.RoleReturnDto;
 
 import java.util.List;
 import java.util.Map;
@@ -59,10 +59,18 @@ public interface RoleService {
     Map<String, Object> listAllRole();
 
     /**
+     * 依据userId获取用户role列表
+     * @param userId
+     * @return
+     */
+    List<RoleReturnDto> listRoleByUserId(int userId);
+
+    /**
      * 根据roleId获取permission列表
      * @param roleId
      * @return
      */
+    @Deprecated
     List<ReturnPermissionDto> listPermissionByRoleId(Integer roleId);
 
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jaagro.user.biz.mapper.PermissionsMapperExt" >
+    <select id="listPermissionIdsByRoleId" parameterType="integer" resultType="integer">
+        select
+        p.id
+        from permissions_role pr left join permissions p on pr.permissions_id = p.id
+        where pr.role_id = #{roleId}
+    </select>
+</mapper>
